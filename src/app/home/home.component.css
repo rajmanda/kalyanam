@@ -1,0 +1,111 @@
+.example-card {
+
+  max-width: 400px;
+
+}
+
+
+
+.example-header-image {
+
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+
+  background-size: cover;
+
+}
+
+
+
+mat-card img{
+
+object-fit: cover; /*this makes the image in src fit to the size specified below*/
+
+width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+
+height: 100%;
+
+}
+
+
+
+.home-card {
+
+border-radius: 5px;
+
+max-width: 600px;
+
+max-height: 1000px;
+
+margin-top: 25px;
+
+padding: 0;
+
+margin:2em;
+
+
+
+border: 1px solid;
+
+box-shadow: -1px 1px #77aaff, -2px 2px #77aaff, -3px 3px #77aaff, -4px 4px #77aaff, -5px 5px #77aaff;
+
+justify-content: space-between;
+
+
+
+.mat-card-image {
+
+  margin: 0;
+
+  height: 100%;
+
+}
+
+
+
+.home-card-content {
+
+  display: flex;
+
+  justify-content: space-between;
+
+
+
+  & > * {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex: auto;
+
+    max-width: 50%;
+
+
+
+    &:first-child {
+
+      border-top-left-radius: 4px;
+
+      border-bottom-left-radius: 4px;
+
+    }
+
+
+
+    &:last-child {
+
+      flex-direction: column;
+
+      align-items: start;
+
+      padding: 8px;
+
+    }
+
+  }
+
+}
+
+}

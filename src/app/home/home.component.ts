@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
 
 
-
+import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
-
 import {MatCardModule} from '@angular/material/card';
-
 import {FlexLayoutModule} from '@angular/flex-layout'; // npm install --save @angular/flex-layout
 
 import {EventsService} from '../services/events.service';
@@ -59,7 +57,7 @@ export class HomeComponent {
 
       "location": "5 Loius Ct, Plainsboro, NJ",
 
-      "image": "/assets/tambulam.jpg",
+      "image": "/assets/pictures/tambulam.jpg",
 
       "description": "description"
 
@@ -75,7 +73,7 @@ export class HomeComponent {
 
       "location": "5 Loius Ct, Princeton, NJ",
 
-      "image": "/assets/funday.jpg",
+      "image": "/assets/pictures/funday.jpg",
 
       "description": "description"
 
@@ -91,7 +89,7 @@ export class HomeComponent {
 
       "location": "RasBerry's, 834 NJ-12, French Town, NJ",
 
-      "image": "/assets/sangeet.jpg",
+      "image": "/assets/pictures/sangeet.jpg",
 
       "description": "description"
 
@@ -107,7 +105,7 @@ export class HomeComponent {
 
       "location": "5 Loius Ct, Princeton, NJ",
 
-      "image": "/assets/mehendi.png",
+      "image": "/assets/pictures/mehendi.png",
 
       "description": "description"
 
@@ -123,7 +121,7 @@ export class HomeComponent {
 
       "location": "5 Loius Ct, Princeton, NJ",
 
-      "image": "/assets/pellikuthuru.jpg",
+      "image": "/assets/pictures/pellikuthuru.jpg",
 
       "description": "description"
 
@@ -139,7 +137,7 @@ export class HomeComponent {
 
       "location": "5 Loius Ct, Princeton, NJ",
 
-      "image": "/assets/funday.jpg",
+      "image": "/assets/pictures/funday.jpg",
 
       "description": "description"
 
@@ -155,7 +153,7 @@ export class HomeComponent {
 
       "location": "315 Churchill Ave, Somerset, NJ",
 
-      "image": "/assets/kalyanam.jpg",
+      "image": "/assets/pictures/kalyanam.jpg",
 
       "description": "description"
 
@@ -171,7 +169,7 @@ export class HomeComponent {
 
       "location": "605 Charleston Dr, Monroe, NJ",
 
-      "image": "/assets/satyanarayana-pooja.jpg",
+      "image": "/assets/pictures/satyanarayana-pooja.jpg",
 
       "description": "description"
 
@@ -179,7 +177,8 @@ export class HomeComponent {
 
   ]
 
-  constructor(private eventsService: EventsService) {
+  //constructor(private eventsService: EventsService) {
+  constructor() {
 
     // this.eventsService.getEvents().subscribe(
 
