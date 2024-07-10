@@ -46,7 +46,7 @@ export class RsvpComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.rsvpForm = this.fb.group({
-      rsvp: ['yes'],
+      rsvp: ['no'],
       adults: [1],
       children: [0]
     });
@@ -56,7 +56,7 @@ export class RsvpComponent implements OnInit {
     const rsvpValue = this.rsvpForm.get('rsvp')?.value;
     this.isRsvpYes = rsvpValue === 'yes';
   }
-  
+
   ngOnInit(): void {
     this.rsvpForm.valueChanges.subscribe(values => {
       this.updateTotalGuests(values);
@@ -64,8 +64,10 @@ export class RsvpComponent implements OnInit {
   }
 
   updateTotalGuests(values: any): void {
-    const { adults, children } = values;
+    const adults = +values.adults;   // Convert to number using unary plus operator
+    const children = +values.children; // Convert to number using unary plus operator
     this.totalGuests = (adults || 0) + (children || 0);
   }
+
 }
 
