@@ -69,5 +69,14 @@ export class RsvpComponent implements OnInit {
     this.totalGuests = (adults || 0) + (children || 0);
   }
 
+  submit(): void {
+    if (this.rsvpForm.valid) {
+      const formData = this.rsvpForm.value;
+      console.log('Form Data:', formData);
+    } else {
+      console.log('Form is invalid');
+    }
+  }
+
 }
 

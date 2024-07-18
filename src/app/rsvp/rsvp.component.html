@@ -1,5 +1,5 @@
 <div class="rsvp-form">
-  <form [formGroup]="rsvpForm">
+  <form [formGroup]="rsvpForm" (ngSubmit)="submit()">
     <div class="form-group">
       <label for="rsvp">RSVP:</label>
       <select id="rsvp" formControlName="rsvp" (change)="onRsvpChange()">
@@ -10,21 +10,24 @@
 
     <div *ngIf="isRsvpYes">
       <div class="form-group">
-        <label for="adults">Number of Adults:</label>
+        <label for="adults">Adults:</label>
         <select id="adults" formControlName="adults">
           <option *ngFor="let num of adultOptions" [value]="num">{{ num }}</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="children">Number of Children:</label>
+        <label for="children">Children:</label>
         <input id="children" type="number" formControlName="children" min="0">
       </div>
 
       <div class="form-group">
-        <label for="total">Total Number:</label>
+        <label for="total">Total:</label>
         <input id="total" type="number" [value]="totalGuests" readonly>
       </div>
     </div>
+
+    <button type="submit">Submit</button>
   </form>
 </div>
+
