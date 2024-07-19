@@ -33,7 +33,7 @@
    </mat-card-actions>
 
    <app-attendees  *ngIf="showAttendees"></app-attendees>
-   <app-rsvp *ngIf="showRsvp"></app-rsvp>
+   <app-rsvp *ngIf="showRsvp" [event]="selectedEvent"></app-rsvp>
   </mat-card>
 
 </div>

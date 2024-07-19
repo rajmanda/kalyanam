@@ -23,7 +23,7 @@ export class RsvpComponent {
 */
 
 import { CommonModule } from '@angular/common';
-import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, signal} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -57,11 +57,27 @@ export class RsvpComponent implements OnInit {
     this.isRsvpYes = rsvpValue === 'yes';
   }
 
+  // ngOnInit(): void {
+  //   this.rsvpForm.valueChanges.subscribe(values => {
+  //     this.updateTotalGuests(values);
+  //   });
+  // }
+
+  @Input() event: any;
+
+  // Other properties and methods
+
   ngOnInit(): void {
+    // Initialize form or any other logic based on the event input
+    if (this.event) {
+      console.log('Event data:', this.event);
+    }
+
     this.rsvpForm.valueChanges.subscribe(values => {
       this.updateTotalGuests(values);
     });
   }
+
 
   updateTotalGuests(values: any): void {
     const adults = +values.adults;   // Convert to number using unary plus operator
@@ -73,6 +89,9 @@ export class RsvpComponent implements OnInit {
     if (this.rsvpForm.valid) {
       const formData = this.rsvpForm.value;
       console.log('Form Data:', formData);
+
+      console.log('Event data:', this.event);
+
     } else {
       console.log('Form is invalid');
     }

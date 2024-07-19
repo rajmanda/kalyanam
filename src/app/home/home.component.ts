@@ -202,12 +202,15 @@ export class HomeComponent {
 
   }
 
+  selectedEvent: Event | undefined;
+
+
   rsvp(event: Event){
 
-    console.log(event.name)
+    this.selectedEvent = event;
+    console.log(this.selectedEvent.name)
 
     this.showRsvp = true;
-
     this.showAttendees = false;
 
   }
