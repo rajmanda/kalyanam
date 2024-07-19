@@ -1,0 +1,19 @@
+/* .card-container {
+  display: flex;
+  flex-direction: column;
+} */
+
+mat-card-title {
+  font-weight: bold;
+  color: rgb(0, 0, 255);
+}
+mat-card-subtitle {
+  font-weight: lighter;
+}
+.card-image {
+  padding: 16px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* This ensures the image is not distorted */
+}
+

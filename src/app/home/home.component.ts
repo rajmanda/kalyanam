@@ -15,6 +15,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { AttendeesComponent } from '../attendees/attendees.component';
 
 import { RsvpComponent } from '../rsvp/rsvp.component';
+import { GalaComponent } from "../gala/gala.component";
 
 
 
@@ -25,7 +26,7 @@ import { RsvpComponent } from '../rsvp/rsvp.component';
 
   standalone: true,
 
-  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule , NgFor, AttendeesComponent, RsvpComponent, CommonModule ],
+  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, AttendeesComponent, RsvpComponent, CommonModule, GalaComponent],
 
   templateUrl: './home.component.html',
 

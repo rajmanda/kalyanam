@@ -1,14 +1,14 @@
 <div class="rsvp-form">
   <form [formGroup]="rsvpForm" (ngSubmit)="submit()">
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="rsvp">RSVP:</label>
       <select id="rsvp" formControlName="rsvp" (change)="onRsvpChange()">
         <option value="yes">Yes</option>
         <option value="no">No</option>
       </select>
-    </div>
+    </div> -->
 
-    <div *ngIf="isRsvpYes">
+    <div>
       <div class="form-group">
         <label for="adults">Adults:</label>
         <select id="adults" formControlName="adults">

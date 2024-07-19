@@ -42,7 +42,7 @@ export class RsvpComponent implements OnInit {
   rsvpForm: FormGroup;
   adultOptions = [1, 2, 3, 4];
   totalGuests = 0;
-  isRsvpYes: boolean | undefined;
+  isRsvpYes: boolean | true | undefined;
 
   constructor(private fb: FormBuilder) {
     this.rsvpForm = this.fb.group({
