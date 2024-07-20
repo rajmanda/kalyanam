@@ -95,13 +95,12 @@ export class RsvpComponent implements OnInit {
       console.log('Event data:', this.event);
       this.combinedData = { ...this.rsvpForm.value, ...this.event };
       console.log('Combined Data:', this.combinedData);
-      this.rsvpEvent.emit("sendig data to home component") ;
+      this.rsvpEvent.emit(this.combinedData) ;
       console.log('After Emitting Event'  );
 
     } else {
       console.log('Form is invalid');
     }
   }
-
 }
 
