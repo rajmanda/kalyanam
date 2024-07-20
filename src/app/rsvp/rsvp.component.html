@@ -16,18 +16,22 @@
         </select>
       </div>
 
+
       <div class="form-group">
         <label for="children">Children:</label>
-        <input id="children" type="number" formControlName="children" min="0">
+        <select id="children" formControlName="children">
+          <option *ngFor="let num of childrenOptions" [value]="num">{{ num }}</option>
+        </select>
       </div>
+
 
       <div class="form-group">
         <label for="total">Total:</label>
-        <input id="total" type="number" [value]="totalGuests" readonly>
+        <span> {{totalGuests}} </span>
       </div>
     </div>
 
-    <button type="submit">Submit</button>
+    <button (click)="submit()">Submit</button>
   </form>
 </div>
 

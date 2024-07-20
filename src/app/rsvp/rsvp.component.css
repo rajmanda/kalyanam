@@ -1,13 +1,7 @@
 .rsvp-form {
   display: flex;
   flex-direction: column;
-  gap: 1em; /* Space between fields */
-  max-width: 600px; /* Optional: restrict the max width of the form */
-  margin: 0 auto; /* Center the form */
-  padding: 1em; /* Optional: padding for better look */
-  border: 1px solid #ccc; /* Optional: border for better look */
-  border-radius: 8px; /* Optional: rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+
 }
 
 .form-group {
@@ -22,7 +16,7 @@ label {
 }
 
 select, input {
-  flex: 2; /* Makes the input/select take up more space */
+  
   padding: 0.5em;
   font-size: 1em;
   border: 1px solid #ccc;

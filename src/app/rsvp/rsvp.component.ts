@@ -23,7 +23,7 @@ export class RsvpComponent {
 */
 
 import { CommonModule } from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, signal} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -41,12 +41,14 @@ import {MatSelectModule} from '@angular/material/select';
 export class RsvpComponent implements OnInit {
   rsvpForm: FormGroup;
   adultOptions = [1, 2, 3, 4];
+  childrenOptions = [1, 2, 3, 4];
   totalGuests = 0;
   isRsvpYes: boolean | true | undefined;
+  combinedData: undefined;
 
   constructor(private fb: FormBuilder) {
     this.rsvpForm = this.fb.group({
-      rsvp: ['no'],
+      rsvp: ['yes'],
       adults: [1],
       children: [0]
     });
@@ -64,6 +66,7 @@ export class RsvpComponent implements OnInit {
   // }
 
   @Input() event: any;
+  @Output() rsvpEvent = new EventEmitter<{ rsvpEvent: any }>();
 
   // Other properties and methods
 
@@ -89,9 +92,11 @@ export class RsvpComponent implements OnInit {
     if (this.rsvpForm.valid) {
       const formData = this.rsvpForm.value;
       console.log('Form Data:', formData);
-
       console.log('Event data:', this.event);
-
+      this.combinedData = { ...this.rsvpForm.value, ...this.event };
+      console.log('Combined Data:', this.combinedData);
+      this.rsvpEvent.emit(this.combinedData) ;
+      
     } else {
       console.log('Form is invalid');
     }

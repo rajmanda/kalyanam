@@ -158,7 +158,7 @@ export class HomeComponent {
 
       "description": "description"
 
-  },
+   },
 
 {
 

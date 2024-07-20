@@ -1,35 +1,39 @@
 
+<div class="card-container">
+  <mat-card class="card-container">
 
-<mat-card class="card-container">
+    <mat-card-header>
 
-  <mat-card-header>
+      <mat-card-title>{{event.name}}</mat-card-title>
 
-    <mat-card-title>{{event.name}}</mat-card-title>
+      <mat-card-subtitle><b>Date</b>: {{event.date}}</mat-card-subtitle>
 
-    <mat-card-subtitle><b>Date</b>: {{event.date}}</mat-card-subtitle>
+      <mat-card-subtitle><b>Location</b>: {{event.location}}</mat-card-subtitle>
 
-    <mat-card-subtitle><b>Location</b>: {{event.location}}</mat-card-subtitle>
+    </mat-card-header>
 
-  </mat-card-header>
+    <img mat-card-image [src]="event.image" class="card-image">
 
-  <img mat-card-image [src]="event.image" class="card-image">
+    <!-- <mat-card-content>
 
-  <!-- <mat-card-content>
+      <p class="text-small">
 
-    <p class="text-small">
+        {{event.name}}
 
-      {{event.name}}
+      </p>
 
-    </p>
+    </mat-card-content> -->
 
-  </mat-card-content> -->
+    <mat-card-actions>
+      <button mat-flat-button  (click)="rsvp(event)">RSVP</button>
+      <button mat-flat-button color="accent" (click)="attendees(event)">ATTENDEES</button>
+    </mat-card-actions>
 
-  <mat-card-actions>
-    <button mat-flat-button  (click)="rsvp(event)">RSVP</button>
-    <button mat-flat-button color="accent" (click)="attendees(event)">ATTENDEES</button>
-  </mat-card-actions>
+   </mat-card>
+</div>
 
 
-  <app-attendees  *ngIf="showAttendees"></app-attendees>
-  <app-rsvp *ngIf="showRsvp" [event]="selectedEvent"></app-rsvp>
- </mat-card>
+<hr>
+
+ <app-rsvp *ngIf="showRsvp" [event]="selectedEvent" > </app-rsvp>
+ <app-attendees *ngIf="showAttendees"></app-attendees>
