@@ -1,51 +1,37 @@
 import {Component} from '@angular/core';
-
-
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout'; // npm install --save @angular/flex-layout
-
 import {EventsService} from '../services/events.service';
-
 import {Event} from '../models/event';
-
 import { CommonModule, NgFor } from '@angular/common';
-
 import { AttendeesComponent } from '../attendees/attendees.component';
-
 import { RsvpComponent } from '../rsvp/rsvp.component';
 import { GalaComponent } from "../gala/gala.component";
 
 
-
-
 @Component({
-
   selector: 'app-home',
-
   standalone: true,
-
   imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, AttendeesComponent, RsvpComponent, CommonModule, GalaComponent],
-
   templateUrl: './home.component.html',
-
   styleUrl: './home.component.css'
-
 })
 
 
 
 export class HomeComponent {
+respEvent: any;
+onRsvpEvent(rsvpEvent: any): void {
+
+  console.log("recieved rsvp event");
+  console.log(rsvpEvent);
+}
 
   //events: Event[] = [];
-
   showAttendees: boolean  = false;
-
   showRsvp: boolean  = false;
-
-
-
   events = [
 
     {

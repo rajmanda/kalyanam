@@ -23,7 +23,7 @@ export class RsvpComponent {
 */
 
 import { CommonModule } from '@angular/common';
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -65,8 +65,8 @@ export class RsvpComponent implements OnInit {
   //   });
   // }
 
-  @Input() event: any;
-  @Output() rsvpEvent = new EventEmitter<{ rsvpEvent: any }>();
+  @Input()  event: any;
+  @Output() rsvpEvent = new EventEmitter<any>();
 
   // Other properties and methods
 
@@ -95,8 +95,9 @@ export class RsvpComponent implements OnInit {
       console.log('Event data:', this.event);
       this.combinedData = { ...this.rsvpForm.value, ...this.event };
       console.log('Combined Data:', this.combinedData);
-      this.rsvpEvent.emit(this.combinedData) ;
-      
+      this.rsvpEvent.emit("sendig data to home component") ;
+      console.log('After Emitting Event'  );
+
     } else {
       console.log('Form is invalid');
     }

@@ -51,5 +51,10 @@ export class GalaComponent implements OnInit {
     this.showRsvp = false;
 
   }
+  respEvent: any;
+  onRsvpEvent(rsvpEvent: any): void {
 
+    console.log("recieved rsvp event");
+    console.log(rsvpEvent);
+  }
 }

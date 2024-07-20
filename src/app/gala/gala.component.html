@@ -35,5 +35,5 @@
 
 <hr>
 
- <app-rsvp *ngIf="showRsvp" [event]="selectedEvent" > </app-rsvp>
+ <app-rsvp (rsvpEvent)="onRsvpEvent($event)" *ngIf="showRsvp" [event]="selectedEvent" > </app-rsvp>
  <app-attendees *ngIf="showAttendees"></app-attendees>
