@@ -9,6 +9,8 @@ import { AttendeesComponent } from '../attendees/attendees.component';
 import { RsvpComponent } from '../rsvp/rsvp.component';
 import { GalaComponent } from "../gala/gala.component";
 import { GalaService } from '../services/gala.service';
+import { RsvpService } from '../services/rsvp.service';
+import { RsvpDTO } from '../models/rsvpDTO';
 
 
 @Component({
@@ -32,16 +34,12 @@ export class HomeComponent implements OnInit{
   events: Event[] = []; // Initialize an empty array of type Events
 
   constructor(private _galaService: GalaService){
-
   }
   ngOnInit(): void {
     this.events = this._galaService.getGalas()
   }
 
-  onRsvpEvent(rsvpEvent: any): void {
-    console.log("recieved rsvp event");
-    console.log(rsvpEvent);
-  }
+
 
   rsvp(event: Event){
     this.selectedEvent = event;

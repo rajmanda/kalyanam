@@ -13,6 +13,8 @@ import { CommonModule, NgFor } from '@angular/common';
 import { AttendeesComponent } from '../attendees/attendees.component';
 
 import { RsvpComponent } from '../rsvp/rsvp.component';
+import { RsvpService } from '../services/rsvp.service';
+import { RsvpDTO } from '../models/rsvpDTO';
 
 @Component({
   selector: 'app-gala',
@@ -27,6 +29,7 @@ export class GalaComponent implements OnInit {
   showAttendees: boolean  = false;
   showRsvp: boolean  = false;
 
+  constructor(private _rsvpService: RsvpService){}
   ngOnInit(): void {
     if (this.event) {
       console.log('Event data:', this.event);
@@ -50,9 +53,24 @@ export class GalaComponent implements OnInit {
 
   }
   respEvent: any;
-  onRsvpEvent(rsvpEvent: any): void {
+  // onRsvpEvent(rsvpEvent: any): void {
 
+  //   console.log("recieved rsvp event");
+  //   console.log(rsvpEvent);
+  // }
+
+  onRsvpEvent(rsvpEvent: any): void {
     console.log("recieved rsvp event");
     console.log(rsvpEvent);
+    console.log("Raj") ;
+
+    this._rsvpService.saveRsvp(rsvpEvent).subscribe(
+      (response: RsvpDTO) => {
+        console.log("RSVP saved:", response);
+      },
+      (error) => {
+        console.error("Error saving RSVP:", error);
+      }
+    );
   }
 }
