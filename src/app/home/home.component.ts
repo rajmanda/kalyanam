@@ -9,7 +9,6 @@ import { AttendeesComponent } from '../attendees/attendees.component';
 import { RsvpComponent } from '../rsvp/rsvp.component';
 import { GalaComponent } from "../gala/gala.component";
 import { GalaService } from '../services/gala.service';
-import { RsvpService } from '../services/rsvp.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 
 
