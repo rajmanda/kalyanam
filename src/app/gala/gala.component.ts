@@ -6,8 +6,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout'; // npm install --save @angular/flex-layout
 
-import {EventsService} from '../services/events.service';
-
 import {Event} from '../models/event';
 
 import { CommonModule, NgFor } from '@angular/common';
