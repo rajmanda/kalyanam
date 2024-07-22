@@ -3,6 +3,10 @@
   flex-direction: column;
 } */
 
+* {
+  font-size: small;
+}
+
 mat-card-title {
   font-weight: bold;
   color: rgb(0, 0, 255);
