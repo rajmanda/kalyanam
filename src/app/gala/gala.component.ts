@@ -28,6 +28,7 @@ export class GalaComponent implements OnInit {
   @Input() event: any;
   showAttendees: boolean  = false;
   showRsvp: boolean  = false;
+  message: string = "" ;
 
   constructor(private _rsvpService: RsvpService){}
   ngOnInit(): void {
@@ -67,6 +68,8 @@ export class GalaComponent implements OnInit {
     this._rsvpService.saveRsvp(rsvpEvent).subscribe(
       (response: RsvpDTO) => {
         console.log("RSVP saved:", response);
+        this.showRsvp = false ;
+        this.message = "thanks RSVP Recorded"
       },
       (error) => {
         console.error("Error saving RSVP:", error);
