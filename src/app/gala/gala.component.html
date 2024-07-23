@@ -33,7 +33,7 @@
 </div>
 
 
-<hr>
+
 <p> {{message}}</p>
  <app-rsvp (rsvpEvent)="onRsvpEvent($event)" *ngIf="showRsvp" [event]="selectedEvent" > </app-rsvp>
- <app-attendees *ngIf="showAttendees"></app-attendees>
+ <app-attendees *ngIf="showAttendees" [event]="selectedEvent" ></app-attendees>

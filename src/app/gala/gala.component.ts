@@ -29,6 +29,8 @@ export class GalaComponent implements OnInit {
   showAttendees: boolean  = false;
   showRsvp: boolean  = false;
   message: string = "" ;
+  selectedEvent: Event | undefined;
+  respEvent: any;
 
   constructor(private _rsvpService: RsvpService){}
   ngOnInit(): void {
@@ -37,10 +39,9 @@ export class GalaComponent implements OnInit {
     }
   }
 
-  selectedEvent: Event | undefined;
+
   rsvp(event: Event){
     this.showRsvp = !this.showRsvp;
-
     this.selectedEvent = event;
     console.log(this.selectedEvent.name)
     this.showAttendees = false;
@@ -49,11 +50,12 @@ export class GalaComponent implements OnInit {
 
   attendees(event: Event){
     this.showAttendees = !this.showAttendees;
+    this.selectedEvent = event;
     console.log(event.name)
     this.showRsvp = false;
 
   }
-  respEvent: any;
+
   // onRsvpEvent(rsvpEvent: any): void {
 
   //   console.log("recieved rsvp event");
