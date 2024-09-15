@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HomeComponent } from "./home/home.component";
+import { NavbarComponent } from "./navbar/navbar.component";
 
 
 @Component({
@@ -8,7 +9,7 @@ import { HomeComponent } from "./home/home.component";
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, HomeComponent, RouterLink, RouterLinkActive]
+    imports: [RouterOutlet, HomeComponent, RouterLink, RouterLinkActive, NavbarComponent]
 })
 export class AppComponent {
   title = 'kalyanam';
