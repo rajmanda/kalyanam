@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { GloginComponent } from './glogin/glogin.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { GloginComponent } from './glogin/glogin.component';
 
 export const routes: Routes = [
   { path: 'login', component: GloginComponent },
