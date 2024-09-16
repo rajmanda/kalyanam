@@ -43,3 +43,4 @@ Thumbs.db
 
 # google client id
 /src/app/glogin/glogin.component.html
+src/app/glogin/glogin.component.html
