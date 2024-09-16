@@ -42,4 +42,4 @@ testem.log
 Thumbs.db
 
 # google client id
-glogin.component.html
+src/app/gloin/glogin.component.html
