@@ -10,12 +10,13 @@ import { RsvpComponent } from '../rsvp/rsvp.component';
 import { GalaComponent } from "../gala/gala.component";
 import { GalaService } from '../services/gala.service';
 import { RsvpDTO } from '../models/rsvpDTO';
+import { GalaEventsComponent } from "../gala-events/gala-events.component";
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, AttendeesComponent, RsvpComponent, CommonModule, GalaComponent],
+  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, AttendeesComponent, RsvpComponent, CommonModule, GalaComponent,GalaEventsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   providers: [GalaService]
