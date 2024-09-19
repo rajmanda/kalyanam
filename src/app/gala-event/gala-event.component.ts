@@ -7,11 +7,12 @@ import { AttendeesComponent } from '../attendees/attendees.component';
 import { RsvpComponent } from '../rsvp/rsvp.component';
 import { RsvpService } from '../services/rsvp.service';
 import { RsvpDTO } from '../models/rsvpDTO';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-gala-event',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, RsvpComponent, CommonModule],
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
