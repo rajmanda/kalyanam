@@ -1,0 +1,15 @@
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ galaEvent.name }}</mat-card-title>
+    <mat-card-subtitle>{{ galaEvent.date }}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="galaEvent.image" alt="Photo of {{ galaEvent.description }}">
+  <mat-card-content>
+    <p>{{ galaEvent.description }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-flat-button  (click)="rsvp(galaEvent)">RSVP</button>
+    <button mat-flat-button color="accent" (click)="attendees(galaEvent)">ATTENDEES</button>
+  </mat-card-actions>
+</mat-card>
