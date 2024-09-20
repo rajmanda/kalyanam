@@ -8,11 +8,13 @@ import { RsvpComponent } from '../rsvp/rsvp.component';
 import { RsvpService } from '../services/rsvp.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from "@angular/material/dialog";
+import { RsvpDialogComponent } from '../rsvp-dialog/rsvp-dialog.component';
 
 @Component({
   selector: 'app-gala-event',
   standalone: true,
-  imports: [MatCardModule, RsvpComponent, CommonModule],
+  imports: [MatCardModule, RsvpComponent, CommonModule, RsvpDialogComponent],
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
@@ -25,17 +27,28 @@ export class GalaEventComponent {
   selectedEvent: Event | undefined;
   respEvent: any;
 
-  constructor(private _rsvpService: RsvpService){}
+  constructor(private _rsvpService: RsvpService, public _matDialog: MatDialog){}
+
   ngOnInit(): void {
     if (this.galaEvent) {
       console.log('Event data:', this.galaEvent);
     }
   }
-  rsvp(event: Event){
-    this.showRsvp = !this.showRsvp;
-    this.selectedEvent = event;
-    console.log(this.selectedEvent.name)
-    this.showAttendees = false;
+  openRsvpDialog(event: Event){
+    // this.showRsvp = !this.showRsvp;
+    // this.selectedEvent = event;
+    // console.log(this.selectedEvent.name)
+    // this.showAttendees = false;
+    // let dialogRef = this._matDialog.open(RsvpDialogComponent);
+    let dialogRef = this._matDialog.open(RsvpDialogComponent, {
+      data: { selectedEvent: event }  // Pass event data to the dialog
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}` )
+    })
+    dialogRef.componentInstance.rsvpEvent.subscribe((rsvpDetails) => {
+      this.onRsvpEvent(rsvpDetails);
+    });
   }
 
 

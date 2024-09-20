@@ -9,9 +9,9 @@
     <p>{{ galaEvent.description }}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-flat-button  (click)="rsvp(galaEvent)">RSVP</button>
-    <button mat-flat-button color="accent" (click)="attendees(galaEvent)">ATTENDEES</button>
+    <button mat-raised-button (click)="openRsvpDialog(galaEvent)" mat-dialog-close="true">RSVP</button>
+    <button mat-raised-button color="accent" (click)="attendees(galaEvent)">ATTENDEES</button>
   </mat-card-actions>
 </mat-card>
 <p> {{message}}</p>
-<app-rsvp (rsvpEvent)="onRsvpEvent($event)" *ngIf="showRsvp" [event]="selectedEvent" > </app-rsvp>
+<!-- <app-rsvp (rsvpEvent)="onRsvpEvent($event)" *ngIf="showRsvp" [event]="selectedEvent" > </app-rsvp> -->

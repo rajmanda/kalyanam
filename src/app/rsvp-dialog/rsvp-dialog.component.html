@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>{{ data.selectedEvent.name }}</h2>
+<mat-dialog-content>
+  <div class="rsvp-form">
+    <form [formGroup]="rsvpForm" >
+      <div>
+        <!-- RSVP Yes/No Field -->
+        <div class="form-group">
+          <label>RSVP:</label>
+          <mat-radio-group formControlName="rsvp">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="no">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <!-- <div *ngIf="rsvpForm.get('rsvp').value === 'yes'"> -->
+          <div *ngIf="rsvpForm.get('rsvp')?.value === 'yes'"> <!--safe navigation operator-->
+          <mat-form-field appearance="fill" class="form-group">
+            <mat-label>Adults</mat-label>
+            <mat-select formControlName="adults">
+              <mat-option *ngFor="let num of adultOptions" [value]="num">{{ num }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="form-group">
+            <mat-label>Children</mat-label>
+            <mat-select formControlName="children">
+              <mat-option *ngFor="let num of childrenOptions" [value]="num">{{ num }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="form-group">
+            <label for="total">Total:</label>
+            <span>{{ totalGuests }}</span>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="submit()">Submit</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
