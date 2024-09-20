@@ -87,7 +87,7 @@ export class GalaEventComponent {
       }
     );
   }
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   openSnackBar(message: string) {
