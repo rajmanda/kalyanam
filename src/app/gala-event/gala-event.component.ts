@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import {Event} from '../models/event';
 
@@ -10,11 +10,22 @@ import { RsvpDTO } from '../models/rsvpDTO';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from "@angular/material/dialog";
 import { RsvpDialogComponent } from '../rsvp-dialog/rsvp-dialog.component';
+import {
+  MatSnackBar,
+  MatSnackBarAction,
+  MatSnackBarActions,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarLabel,
+  MatSnackBarRef,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { ConfirmationSnackbarComponent } from '../confirmation-snackbar/confirmation-snackbar.component';
 
 @Component({
   selector: 'app-gala-event',
   standalone: true,
-  imports: [MatCardModule, RsvpComponent, CommonModule, RsvpDialogComponent],
+  imports: [MatCardModule, RsvpComponent, CommonModule, RsvpDialogComponent, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction],
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
@@ -26,8 +37,11 @@ export class GalaEventComponent {
   message: string = "" ;
   selectedEvent: Event | undefined;
   respEvent: any;
+  durationInSeconds: number = 5;
 
-  constructor(private _rsvpService: RsvpService, public _matDialog: MatDialog){}
+  constructor(private _rsvpService: RsvpService,
+              public _matDialog: MatDialog,
+              private _snackBar: MatSnackBar){}
 
   ngOnInit(): void {
     if (this.galaEvent) {
@@ -35,11 +49,6 @@ export class GalaEventComponent {
     }
   }
   openRsvpDialog(event: Event){
-    // this.showRsvp = !this.showRsvp;
-    // this.selectedEvent = event;
-    // console.log(this.selectedEvent.name)
-    // this.showAttendees = false;
-    // let dialogRef = this._matDialog.open(RsvpDialogComponent);
     let dialogRef = this._matDialog.open(RsvpDialogComponent, {
       data: { selectedEvent: event }  // Pass event data to the dialog
     });
@@ -48,6 +57,7 @@ export class GalaEventComponent {
     })
     dialogRef.componentInstance.rsvpEvent.subscribe((rsvpDetails) => {
       this.onRsvpEvent(rsvpDetails);
+      console.log(`rsvpDetails: ${JSON.stringify(rsvpDetails, null, 2)}`); // Pretty-printing the object
     });
   }
 
@@ -69,11 +79,27 @@ export class GalaEventComponent {
       (response: RsvpDTO) => {
         console.log("RSVP saved:", response);
         this.showRsvp = false ;
-        this.message = "thanks RSVP Recorded"
+        this.message = `thanks! your RSVP Recorded for - ${response.rsvpDetails.name} - for ${response.rsvpDetails.adults}  Adults & + ${response.rsvpDetails.children} kids.`
+        this.openSnackBar(this.message);
       },
       (error) => {
         console.error("Error saving RSVP:", error);
       }
     );
   }
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSeconds * 1000,
+    });
+  }
+  // openSnackBar() {
+  //   this._snackBar.openFromComponent(ConfirmationSnackbarComponent, {
+  //     duration: this.durationInSeconds * 1000,
+  //   });
+  // }
 }

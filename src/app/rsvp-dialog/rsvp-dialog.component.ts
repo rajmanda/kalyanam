@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
-
+import { Event } from '../models/event';
 
 @Component({
   selector: 'app-rsvp-dialog',
@@ -37,12 +37,14 @@ import {MatRadioModule} from '@angular/material/radio';
 })
 export class RsvpDialogComponent implements OnInit  {
   rsvpForm: FormGroup;
-  totalGuests: number = 0;
   adultOptions = [0, 1, 2, 3, 4];
   childrenOptions = [0, 1, 2, 3, 4];
   combinedData: undefined;
   isRsvpYes: boolean | true | undefined;
+  totalGuests = 0;
 
+   event: Event | undefined
+  @Output() rsvpEvent = new EventEmitter<any>();
 
   // constructor(private fb: FormBuilder,
   //             private dialogRef: MatDialogRef<RsvpDialogComponent>) {
@@ -53,6 +55,7 @@ export class RsvpDialogComponent implements OnInit  {
     ){
 
     console.log('Event passed to modal:', data.selectedEvent);  // Access the event data
+    this.event = data.selectedEvent;
     this.rsvpForm = this.fb.group({
       rsvp: ['no'],
       adults: [0],
@@ -69,15 +72,7 @@ export class RsvpDialogComponent implements OnInit  {
     });
   }
 
-  @Input()  event: any;
-  @Output() rsvpEvent = new EventEmitter<any>();
-
   ngOnInit(): void {
-    // Initialize form or any other logic based on the event input
-    if (this.event) {
-      console.log('Event data:', this.event);
-    }
-
     this.rsvpForm.valueChanges.subscribe(values => {
       console.log(`form changed: ${this.rsvpForm.value}`)
       this.updateTotalGuests(values);
