@@ -21,6 +21,7 @@ import {
 } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationSnackbarComponent } from '../confirmation-snackbar/confirmation-snackbar.component';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-gala-event',
@@ -39,11 +40,42 @@ export class GalaEventComponent {
   respEvent: any;
   durationInSeconds: number = 5;
 
+  userProfilex: any;
+  loggedin: boolean = false;
+
+  /*
+    constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.userProfilex = this.authService.getUserProfile();
+
+    if (this.userProfilex && Object.keys(this.userProfilex).length > 0) {
+      // userProfilex is an object and has some properties
+      console.log('userProfilex has properties:', this.userProfilex);
+      this.loggedin = true ;
+    } else {
+      // userProfilex is empty, null, or undefined
+      console.log('userProfilex is empty or undefined');
+    }
+  */
   constructor(private _rsvpService: RsvpService,
               public _matDialog: MatDialog,
-              private _snackBar: MatSnackBar){}
+              private _snackBar: MatSnackBar,
+              private authService: AuthService){}
 
   ngOnInit(): void {
+
+    this.userProfilex = this.authService.getUserProfile();
+
+    if (this.userProfilex && Object.keys(this.userProfilex).length > 0) {
+      // userProfilex is an object and has some properties
+      console.log('userProfilex has properties:', this.userProfilex);
+      this.loggedin = true ;
+    } else {
+      // userProfilex is empty, null, or undefined
+      console.log('userProfilex is empty or undefined');
+    }
+
     if (this.galaEvent) {
       console.log('Event data:', this.galaEvent);
     }
@@ -71,9 +103,10 @@ export class GalaEventComponent {
   }
 
   onRsvpEvent(rsvpEvent: any): void {
-    console.log("recieved rsvp event");
-    console.log(rsvpEvent);
+    console.log(`recieved rsvp event - ${rsvpEvent}`);
     console.log("Raj") ;
+    rsvpEvent.userName = this.userProfilex.name ;
+    rsvpEvent.userEmail =this.userProfilex.email ;
 
     this._rsvpService.saveRsvp(rsvpEvent).subscribe(
       (response: RsvpDTO) => {

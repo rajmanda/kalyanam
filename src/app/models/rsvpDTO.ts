@@ -8,6 +8,8 @@ export interface RsvpDetails {
   rsvp: string;
   adults: number;
   children: number;
+  username: string;
+  useremail: string;
 }
 
 export interface RsvpDTO {
