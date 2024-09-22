@@ -5,9 +5,6 @@ import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout'; // npm install --save @angular/flex-layout
 import {Event} from '../models/event';
 import { CommonModule, NgFor } from '@angular/common';
-import { AttendeesComponent } from '../attendees/attendees.component';
-import { RsvpComponent } from '../rsvp/rsvp.component';
-import { GalaComponent } from "../gala/gala.component";
 import { GalaService } from '../services/gala.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { GalaEventsComponent } from "../gala-events/gala-events.component";
@@ -16,7 +13,7 @@ import { GalaEventsComponent } from "../gala-events/gala-events.component";
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, AttendeesComponent, RsvpComponent, CommonModule, GalaComponent,GalaEventsComponent],
+  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, CommonModule,GalaEventsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   providers: [GalaService]

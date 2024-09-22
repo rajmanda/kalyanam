@@ -2,9 +2,6 @@ import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import {Event} from '../models/event';
 
-import { AttendeesComponent } from '../attendees/attendees.component';
-
-import { RsvpComponent } from '../rsvp/rsvp.component';
 import { RsvpService } from '../services/rsvp.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { CommonModule } from '@angular/common';
@@ -27,7 +24,7 @@ import { AttendeesDialogComponent } from '../attendees-dialog/attendees-dialog.c
 @Component({
   selector: 'app-gala-event',
   standalone: true,
-  imports: [MatCardModule, RsvpComponent, CommonModule, RsvpDialogComponent, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction],
+  imports: [MatCardModule, CommonModule, RsvpDialogComponent, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction],
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
