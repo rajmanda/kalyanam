@@ -12,6 +12,10 @@ export class AuthService {
     return JSON.parse(user || '{}'); // Returns an empty object if user is null
   }
 
+  isLoggedIn(): boolean {
+    return sessionStorage.getItem('loggedInUser') !== null; // Returns true if user is logged in
+  }
+
   signOut() {
     sessionStorage.removeItem('loggedInUser');
     this.router.navigate(['/login']).then(() => {
