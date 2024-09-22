@@ -3,10 +3,12 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { GloginComponent } from './glogin/glogin.component';
 import { CanActivateFn } from './auth/auth.guard';
+import { AboutMeComponent } from './about-me/about-me.component';
 
 export const routes: Routes = [
   { path: 'login', component: GloginComponent },
   { path: 'home', component: HomeComponent, canActivate: [CanActivateFn] }, // Applying the guard function here
+  { path: 'about-me', component: AboutMeComponent },
   // other routes...
   { path: '', component: GloginComponent },
 
