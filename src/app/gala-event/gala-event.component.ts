@@ -22,6 +22,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationSnackbarComponent } from '../confirmation-snackbar/confirmation-snackbar.component';
 import { AuthService } from '../services/auth/auth.service';
+import { AttendeesDialogComponent } from '../attendees-dialog/attendees-dialog.component';
 
 @Component({
   selector: 'app-gala-event',
@@ -93,6 +94,18 @@ export class GalaEventComponent {
     });
   }
 
+  openAttendeesDialog(event: Event){
+    let dialogRef = this._matDialog.open(AttendeesDialogComponent, {
+      data: { selectedEvent: event }  // Pass event data to the dialog
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}` )
+    })
+    // dialogRef.componentInstance.rsvpEvent.subscribe((rsvpDetails) => {
+    //   this.onRsvpEvent(rsvpDetails);
+    //   console.log(`rsvpDetails: ${JSON.stringify(rsvpDetails, null, 2)}`); // Pretty-printing the object
+    // });
+  }
 
   attendees(event: Event){
     this.showAttendees = !this.showAttendees;
