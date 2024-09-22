@@ -29,3 +29,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 # nav-bar component 
   https://www.youtube.com/watch?v=ADEZTrIxj1k
  
+
+# Docker 
+  docker build -t kalyanam:latest .
+  docker run -d -p 4200:80 kalyanam:latest
+  
