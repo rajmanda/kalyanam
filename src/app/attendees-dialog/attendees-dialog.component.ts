@@ -31,7 +31,7 @@ export class AttendeesDialogComponent implements AfterViewInit{
   }
 
   // displayedColumns: string[] = ['rsvpId', 'name', 'date', 'location', 'userName', 'adults', 'children'];
-  displayedColumns: string[] = ['name', 'date', 'location', 'userName', 'adults', 'children'];
+  displayedColumns: string[] = ['Event', 'date', 'location', 'userName', 'adults', 'children'];
   data: RsvpDTO[] = [];
 
   resultsLength = 0;
