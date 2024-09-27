@@ -12,6 +12,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Install esbuild as a dev dependency
+RUN npm install esbuild --save-dev
+
 # Copy the rest of the application code
 COPY . .
 
