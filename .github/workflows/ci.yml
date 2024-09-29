@@ -69,6 +69,6 @@ jobs:
         git config --local user.name "GitHub Action"
         git add kalyanam-deployment.yaml
         git commit -m "Update Docker image to latest version"
-        git push origin main
+        git push origin HEAD:${{ github.ref }}  # Push to the same branch
       env:
         GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
