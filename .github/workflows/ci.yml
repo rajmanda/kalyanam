@@ -51,6 +51,7 @@ jobs:
         tags: ${{ vars.DOCKERHUB_USERNAME }}/kalyanam:latest
         build-args: |
           NODE_ENV=production
+        platforms: linux/amd64,linux/arm64
         progress: plain
 
   update-manifest:
