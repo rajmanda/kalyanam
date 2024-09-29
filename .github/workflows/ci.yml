@@ -2,9 +2,13 @@ name: NodeJS with Grunt
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - "main"              # Match the main branch
+      - "feature/**"        # Match any branch that starts with 'feature'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - "main"              # Match pull requests targeting the main branch
+      - "feature/**"        # Match any pull request targeting branches that start with 'feature'
 
 jobs:
   build:
