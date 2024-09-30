@@ -1,7 +1,7 @@
 ######### Stage 1: Build the Angular App
 
 # Use the official Node.js image as the base for the build stage
-FROM node:18-alpine as builder
+FROM node:18-alpine AS builder  
 
 # Set the working directory to /app
 WORKDIR /app
@@ -19,7 +19,7 @@ RUN npm install esbuild --save-dev
 COPY . .
 
 # Build the Angular application
-RUN npm run build
+RUN npm run build --prod
 
 # Debug: List the contents of the output directory
 RUN ls -al /app/dist/kalyanam/browser
