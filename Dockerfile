@@ -19,7 +19,10 @@ RUN npm install esbuild --save-dev
 COPY . .
 
 # Build the Angular application
-RUN npm run build --prod  # You can specify the project if necessary
+RUN npm run build
+
+# Debug: List the contents of the output directory
+RUN ls -al /app/dist/kalyanam/browser
 
 ######### Stage 2: Serve the Angular App using NGINX
 
@@ -28,6 +31,9 @@ FROM nginx:alpine
 
 # Copy the built Angular application
 COPY --from=builder /app/dist/kalyanam/browser /usr/share/nginx/html/kalyanam
+
+# Debug: List the contents of the NGINX html directory
+RUN ls -al /usr/share/nginx/html/kalyanam
 
 # Copy custom NGINX configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
