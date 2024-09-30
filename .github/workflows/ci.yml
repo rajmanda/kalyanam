@@ -64,7 +64,8 @@ jobs:
 
     - name: Update Kubernetes manifest
       run: |
-        sed -i 's|image: .*|image: dockerrajmanda/kalyanam:latest|' kalyanam-deployment.yaml
+        #sed -i 's|image: .*|image: dockerrajmanda/kalyanam:latest|' kalyanam-deployment.yaml
+        sed -i "s/image: .*/image: dockerrajmanda\\/kalyanam:${{ github.run_number }}/" kalyanam-deployment.yaml
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add kalyanam-deployment.yaml
