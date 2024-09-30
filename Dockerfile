@@ -12,20 +12,17 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Install esbuild as a dev dependency
+# Install esbuild as a dev dependency (if necessary)
 RUN npm install esbuild --save-dev
 
 # Copy the rest of the application code
 COPY . .
 
 # Build the Angular application
-#RUN npm run build -- --project kalyanam --configuration production --output-path=dist
-RUN npm run build
-
-
-
+RUN npm run build --prod  # You can specify the project if necessary
 
 ######### Stage 2: Serve the Angular App using NGINX
+
 # Create a new image for serving the application
 FROM nginx:alpine
 
@@ -37,7 +34,6 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
-
 
 # NGINX will automatically serve the content in /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
