@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kalyanamapp
+  creationTimestamp: null
+  name: kalyanam
+  labels:
+    app: kalyanam
+  namespace: kalyanam
 spec:
-  replicas: 1  # Adjust the number of replicas as per your requirements
+  replicas: 1
   selector:
     matchLabels:
-      app: kalyanamapp
+      app: kalyanam
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: kalyanamapp
+        app: kalyanam
     spec:
       containers:
         - name: angular-app-container
-          image: dockerrajmanda/kalyanam:28
+          image: dockerrajmanda/kalyanam:26
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -23,11 +29,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: angular-service
-spec:  
+  name: kalyanam
+  namespace: kalyanam
+spec:
   selector:
-    app: kalyanamapp
+    app: kalyanam
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
+  - protocol: TCP
+    port: 4200
+    targetPort: 80
+
