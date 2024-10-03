@@ -35,11 +35,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   docker run -d -p 4200:80 kalyanam:latest
 
 # Create Deployment YAML 
-kubectl run kalyanam \
-  --image=dockerrajmanda/kalyanam:25 \
-  --port=4200 \
-  --expose \
-  --restart=Always \
-  --dry-run=client -o yaml > kalyanam.yaml
+kubectl create deployment rsvpbackend \
+  --image=dockerrajmanda/rsvpbackend \
+  --port=8080 \
+  --namespace=kalyanam \
+  --dry-run=client -o yaml > rsvpbackend-deployment.yaml
+
 
   
