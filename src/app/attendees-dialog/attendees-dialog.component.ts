@@ -30,7 +30,7 @@ export class AttendeesDialogComponent implements AfterViewInit{
   ){
     console.log('Event passed to modal:', incomingData.selectedEvent);  // Access the event data
     this.selectedEvent = incomingData.selectedEvent;
-    this.rsvpBackendBaseUrl  = environment.rsvpApiUrl;
+    this.rsvpApiUrl  = environment.rsvpApiUrl;
     console.log(environment.rsvpApiUrl);
   }
 
@@ -48,12 +48,12 @@ export class AttendeesDialogComponent implements AfterViewInit{
   sort!: MatSort;
 
   ngAfterViewInit() {
-    this._httpClient.get<RsvpDTO[]>(`{this.rsvpBackendBaseUrl}/rsvp/allrsvps`)
+    this._httpClient.get<RsvpDTO[]>(`{this.rsvpApiUrl}/rsvp/allrsvps`)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this._httpClient.get<RsvpDTO[]>(`{this.rsvpBackendBaseUrl}/rsvp/allrsvps`).pipe(
+          return this._httpClient.get<RsvpDTO[]>(`{this.rsvpApiUrl}/rsvp/allrsvps`).pipe(
             catchError(() => observableOf([]))
           );
         }),
