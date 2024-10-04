@@ -13,7 +13,7 @@ export class RsvpService {
 
   constructor(private http: HttpClient) {
     this.rsvpBackendBaseUrl  = environment.rsvpApiUrl;
-    console.log(environment.production);
+    console.log(environment.rsvpApiUrl);
   }
 
   saveRsvp(rsvpEvent: RsvpDTO): Observable<RsvpDTO> {
