@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { Event } from '../models/event';
 import { RsvpDTO } from '../models/rsvpDTO';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-attendees-dialog',
@@ -19,6 +20,7 @@ import { RsvpDTO } from '../models/rsvpDTO';
 })
 export class AttendeesDialogComponent implements AfterViewInit{
 
+  private rsvpApiUrl = '';
   selectedEvent: Event;  // Store the passed event data
   private _httpClient = inject(HttpClient);
 
@@ -28,6 +30,8 @@ export class AttendeesDialogComponent implements AfterViewInit{
   ){
     console.log('Event passed to modal:', incomingData.selectedEvent);  // Access the event data
     this.selectedEvent = incomingData.selectedEvent;
+    this.rsvpBackendBaseUrl  = environment.rsvpApiUrl;
+    console.log(environment.production);
   }
 
   // displayedColumns: string[] = ['rsvpId', 'name', 'date', 'location', 'userName', 'adults', 'children'];
