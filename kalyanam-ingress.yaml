@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/ingress.class: "gce"  # Use GCP's HTTP(S) Load Balancer
 spec:
   rules:
-  - host: *  # Replace with your domain or leave as * for all
+  - host: rajmanda-dev.com
     http:
       paths:
       - path: /
