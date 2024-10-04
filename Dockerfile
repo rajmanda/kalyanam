@@ -19,7 +19,8 @@ RUN npm install esbuild --save-dev
 COPY . .
 
 # Build the Angular application
-RUN npm run build --prod
+#RUN npm run build --prod
+RUN npm run build --configuration=prod
 
 # Debug: List the contents of the output directory
 RUN ls -al /app/dist/kalyanam/browser
