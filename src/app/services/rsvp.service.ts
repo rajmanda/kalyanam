@@ -12,7 +12,7 @@ export class RsvpService {
   private rsvpApiUrl = '';
 
   constructor(private http: HttpClient) {
-    this.rsvpBackendBaseUrl  = environment.rsvpApiUrl;
+    this.rsvpApiUrl  = environment.rsvpApiUrl;
     console.log(environment.rsvpApiUrl);
   }
 
