@@ -10,6 +10,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { Event } from '../models/event';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { environment } from '../../environments/environment';
+import { RsvpService } from '../services/rsvp.service';
 
 @Component({
   selector: 'app-attendees-dialog',
@@ -20,12 +21,13 @@ import { environment } from '../../environments/environment';
 })
 export class AttendeesDialogComponent implements AfterViewInit{
 
-  
+
   selectedEvent: Event;  // Store the passed event data
   private _httpClient = inject(HttpClient);
   rsvpApiUrl: string;
 
   constructor(
+    private rsvpService: RsvpService,
      public dialogRef: MatDialogRef<AttendeesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public incomingData: any              // Inject the passed data here
   ){
@@ -49,31 +51,28 @@ export class AttendeesDialogComponent implements AfterViewInit{
   sort!: MatSort;
 
   ngAfterViewInit() {
-    this._httpClient.get<RsvpDTO[]>(`{this.rsvpApiUrl}/rsvp/allrsvps`)
+    this.isLoadingResults = true;
+
+    this.rsvpService.getAllRsvps()
       .pipe(
-        startWith({}),
+        startWith([]),  // Initialize with an empty array to avoid type issues
         switchMap(() => {
-          this.isLoadingResults = true;
-          return this._httpClient.get<RsvpDTO[]>(`{this.rsvpApiUrl}/rsvp/allrsvps`).pipe(
-            catchError(() => observableOf([]))
+          return this.rsvpService.getAllRsvps().pipe(
+            catchError(() => observableOf([]))  // Handle errors by returning an empty array
           );
         }),
         map(data => {
           this.isLoadingResults = false;
 
-          // Filter the received data based on the selected event's name using an arrow function to keep the correct context
+          // Filter the data based on the selected event's name
           const filteredData = data.filter(rsvp => rsvp.rsvpDetails.name === this.selectedEvent.name);
-          // const filteredData = data.filter(rsvp => {
-          //   const matches = rsvp.rsvpDetails.name === this.selectedEvent.name;
-          //   console.log(`this.selectedEvent.name - ${this.selectedEvent.name}`);
-          //   console.log(`rsvp.name - ${JSON.stringify(rsvp, null, 2)}`);
-          //   return matches;  // Explicitly return the result of the comparison
-          // });
           this.resultsLength = filteredData.length;
           return filteredData;
         })
       )
-      .subscribe(filteredData => (this.data = filteredData));
-
+      .subscribe(filteredData => {
+        this.data = filteredData;  // Assign the filtered data to your component's data property
+      });
   }
+
 }

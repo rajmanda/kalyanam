@@ -16,6 +16,10 @@ export class RsvpService {
     console.log(environment.rsvpApiUrl);
   }
 
+  getAllRsvps(): Observable<RsvpDTO[]> {
+    return this.http.get<RsvpDTO[]>(`${this.rsvpApiUrl}/rsvp/allrsvps`);
+  }
+  
   saveRsvp(rsvpEvent: RsvpDTO): Observable<RsvpDTO> {
     console.log(`RsvpDTO being sent to be saved to backend - ${JSON.stringify(rsvpEvent, null, 2)}`)
     return this.http.post<RsvpDTO>(`${this.rsvpApiUrl}/saversvp`, rsvpEvent);
