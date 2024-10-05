@@ -60,7 +60,7 @@ spec:
             name: kalyanam  # Your service name
             port:
               number: 80  # Ensure this matches your service port
-      - path: /rsvpapi
+      - path: /rsvp
         pathType: Prefix
         backend:
           service:
