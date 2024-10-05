@@ -20,9 +20,10 @@ import { environment } from '../../environments/environment';
 })
 export class AttendeesDialogComponent implements AfterViewInit{
 
-  private rsvpApiUrl = '';
+  
   selectedEvent: Event;  // Store the passed event data
   private _httpClient = inject(HttpClient);
+  rsvpApiUrl: string;
 
   constructor(
      public dialogRef: MatDialogRef<AttendeesDialogComponent>,

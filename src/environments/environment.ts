@@ -1,4 +1,5 @@
 export const environment = {
-    production: true, 
-    rsvpApiUrl: 'http://rsvpbackend:8090'
-};
+    production: true,
+    rsvpApiUrl: 'http://rajmanda-dev.com/rsvpapi'
+  };
+  
