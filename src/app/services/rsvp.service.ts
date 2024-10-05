@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RsvpDTO} from '../models/rsvpDTO';
+import { RsvpDetails, RsvpDTO} from '../models/rsvpDTO';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -20,8 +20,8 @@ export class RsvpService {
     return this.http.get<RsvpDTO[]>(`${this.rsvpApiUrl}/allrsvps`);
   }
 
-  saveRsvp(rsvpEvent: RsvpDTO): Observable<RsvpDTO> {
-    console.log(`RsvpDTO being sent to be saved to backend - ${JSON.stringify(rsvpEvent, null, 2)}`)
-    return this.http.post<RsvpDTO>(`${this.rsvpApiUrl}/saversvp`, rsvpEvent);
+  saveRsvp(rsvpDetails: RsvpDetails): Observable<RsvpDTO> {
+    console.log(`rsvpDetails being sent to be saved to backend - ${JSON.stringify(rsvpDetails, null, 2)}`)
+    return this.http.post<RsvpDTO>(`${this.rsvpApiUrl}/saversvp`, rsvpDetails);
   }
 }
