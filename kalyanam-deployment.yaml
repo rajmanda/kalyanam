@@ -37,34 +37,40 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: LoadBalancer
-  loadBalancerIP: 104.154.188.167
-
+  type: ClusterIP
+  #type: LoadBalancer
+  #loadBalancerIP: 104.154.188.167
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kalyanam
+  name: rsvp-ingress
   namespace: kalyanam
   annotations:
-    kubernetes.io/ingress.class: "gce"  # Use GCP's HTTP(S) Load Balancer
-    nginx.ingress.kubernetes.io/rewrite-target: /$2  # Rewrite rule for path rewriting
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: rajmanda-dev.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: kalyanam  # Your service name
-            port:
-              number: 80  # Ensure this matches your service port
-      - path: /rsvp(/|$)(.*)  # Capture /rsvp and any sub-paths
-        pathType: Prefix
-        backend:
-          service:
-            name: rsvpbackend
-            port:
-              number: 8090
+    - host: rajmanda-dev.com  # Replace with your domain
+      http:
+        paths:
+          - path: /rsvp/allrsvps
+            pathType: Prefix
+            backend:
+              service:
+                name: rsvpbackend  # Name of your Service
+                port:
+                  number: 8090
+          - path: /rsvp/saversvp
+            pathType: Prefix
+            backend:
+              service:
+                name: rsvpbackend  # Name of your Service
+                port:
+                  number: 8090
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kalyanam
+                port:
+                  number: 80
