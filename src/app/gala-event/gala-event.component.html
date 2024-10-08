@@ -1,0 +1,17 @@
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ galaEvent.name }}</mat-card-title>
+    <mat-card-subtitle>{{ galaEvent.date }}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="galaEvent.image" alt="Photo of {{ galaEvent.description }}">
+  <mat-card-content>
+    <p>{{ galaEvent.description }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="openRsvpDialog(galaEvent)" mat-dialog-close="true">RSVP</button>
+    <button mat-raised-button (click)="openAttendeesDialog(galaEvent)">ATTENDEES</button>
+  </mat-card-actions>
+</mat-card>
+<p> {{message}}</p>
+<!-- <app-rsvp (rsvpEvent)="onRsvpEvent($event)" *ngIf="showRsvp" [event]="selectedEvent" > </app-rsvp> -->

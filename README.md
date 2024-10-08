@@ -25,3 +25,33 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+# nav-bar component 
+  https://www.youtube.com/watch?v=ADEZTrIxj1k
+ 
+
+# Docker 
+  docker build -t kalyanam:latest .
+  docker run -d -p 4200:80 kalyanam:latest
+
+# Create Deployment YAML 
+kubectl create deployment kalyanam \
+  --image=dockerrajmanda/kalyanam:25 \
+  --port=4200 \
+  --namespace=kalyanam \
+  --dry-run=client -o yaml > kalyanam-deployment.yaml
+
+# Nginx Crontroller. 
+Ngnix Ingress Controller 
+
+Install new helm repo
+	helm repo add nginx-stable https://helm.nginx.com/stable
+	helm repo update
+
+Install ngnix controller with our reserved External IP as load balancer
+	helm install nginx-ingress nginx-stable/nginx-ingress   --namespace ingress-nginx   --create-namespace   --set controller.service.loadBalancerIP=104.154.188.167   --set controller.debug.enable=false
+
+Then create your ingress .  
+
+
+  

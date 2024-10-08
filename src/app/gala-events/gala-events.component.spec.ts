@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GalaComponent } from './gala.component';
+import { GalaEventsComponent } from './gala-events.component';
 
-describe('GalaComponent', () => {
-  let component: GalaComponent;
-  let fixture: ComponentFixture<GalaComponent>;
+describe('GalaEventsComponent', () => {
+  let component: GalaEventsComponent;
+  let fixture: ComponentFixture<GalaEventsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GalaComponent]
+      imports: [GalaEventsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GalaComponent);
+    fixture = TestBed.createComponent(GalaEventsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

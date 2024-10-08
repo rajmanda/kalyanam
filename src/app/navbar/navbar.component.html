@@ -1,0 +1,24 @@
+<mat-toolbar color="primary" class="matt-elevation-z8">
+  <span><mat-icon>eco</mat-icon> Kalyanam </span>
+
+  <div class="nav-spacer"></div>
+
+  <a mat-button routerLink="home"> Home </a>
+  <a mat-button routerLink="about-me"> About Me </a>
+  
+  <a *ngIf="!loggedin" mat-raised-button color="accent" routerLink="login" routerLinkActive="router-link-active">Login</a>
+  <span *ngIf="loggedin" class="greeting-text">Hi, {{ userProfilex.given_name }} {{ userProfilex.family_name }}!</span>
+
+  <div *ngIf="loggedin" class="profile-photo spaced-photo">
+    <img [src]="userProfilex.picture" alt="Profile Photo" />
+  </div>
+
+  <!-- Make Sign Out button consistent with Login button -->
+  <button *ngIf="loggedin" mat-raised-button color="warn" (click)="handleSignOut()">
+    Sign Out
+  </button>
+</mat-toolbar>
+
+
+
+

@@ -1,0 +1,78 @@
+.about-me-page {
+    background: linear-gradient(to bottom right, #1a1a1a, #2a2a2a);
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif; /* Use a modern font */
+    padding: 20px;
+    min-height: 100vh; /* Ensure it takes full viewport height */
+  }
+  
+  .about-me-card {
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent card background */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  }
+  
+  .certifications-footer {
+    background-color: rgba(255, 255, 255, 0.2); /* Light background for footer */
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .certification-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin: 0 auto; /* Center the icons */
+  }
+  
+  .mat-icon {
+    color: #00bcd4; /* Accent color for icons */
+  }
+  
+.certifications-footer {
+    background-color: #f5f5f5;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .certification-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+  
+  /* Retain default size for mat-card-avatar image */
+  .header-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;  /* Keeps the image circular */
+    object-fit: cover;   /* Fits the image within the avatar */
+  }
+  
+  mat-card-header {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Adds space between the avatar and title/subtitle */
+  }
+  
+  .about-me-card {
+    padding: 20px; /* Add internal padding to the card */
+    margin-bottom: 30px; /* Space between the card and footer */
+  }
+  
+  .mat-card-title, .mat-card-subtitle {
+    margin-left: 10px;
+  }
+  
+  .mat-card-content {
+    margin-bottom: 20px; /* Adds spacing between content and actions */
+  }
+  
+  footer {
+    margin-top: 20px; /* Space between the card and footer */
+  }
+  .mat-icon {
+    margin-right: 5px; /* Adds space between the icon and the number */
+  }
+  
