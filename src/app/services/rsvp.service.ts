@@ -17,11 +17,11 @@ export class RsvpService {
   }
 
   getAllRsvps(): Observable<RsvpDTO[]> {
-    return this.http.get<RsvpDTO[]>(`${this.rsvpApiUrl}/allrsvps`);
+    return this.http.get<RsvpDTO[]>(`${this.rsvpApiUrl}/rsvp/allrsvps`);
   }
 
   saveRsvp(rsvpDetails: RsvpDetails): Observable<RsvpDTO> {
     console.log(`rsvpDetails being sent to be saved to backend - ${JSON.stringify(rsvpDetails, null, 2)}`)
-    return this.http.post<RsvpDTO>(`${this.rsvpApiUrl}/saversvp`, rsvpDetails);
+    return this.http.post<RsvpDTO>(`${this.rsvpApiUrl}/rsvp/saversvp`, rsvpDetails);
   }
 }
