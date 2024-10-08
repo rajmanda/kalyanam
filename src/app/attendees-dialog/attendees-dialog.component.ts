@@ -24,7 +24,6 @@ export class AttendeesDialogComponent implements AfterViewInit{
 
   selectedEvent: Event;  // Store the passed event data
   private _httpClient = inject(HttpClient);
-  rsvpApiUrl: string;
 
   constructor(
     private rsvpService: RsvpService,
@@ -33,8 +32,6 @@ export class AttendeesDialogComponent implements AfterViewInit{
   ){
     console.log('Event passed to modal:', incomingData.selectedEvent);  // Access the event data
     this.selectedEvent = incomingData.selectedEvent;
-    this.rsvpApiUrl  = environment.rsvpApiUrl;
-    console.log(environment.rsvpApiUrl);
   }
 
   // displayedColumns: string[] = ['rsvpId', 'name', 'date', 'location', 'userName', 'adults', 'children'];
