@@ -46,6 +46,7 @@ apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
   name: rajmanda-dev-cert
+  namespace: kalyanam
 spec:
   domains:
     - rajmanda-dev.com
