@@ -41,6 +41,15 @@ spec:
   #type: LoadBalancer
   #loadBalancerIP: 104.154.188.167
 ---
+#Create a Google-managed Certificate resource
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: rajmanda-dev-cert
+spec:
+  domains:
+    - rajmanda-dev.com
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -48,7 +57,13 @@ metadata:
   namespace: kalyanam
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    networking.gke.io/managed-certificates: "rajmanda-dev-cert"  # Reference the ManagedCertificate
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"    # Force HTTPS
 spec:
+  tls:
+    - hosts:
+        - rajmanda-dev.com
+      secretName: tls-secret  # Will be automatically managed by GCP
   rules:
     - host: rajmanda-dev.com  # Replace with your domain
       http:
