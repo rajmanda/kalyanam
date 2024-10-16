@@ -42,14 +42,15 @@ spec:
   #loadBalancerIP: 104.154.188.167
 ---
 #Create a Google-managed Certificate resource
-# apiVersion: networking.gke.io/v1
-# kind: ManagedCertificate
-# metadata:
-#   name: rajmanda-dev-cert
-#   namespace: kalyanam
-# spec:
-#   domains:
-#     - rajmanda-dev.com
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: rajmanda-dev-cert
+  namespace: kalyanam
+spec:
+  domains:
+    - rajmanda-dev.com
+    - www.rajmanda-dev.com
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
