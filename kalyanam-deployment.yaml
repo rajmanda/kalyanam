@@ -58,7 +58,7 @@ metadata:
   name: rsvp-ingress
   namespace: kalyanam
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: nginx-ingress-controller-load-balancer-ip   # 34.49.216.82
+    # kubernetes.io/ingress.global-static-ip-name: nginx-ingress-controller-load-balancer-ip   # 34.49.216.82
     networking.gke.io/managed-certificates: "rajmanda-dev-cert"  # Reference the ManagedCertificate
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"    # Force HTTPS
 spec:
