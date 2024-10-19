@@ -59,31 +59,31 @@ metadata:
   name: rsvp-ingress
   namespace: kalyanam
   annotations:
-    # kubernetes.io/ingress.global-static-ip-name: nginx-ingress-controller-load-balancer-ip   # 34.49.216.82
-    # networking.gke.io/managed-certificates: "rajmanda-dev-cert"  # Reference the ManagedCertificate
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"    # Force HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"  # Force HTTPS
 spec:
   tls:
     - hosts:
         - rajmanda-dev.com
+        - www.rajmanda-dev.com
+        - eureka.rajmanda-dev.com  # Add your Eureka subdomain here
       secretName: rajmanda-dev-tls  # Will be automatically managed by GCP
   ingressClassName: nginx  # Set your ingress class here
   rules:
-    - host: rajmanda-dev.com  # Replace with your domain
+    - host: rajmanda-dev.com
       http:
         paths:
           - path: /rsvp/allrsvps
             pathType: Prefix
             backend:
               service:
-                name: rsvpbackend  # Name of your Service
+                name: rsvpbackend
                 port:
                   number: 8090
           - path: /rsvp/saversvp
             pathType: Prefix
             backend:
               service:
-                name: rsvpbackend  # Name of your Service
+                name: rsvpbackend
                 port:
                   number: 8090
           - path: /
@@ -93,3 +93,30 @@ spec:
                 name: kalyanam
                 port:
                   number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eureka-ingress
+  namespace: eureka
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"  # Force HTTPS
+spec:
+  tls:
+    - hosts:
+        - rajmanda-dev.com
+        - www.rajmanda-dev.com
+        - eureka.rajmanda-dev.com   # Add your Eureka subdomain here
+      secretName: rajmanda-dev-tls  # Will be automatically managed by GCP
+  ingressClassName: nginx           # Set your ingress class here
+  rules:
+    - host: eureka.rajmanda-dev.com  # Rule for your Eureka service
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: my-eureka  # Give the  Name of your Eureka service
+                port:
+                  number: 8761
