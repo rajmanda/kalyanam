@@ -51,6 +51,7 @@ spec:
   domains:
     - rajmanda-dev.com
     - www.rajmanda-dev.com
+    - www.rajmanda-dev.com
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -59,13 +60,13 @@ metadata:
   namespace: kalyanam
   annotations:
     # kubernetes.io/ingress.global-static-ip-name: nginx-ingress-controller-load-balancer-ip   # 34.49.216.82
-    networking.gke.io/managed-certificates: "rajmanda-dev-cert"  # Reference the ManagedCertificate
+    # networking.gke.io/managed-certificates: "rajmanda-dev-cert"  # Reference the ManagedCertificate
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"    # Force HTTPS
 spec:
   tls:
     - hosts:
         - rajmanda-dev.com
-      secretName: tls-secret  # Will be automatically managed by GCP
+      secretName: rajmanda-dev-tls  # Will be automatically managed by GCP
   ingressClassName: nginx  # Set your ingress class here
   rules:
     - host: rajmanda-dev.com  # Replace with your domain
