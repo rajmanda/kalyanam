@@ -14,49 +14,49 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+  #   strategy:
+  #     matrix:
+  #       node-version: [18.x]
+  #       # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    # - run: npm test
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Use Node.js ${{ matrix.node-version }}
+  #     uses: actions/setup-node@v4
+  #     with:
+  #       node-version: ${{ matrix.node-version }}
+  #       cache: 'npm'
+  #   - run: npm ci
+  #   - run: npm run build --if-present
+  #   # - run: npm test
 
-  docker:
-    runs-on: ubuntu-latest
-    needs: build  # Ensure this job runs after the build job
+  # docker:
+  #   runs-on: ubuntu-latest
+  #   needs: build  # Ensure this job runs after the build job
 
-    steps:
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ vars.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+  #   steps:
+  #   - name: Login to Docker Hub
+  #     uses: docker/login-action@v3
+  #     with:
+  #       username: ${{ vars.DOCKERHUB_USERNAME }}
+  #       password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+  #   - name: Set up Docker Buildx
+  #     uses: docker/setup-buildx-action@v3
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v6
-      with:
-        push: true
-        tags: ${{ vars.DOCKERHUB_USERNAME }}/kalyanam:${{ github.run_number }}
-        build-args: |
-          NODE_ENV=production
-        platforms: linux/amd64,linux/arm64
-        progress: plain
+  #   - name: Build and push Docker image
+  #     uses: docker/build-push-action@v6
+  #     with:
+  #       push: true
+  #       tags: ${{ vars.DOCKERHUB_USERNAME }}/kalyanam:${{ github.run_number }}
+  #       build-args: |
+  #         NODE_ENV=production
+  #       platforms: linux/amd64,linux/arm64
+  #       progress: plain
 
   update-manifest:
     runs-on: ubuntu-latest
-    needs: docker  # This job depends on the docker job
+    #needs: docker  # This job depends on the docker job
 
     steps:
       # Step 1: Checkout the repository
@@ -82,44 +82,19 @@ jobs:
           ref: feature/deploy-kalyanam  # Checkout the target branch
           token: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Access token for private repos
 
-      # Step 3: Copy the updated manifest to tf-gcp-wif/deploy
-      - name: Copy updated manifest to tf-gcp-wif/deploy
-        run: |
-          cp kalyanam-deployment.yaml ../tf-gcp-wif/deploy/kalyanam-deployment.yaml
+      # # Step 3: Copy the updated manifest to tf-gcp-wif/deploy
+      # - name: Copy updated manifest to tf-gcp-wif/deploy
+      #   run: |
+      #     cp kalyanam-deployment.yaml ../tf-gcp-wif/deploy/kalyanam-deployment.yaml
 
-      # Step 4: Commit and push the manifest to tf-gcp-wif repo
-      - name: Commit and push updated manifest to tf-gcp-wif
-        run: |
-          cd ../tf-gcp-wif
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add deploy/kalyanam-deployment.yaml
-          git commit -m "Update Kubernetes manifest with new Docker image"
-          git push origin feature/deploy-kalyanam
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
-
-
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: update-manifest  # Ensure this job runs after the update-manifest job
-  #   permissions:
-  #     contents: read
-  #     id-token: write  # Make sure this is present
-  #   steps:
-  #     - name: Authenticate to GCP
-  #       uses: google-github-actions/auth@v2.0.0
-  #       with:
-  #         workload_identity_provider: 'projects/175415323680/locations/global/workloadIdentityPools/githubpool/providers/github'
-  #         service_account: github-wif-sa@properties-app-418208.iam.gserviceaccount.com
-
-  #     - name: Set up GKE credentials
-  #       uses: google-github-actions/get-gke-credentials@v1
-  #       with:
-  #         cluster_name: simple-autopilot-public-cluster
-  #         location: us-central1  # Adjust your cluster zone
-  #         project_id: properties-app-418208
-
-  #     - name: Deploy to GKE
-  #       run: |
-  #         kubectl apply -f kalyanam-deployment.yaml
+      # # Step 4: Commit and push the manifest to tf-gcp-wif repo
+      # - name: Commit and push updated manifest to tf-gcp-wif
+      #   run: |
+      #     cd ../tf-gcp-wif
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git add deploy/kalyanam-deployment.yaml
+      #     git commit -m "Update Kubernetes manifest with new Docker image"
+      #     git push origin feature/deploy-kalyanam
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
