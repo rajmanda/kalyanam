@@ -74,12 +74,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
 
-      # Step 2: Checkout the tf-gcp-wif repo
+    # Step 3: Checkout the tf-gcp-wif repository
       - name: Checkout tf-gcp-wif repo
         uses: actions/checkout@v4
         with:
           repository: rajmanda/tf-gcp-wif  # Your tf-gcp-wif repo
           ref: feature/deploy-kalyanam  # Checkout the target branch
+          path: tf-gcp-wif  # Check out the repository in a subdirectory named tf-gcp-wif
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
 
@@ -89,17 +90,11 @@ jobs:
 
       # Step 4: Copy the updated manifest to tf-gcp-wif/deploy
       - name: Copy updated manifest to tf-gcp-wif/deploy
-        run: |
-          cp kalyanam-deployment.yaml ../tf-gcp-wif/deploy/kalyanam-deployment.yaml
-
-      # Step 4: Copy the updated manifest to tf-gcp-wif/deploy
-      - name: Copy updated manifest to tf-gcp-wif/deploy
-        run: |
-          cp ../kalyanam/kalyanam-deployment.yaml deploy/kalyanam-deployment.yaml
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add deploy/kalyanam-deployment.yaml
-          git commit -m "Copy updated kalyanam-deployment.yaml from kalyanam repo"
-          git push origin HEAD:${{ github.ref }}  # Push to the same branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
+      run: |
+        cp kalyanam-deployment.yaml tf-gcp-wif/deploy/kalyanam-deployment.yaml
+        cd tf-gcp-wif  # Change directory to tf-gcp-wif
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add deploy/kalyanam-deployment.yaml
+        git commit -m "Copy updated kalyanam-deployment.yaml from kalyanam repo"
+        git push origin HEAD:feature/deploy-kalyanam  # Push to the same branch
