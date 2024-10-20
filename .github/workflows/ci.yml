@@ -83,25 +83,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
 
-      - name: Configure Git for tf-gcp-wif repo
+      # Step 3: Copy the updated manifest to tf-gcp-wif/deploy
+      - name: Copy updated manifest to tf-gcp-wif/deploy
         run: |
+          cp kalyanam-deployment.yaml ../tf-gcp-wif/deploy/kalyanam-deployment.yaml
+
+      # Step 4: Commit and push the manifest to tf-gcp-wif repo
+      - name: Commit and push updated manifest to tf-gcp-wif
+        run: |
+          cd ../tf-gcp-wif
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-
-
-      # # Step 3: Copy the updated manifest to tf-gcp-wif/deploy
-      # - name: Copy updated manifest to tf-gcp-wif/deploy
-      #   run: |
-      #     cp kalyanam-deployment.yaml ../tf-gcp-wif/deploy/kalyanam-deployment.yaml
-
-      # # Step 4: Commit and push the manifest to tf-gcp-wif repo
-      # - name: Commit and push updated manifest to tf-gcp-wif
-      #   run: |
-      #     cd ../tf-gcp-wif
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git add deploy/kalyanam-deployment.yaml
-      #     git commit -m "Update Kubernetes manifest with new Docker image"
-      #     git push origin feature/deploy-kalyanam
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
+          git add deploy/kalyanam-deployment.yaml
+          git commit -m "Update Kubernetes manifest with new Docker image"
+          git push origin feature/deploy-kalyanam
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
