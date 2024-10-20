@@ -56,6 +56,8 @@ jobs:
 
   update-manifest:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Grant write permissions for the contents of the repository
     # needs: docker  # Uncomment if this job depends on the docker job
 
     steps:
