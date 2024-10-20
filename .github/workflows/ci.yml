@@ -73,14 +73,20 @@ jobs:
           git push origin HEAD:${{ github.ref }}  # Push to the same branch
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
-
-      # Step 2: Checkout the tf-gcp-wif repo
+ 
+          # Step 2: Checkout the tf-gcp-wif repo
       - name: Checkout tf-gcp-wif repo
         uses: actions/checkout@v4
         with:
           repository: rajmanda/tf-gcp-wif  # Your tf-gcp-wif repo
           ref: feature/deploy-kalyanam  # Checkout the target branch
-          token: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Access token for private repos
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
+
+      - name: Configure Git for tf-gcp-wif repo
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
 
 
       # # Step 3: Copy the updated manifest to tf-gcp-wif/deploy
