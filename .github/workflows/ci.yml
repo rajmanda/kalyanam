@@ -59,41 +59,67 @@ jobs:
     needs: docker  # This job depends on the docker job
 
     steps:
-    # Step 1: Checkout the repository
-    - uses: actions/checkout@v4
+      # Step 1: Checkout the repository
+      - uses: actions/checkout@v4
 
-    - name: Update Kubernetes manifest
-      run: |
-        #sed -i 's|image: .*|image: dockerrajmanda/kalyanam:latest|' kalyanam-deployment.yaml
-        sed -i "s/image: .*/image: dockerrajmanda\\/kalyanam:${{ github.run_number }}/" kalyanam-deployment.yaml
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add kalyanam-deployment.yaml
-        git commit -m "Update Docker image to latest version"
-        git push origin HEAD:${{ github.ref }}  # Push to the same branch
-      env:
-        GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: update-manifest  # Ensure this job runs after the update-manifest job
-    permissions:
-      contents: read
-      id-token: write  # Make sure this is present
-    steps:
-      - name: Authenticate to GCP
-        uses: google-github-actions/auth@v2.0.0
-        with:
-          workload_identity_provider: 'projects/175415323680/locations/global/workloadIdentityPools/githubpool/providers/github'
-          service_account: github-wif-sa@properties-app-418208.iam.gserviceaccount.com
-
-      - name: Set up GKE credentials
-        uses: google-github-actions/get-gke-credentials@v1
-        with:
-          cluster_name: simple-autopilot-public-cluster
-          location: us-central1  # Adjust your cluster zone
-          project_id: properties-app-418208
-
-      - name: Deploy to GKE
+      - name: Update Kubernetes manifest
         run: |
-          kubectl apply -f kalyanam-deployment.yaml
+          # Update the image in the Kubernetes manifest
+          sed -i "s/image: .*/image: dockerrajmanda\\/kalyanam:${{ github.run_number }}/" kalyanam-deployment.yaml
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add kalyanam-deployment.yaml
+          git commit -m "Update Docker image to latest version"
+          git push origin HEAD:${{ github.ref }}  # Push to the same branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
+
+      # Step 2: Checkout the tf-gcp-wif repo
+      - name: Checkout tf-gcp-wif repo
+        uses: actions/checkout@v4
+        with:
+          repository: rajmanda/tf-gcp-wif  # Your tf-gcp-wif repo
+          ref: feature/deploy-kalyanam  # Checkout the target branch
+          token: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Access token for private repos
+
+      # Step 3: Copy the updated manifest to tf-gcp-wif/deploy
+      - name: Copy updated manifest to tf-gcp-wif/deploy
+        run: |
+          cp kalyanam-deployment.yaml ../tf-gcp-wif/deploy/kalyanam-deployment.yaml
+
+      # Step 4: Commit and push the manifest to tf-gcp-wif repo
+      - name: Commit and push updated manifest to tf-gcp-wif
+        run: |
+          cd ../tf-gcp-wif
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add deploy/kalyanam-deployment.yaml
+          git commit -m "Update Kubernetes manifest with new Docker image"
+          git push origin feature/deploy-kalyanam
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
+
+
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: update-manifest  # Ensure this job runs after the update-manifest job
+  #   permissions:
+  #     contents: read
+  #     id-token: write  # Make sure this is present
+  #   steps:
+  #     - name: Authenticate to GCP
+  #       uses: google-github-actions/auth@v2.0.0
+  #       with:
+  #         workload_identity_provider: 'projects/175415323680/locations/global/workloadIdentityPools/githubpool/providers/github'
+  #         service_account: github-wif-sa@properties-app-418208.iam.gserviceaccount.com
+
+  #     - name: Set up GKE credentials
+  #       uses: google-github-actions/get-gke-credentials@v1
+  #       with:
+  #         cluster_name: simple-autopilot-public-cluster
+  #         location: us-central1  # Adjust your cluster zone
+  #         project_id: properties-app-418208
+
+  #     - name: Deploy to GKE
+  #       run: |
+  #         kubectl apply -f kalyanam-deployment.yaml
