@@ -56,18 +56,12 @@ jobs:
 
   update-manifest:
     runs-on: ubuntu-latest
+    #needs: docker  # Uncomment if this job depends on the docker job
 
     steps:
-      # Step 1: Checkout the current repository (kalyanam)
-      - name: Checkout kalyanam repository
-        uses: actions/checkout@v4
-        with:
-          repository: rajmanda/kalyanam  # Your kalyanam repo
-          ref: feature/deploy-kalyanam  # Checkout the target branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
+      # Step 1: Checkout the current repository
+      - uses: actions/checkout@v4
 
-      # Step 2: Update Kubernetes manifest
       - name: Update Kubernetes manifest
         run: |
           # Update the image in the Kubernetes manifest
@@ -80,7 +74,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
 
-      # Step 3: Checkout the tf-gcp-wif repository
+      # Step 2: Checkout the tf-gcp-wif repo
       - name: Checkout tf-gcp-wif repo
         uses: actions/checkout@v4
         with:
@@ -88,6 +82,15 @@ jobs:
           ref: feature/deploy-kalyanam  # Checkout the target branch
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
+
+      # Step 3: Debugging - List files to confirm presence of kalyanam-deployment.yaml
+      - name: List files in current directory
+        run: ls -al
+
+      # Step 4: Copy the updated manifest to tf-gcp-wif/deploy
+      - name: Copy updated manifest to tf-gcp-wif/deploy
+        run: |
+          cp kalyanam-deployment.yaml ../tf-gcp-wif/deploy/kalyanam-deployment.yaml
 
       # Step 4: Copy the updated manifest to tf-gcp-wif/deploy
       - name: Copy updated manifest to tf-gcp-wif/deploy
@@ -98,3 +101,5 @@ jobs:
           git add deploy/kalyanam-deployment.yaml
           git commit -m "Copy updated kalyanam-deployment.yaml from kalyanam repo"
           git push origin HEAD:${{ github.ref }}  # Push to the same branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
