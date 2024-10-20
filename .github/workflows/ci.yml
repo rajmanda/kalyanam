@@ -78,13 +78,12 @@ jobs:
 
       # Step 3: Checkout the tf-gcp-wif repository
       - name: Checkout tf-gcp-wif repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           repository: rajmanda/tf-gcp-wif  # Your tf-gcp-wif repo
           ref: feature/deploy-kalyanam  # Checkout the target branch
           path: tf-gcp-wif  # Check out the repository in a subdirectory named tf-gcp-wif
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
+          token: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
 
       # Step 3: Debugging - List files to confirm presence of kalyanam-deployment.yaml
       - name: List files in current directory
@@ -104,4 +103,3 @@ jobs:
           git push origin HEAD:feature/deploy-kalyanam
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
-          
