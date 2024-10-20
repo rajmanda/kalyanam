@@ -98,3 +98,5 @@ jobs:
           git add deploy/kalyanam-deployment.yaml
           git commit -m "Copy updated kalyanam-deployment.yaml from kalyanam repo"
           git push origin HEAD:feature/deploy-kalyanam  # Push to the same branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
