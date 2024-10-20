@@ -91,6 +91,7 @@ jobs:
         run: ls -al
 
       # Step 4: Copy the updated manifest to tf-gcp-wif/deploy
+      # Step 4: Copy the updated manifest to tf-gcp-wif/deploy
       - name: Copy updated manifest to tf-gcp-wif/deploy
         run: |
           cp kalyanam-deployment.yaml tf-gcp-wif/deploy/kalyanam-deployment.yaml
@@ -98,7 +99,8 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add deploy/kalyanam-deployment.yaml
+          git remote set-url origin https://x-access-token:${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}@github.com/rajmanda/tf-gcp-wif.git
           git commit -m "Copy updated kalyanam-deployment.yaml from kalyanam repo"
-          git push origin HEAD:feature/deploy-kalyanam  # Push to the same branch
+          git push origin HEAD:feature/deploy-kalyanam
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
