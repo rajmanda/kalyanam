@@ -56,10 +56,10 @@ jobs:
 
   update-manifest:
     runs-on: ubuntu-latest
-    #needs: docker  # This job depends on the docker job
+    #needs: docker  # Uncomment if this job depends on the docker job
 
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout the current repository
       - uses: actions/checkout@v4
 
       - name: Update Kubernetes manifest
@@ -73,8 +73,8 @@ jobs:
           git push origin HEAD:${{ github.ref }}  # Push to the same branch
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
- 
-          # Step 2: Checkout the tf-gcp-wif repo
+
+      # Step 2: Checkout the tf-gcp-wif repo
       - name: Checkout tf-gcp-wif repo
         uses: actions/checkout@v4
         with:
@@ -83,7 +83,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
 
-      # Step 3: Copy the updated manifest to tf-gcp-wif/deploy
+      # Step 3: Debugging - List files to confirm presence of kalyanam-deployment.yaml
+      - name: List files in current directory
+        run: ls -al
+
+      # Step 4: Copy the updated manifest to tf-gcp-wif/deploy
       - name: Copy updated manifest to tf-gcp-wif/deploy
         run: |
           cp kalyanam-deployment.yaml ../tf-gcp-wif/deploy/kalyanam-deployment.yaml
