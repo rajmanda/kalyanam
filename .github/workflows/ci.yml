@@ -11,8 +11,8 @@ on:
       - "feature/**"        # Match any pull request targeting branches that start with 'feature'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
   #   strategy:
   #     matrix:
