@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Grant write permissions for the contents of the repository
-    # needs: docker  # Uncomment if this job depends on the docker job
+    needs: docker  # Let the docker image creation be complete before apply the kubernetes deployment in tf-gcp-wif repo
 
     steps:
       # Step 1: Checkout the current repository
@@ -70,7 +70,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add kalyanam-deployment.yaml
-          git commit -m "Update Docker image to latest version"
+          git commit -m "Update Docker image to latest version - ${{ github.run_number }}"
           git push origin HEAD:${{ github.ref }}  # Push to the same branch
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}  # Use your new secret here
