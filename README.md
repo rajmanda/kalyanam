@@ -53,5 +53,5 @@ Install ngnix controller with our reserved External IP as load balancer
 
 Then create your ingress .  
 
-
+Checking with Vijay
   
