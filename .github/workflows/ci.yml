@@ -69,6 +69,12 @@ jobs:
           sed -i "s/image: .*/image: dockerrajmanda\\/kalyanam:${{ github.run_number }}/" kalyanam-deployment.yaml
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+
+          # Pull the latest changes to avoid conflicts
+          git fetch origin main
+          git checkout main
+          git pull origin main
+
           git add kalyanam-deployment.yaml
           git commit -m "Update Docker image to latest version - ${{ github.run_number }}"
           git push origin HEAD:${{ github.ref }}  # Push to the same branch
