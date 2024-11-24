@@ -1,7 +1,7 @@
-.example-card img {
+/* .example-card img {
   width: 100%;
   height: 180px;
-  object-fit: contain; /* Change from 'cover' to 'contain' */
+  object-fit: contain;
   background-color: rgb(242, 255, 0);
 }
 
@@ -9,5 +9,68 @@
   background-image: url('/assets/pictures/Vigneshwara.jpeg');
   background-size: cover;
   background-position: center;
+} */
+
+/* General Card Styling */
+.example-card {
+  max-width: 600px; /* Limit the maximum width for larger screens */
+  margin: auto;
+  padding: 10px; /* Add padding for better spacing */
+  width: 90%; /* Adjust width for smaller screens */
+  box-sizing: border-box;
+  border: 1px solid #ddd; /* Add subtle border */
+  border-radius: 8px; /* Rounded corners for modern look */
 }
 
+/* Header Image Styling */
+.example-header-image {
+  background-image: url('/assets/pictures/Vigneshwara.jpeg');
+  background-size: cover;
+  background-position: center;
+  height: 60px; /* Adjusted height */
+  width: 60px; /* Adjusted width for consistent shape */
+  border-radius: 50%; /* Make it circular */
+}
+
+/* Card Image Styling */
+.example-card img {
+  width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure image fills nicely */
+  background-color: #f5f5f5; /* Neutral background color */
+  border-radius: 8px; /* Match the card's rounded corners */
+}
+
+/* Button Actions Styling */
+mat-card-actions {
+  display: flex;
+  flex-wrap: wrap; /* Stack buttons on smaller screens */
+  justify-content: center; /* Center align */
+  gap: 10px; /* Add space between buttons */
+}
+
+mat-card-actions button {
+  width: auto; /* Dynamic width for buttons */
+  min-width: 100px; /* Ensure buttons are easy to tap */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .example-card {
+    width: 100%; /* Full width on smaller screens */
+  }
+
+  .example-header-image {
+    height: 40px; /* Smaller header image for mobile */
+    width: 40px; /* Keep it proportional */
+  }
+
+  mat-card-title, mat-card-subtitle {
+    font-size: smaller; /* Adjust font size for readability */
+  }
+
+  mat-card-content p {
+    font-size: 14px; /* Smaller text for mobile */
+    line-height: 1.5; /* Increase line height for readability */
+  }
+}
