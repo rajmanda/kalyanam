@@ -20,19 +20,19 @@ export class GalaService {
       description: 'description',
     },
 
-    // {
-    //   id: '2',
+    {
+      id: '2',
 
-    //   name: 'Break Day',
+      name: 'Break Day',
 
-    //   date: 'Aug 15th 2024',
+      date: 'Aug 15th 2024',
 
-    //   location: '5 Loius Ct, Princeton, NJ',
+      location: '5 Loius Ct, Princeton, NJ',
 
-    //   image: '/assets/pictures/funday.jpg',
+      image: '/assets/pictures/funday.jpg',
 
-    //   description: 'description',
-    // },
+      description: 'description',
+    },
 
     {
       id: '3',
