@@ -28,7 +28,5 @@ export class GloginComponent {
     });
   }
 
-  onSubmit() {
-    console.log(`Username: ${this.username}, Password: ${this.password}`);
-  }
+
 }
