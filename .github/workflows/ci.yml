@@ -71,9 +71,9 @@ jobs:
           git config --local user.name "GitHub Action"
 
           # Pull the latest changes to avoid conflicts
-          git fetch origin main
-          git checkout main
-          git pull origin main
+          git fetch origin ${{ github.ref_name }}
+          git checkout ${{ github.ref_name }}
+          git pull origin ${{ github.ref_name }}
 
           git add kalyanam-deployment.yaml
           git commit -m "Update Docker image to latest version - ${{ github.run_number }}"
