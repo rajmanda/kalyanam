@@ -5,12 +5,13 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { CreateGalaComponentComponent } from "../create-gala-component/create-gala-component.component";
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule, MatToolbarModule,MatButtonModule, RouterLink, CommonModule],
+  imports: [MatToolbarModule, MatIconModule, MatToolbarModule, MatButtonModule, RouterLink, CommonModule, CreateGalaComponentComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
