@@ -8,7 +8,10 @@ import { CommonModule, NgFor } from '@angular/common';
 import { GalaService } from '../services/gala.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { GalaEventsComponent } from "../gala-events/gala-events.component";
+import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
 
+import { merge, Observable, of as observableOf } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -19,39 +22,6 @@ import { GalaEventsComponent } from "../gala-events/gala-events.component";
   providers: [GalaService]
 })
 
-
-export class HomeComponent implements OnInit{
-
-
-
-  respEvent: any;
-  showAttendees: boolean  = false;
-  showRsvp: boolean  = false;
-  selectedEvent: Event | undefined;
-  events: Event[] = []; // Initialize an empty array of type Events
-
-  constructor(private _galaService: GalaService){
-  }
-  ngOnInit(): void {
-    this.events = this._galaService.getGalas()
-  }
-
-
-
-  rsvp(event: Event){
-    this.selectedEvent = event;
-    console.log(this.selectedEvent.name)
-
-    this.showRsvp = true;
-    this.showAttendees = false;
-
-  }
-
-  attendees(event: Event){
-
-    console.log(event.name)
-    this.showRsvp = false;
-    this.showAttendees = true;
-  }
+export class HomeComponent {
 
 }
