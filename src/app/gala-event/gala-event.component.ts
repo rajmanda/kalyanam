@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import {Event} from '../models/event';
+
 
 import { RsvpService } from '../services/rsvp.service';
 import { RsvpDTO } from '../models/rsvpDTO';
@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationSnackbarComponent } from '../confirmation-snackbar/confirmation-snackbar.component';
 import { AuthService } from '../services/auth/auth.service';
 import { AttendeesDialogComponent } from '../attendees-dialog/attendees-dialog.component';
+import { GalaEventDetails } from '../models/galaEventDTO';
 
 @Component({
   selector: 'app-gala-event',
@@ -34,7 +35,7 @@ export class GalaEventComponent {
   showAttendees: boolean  = false;
   showRsvp: boolean  = false;
   message: string = "" ;
-  selectedEvent: Event | undefined;
+  selectedEvent: GalaEventDetails | undefined;
   respEvent: any;
   durationInSeconds: number = 5;
 
@@ -75,10 +76,10 @@ export class GalaEventComponent {
     }
 
     if (this.galaEvent) {
-      console.log('Event data:', this.galaEvent);
+      console.log('Event data:', this.galaEvent.name);
     }
   }
-  openRsvpDialog(event: Event){
+  openRsvpDialog(event: GalaEventDetails){
     let dialogRef = this._matDialog.open(RsvpDialogComponent, {
       data: { selectedEvent: event }  // Pass event data to the dialog
     });
@@ -91,7 +92,7 @@ export class GalaEventComponent {
     });
   }
 
-  openAttendeesDialog(event: Event){
+  openAttendeesDialog(event: GalaEventDetails){
     let dialogRef = this._matDialog.open(AttendeesDialogComponent, {
       data: { selectedEvent: event }  // Pass event data to the dialog
     });
@@ -104,7 +105,7 @@ export class GalaEventComponent {
     // });
   }
 
-  attendees(event: Event){
+  attendees(event: GalaEventDetails){
     this.showAttendees = !this.showAttendees;
     this.selectedEvent = event;
     console.log(event.name)

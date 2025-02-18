@@ -5,10 +5,10 @@ on:
     branches:
       - "main"              # Match the main branch
       - "feature/**"        # Match any branch that starts with 'feature'
-  pull_request:
-    branches:
-      - "main"              # Match pull requests targeting the main branch
-      - "feature/**"        # Match any pull request targeting branches that start with 'feature'
+  # pull_request:
+  #   branches:
+  #     - "main"              # Match pull requests targeting the main branch
+  #     - "feature/**"        # Match any pull request targeting branches that start with 'feature'
 
 jobs:
   build:
@@ -65,6 +65,17 @@ jobs:
 
       - name: Update Kubernetes manifest
         run: |
+          # Determine if this is a PR build
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            # Fetch and checkout the base branch of the PR
+            git fetch origin ${GITHUB_BASE_REF}
+            git checkout ${GITHUB_BASE_REF}
+          else
+            # For non-PR builds, use the current branch
+            git fetch origin ${{ github.ref_name }}
+            git checkout ${{ github.ref_name }}
+          fi
+
           # Update the image in the Kubernetes manifest
           sed -i "s/image: .*/image: dockerrajmanda\\/kalyanam:${{ github.run_number }}/" kalyanam-deployment.yaml
           git config --local user.email "action@github.com"
