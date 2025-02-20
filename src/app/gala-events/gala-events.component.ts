@@ -19,43 +19,51 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
   templateUrl: './gala-events.component.html',
   styleUrl: './gala-events.component.css'
 })
-export class GalaEventsComponent {
+import { Component, OnInit } from '@angular/core';
+import { GalaService } from './gala.service'; // Adjust the import path as needed
+import { GalaEventDTO, GalaEventDetails } from './gala-event.model'; // Adjust the import path as needed
+import { of } from 'rxjs';
+import { catchError, startWith, switchMap } from 'rxjs/operators';
 
-  galaEventsDTOs: GalaEventDTO[] = []; // Initialize an empty array of type Events
-  events: GalaEventDetails[] = []; // Initialize an empty array of type Events
+@Component({
+  selector: 'app-gala-events',
+  templateUrl: './gala-events.component.html',
+  styleUrls: ['./gala-events.component.css']
+})
+export class GalaEventsComponent implements OnInit {
+
+  galaEventsDTOs: GalaEventDTO[] = [];
+  events: GalaEventDetails[] = [];
   isLoadingResults: boolean = true;
 
-  constructor(private galaService: GalaService){
-  }
+  constructor(private galaService: GalaService) {}
 
   ngOnInit(): void {
-    //this.galaEvents = this._galaService.getGalas()
     this.galaService.getAllEvents()
-    .pipe(
-      startWith([]),  // Initialize with an empty array to prevent type issues
-      switchMap(() => {
-        return this.galaService.getAllEvents().pipe(
-          catchError(() => observableOf([]))  // Handle errors by returning an empty array
-        );
-      })
-    )
-    .subscribe(eventsDtos => {
-      this.galaEventsDTOs = eventsDtos;  // Assign all events to data
-      this.events = this.galaEventsDTOs.map(event => event.galaEventDetails);
-      this.events = this.sortEventsByDate(this.events);
-      console.log("rajara Events:", JSON.stringify(this.events, null, 2));
-      this.isLoadingResults = false;
-    });
+      .pipe(
+        startWith([]),
+        switchMap(() => {
+          return this.galaService.getAllEvents().pipe(
+            catchError(() => of([]))
+          );
+        })
+      )
+      .subscribe(eventsDtos => {
+        this.galaEventsDTOs = eventsDtos;
+        this.events = this.galaEventsDTOs.map(event => event.galaEventDetails);
+        this.events = this.sortEventsByDate(this.events);
+        console.log("Sorted Events:", JSON.stringify(this.events, null, 2));
+        this.isLoadingResults = false;
+      });
   }
-  
-  function sortEventsByDate(events: GalaEventDetails[]): GalaEventDetails[] {
+
+  private sortEventsByDate(events: GalaEventDetails[]): GalaEventDetails[] {
     return events.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateA.getTime() - dateB.getTime();
     });
   }
-  
 }
 
 
