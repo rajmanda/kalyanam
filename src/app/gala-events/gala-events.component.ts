@@ -46,13 +46,29 @@ export class GalaEventsComponent implements OnInit {
       });
   }
 
-  private sortEventsByDate(events: GalaEventDetails[]): GalaEventDetails[] {
+private sortEventsByDate(events: GalaEventDetails[]): GalaEventDetails[] {
     return events.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateA.getTime() - dateB.getTime();
     });
   }
+
+private sortEventsByDate(events: GalaEventDetails[]): GalaEventDetails[] {
+  return events.sort((a, b) => {
+    const dateA = this.parseDate(a.date);
+    const dateB = this.parseDate(b.date);
+    return dateA.getTime() - dateB.getTime();
+  });
+}
+
+private parseDate(dateStr: string): Date {
+    // Remove the "th", "st", "nd", "rd" from the date string
+    const cleanedDateStr = dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1');
+    // Parse the cleaned date string
+    return new Date(cleanedDateStr);
+  }
+  
 }
 
 
