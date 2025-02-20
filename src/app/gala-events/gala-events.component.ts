@@ -19,19 +19,8 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
   templateUrl: './gala-events.component.html',
   styleUrl: './gala-events.component.css'
 })
-import { Component, OnInit } from '@angular/core';
-import { GalaService } from './gala.service'; // Adjust the import path as needed
-import { GalaEventDTO, GalaEventDetails } from './gala-event.model'; // Adjust the import path as needed
-import { of } from 'rxjs';
-import { catchError, startWith, switchMap } from 'rxjs/operators';
 
-@Component({
-  selector: 'app-gala-events',
-  templateUrl: './gala-events.component.html',
-  styleUrls: ['./gala-events.component.css']
-})
 export class GalaEventsComponent implements OnInit {
-
   galaEventsDTOs: GalaEventDTO[] = [];
   events: GalaEventDetails[] = [];
   isLoadingResults: boolean = true;
