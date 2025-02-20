@@ -42,10 +42,20 @@ export class GalaEventsComponent {
     .subscribe(eventsDtos => {
       this.galaEventsDTOs = eventsDtos;  // Assign all events to data
       this.events = this.galaEventsDTOs.map(event => event.galaEventDetails);
+      this.events = this.sortEventsByDate(this.events);
       console.log("rajara Events:", JSON.stringify(this.events, null, 2));
       this.isLoadingResults = false;
     });
   }
+  
+  function sortEventsByDate(events: GalaEventDetails[]): GalaEventDetails[] {
+    return events.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateA.getTime() - dateB.getTime();
+    });
+  }
+  
 }
 
 
