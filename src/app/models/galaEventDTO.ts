@@ -1,9 +1,9 @@
 export interface GalaEventDetails {
   id: string;
   name: string;
-  date: String;
-  location: String;
-  image: String;
+  date: string;
+  location: string;
+  image: string;
   description: string;
 }
 export interface GalaEventDTO {
