@@ -9,7 +9,7 @@ import {Event} from '../models/event';
 import { GalaEventComponent } from "../gala-event/gala-event.component";
 import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
 
-import { merge, Observable, of as observableOf } from 'rxjs';
+import { of, merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
