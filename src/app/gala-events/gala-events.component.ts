@@ -1,5 +1,5 @@
 import { NgFor, CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
