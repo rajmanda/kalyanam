@@ -1,1 +1,55 @@
-<p>create-gala-component works!</p>
+<!-- create-event.component.html -->
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create New Gala Event</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Event Name</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="eventForm.get('name')?.hasError('required')">
+          Event Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Event Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="eventForm.get('date')?.hasError('required')">
+          Event Date is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Location</mat-label>
+        <input matInput formControlName="location" required>
+        <mat-error *ngIf="eventForm.get('location')?.hasError('required')">
+          Location is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Image URL</mat-label>
+        <input matInput formControlName="image" required>
+        <mat-error *ngIf="eventForm.get('image')?.hasError('required')">
+          Image URL is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" required></textarea>
+        <mat-error *ngIf="eventForm.get('description')?.hasError('required')">
+          Description is required
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="eventForm.invalid">Create Event</button>
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

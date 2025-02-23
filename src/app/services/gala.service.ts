@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { GalaEventDTO } from '../models/galaEventDTO';
+import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GalaService {
   private galaEventsApiUrl = '';
-  data: GalaEventDTO[]  = []; 
+  data: GalaEventDTO[]  = [];
 
   constructor(private http: HttpClient) {
     this.galaEventsApiUrl  = environment.galaEventsApiUrl;
@@ -21,6 +21,10 @@ export class GalaService {
   }
   getAllEvents(): Observable<GalaEventDTO[]> {
     return this.http.get<GalaEventDTO[]>(`${this.galaEventsApiUrl}/all-gala-events`);
+  }
+  saveGalaEvent(galaEventDetails: GalaEventDetails): Observable<GalaEventDTO> {
+    const url = `${this.galaEventsApiUrl}/save-gala-event`; // Adjust the endpoint as needed
+    return this.http.post<GalaEventDTO>(url, galaEventDetails);
   }
 }
 
