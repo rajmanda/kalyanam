@@ -6,7 +6,7 @@
   <a mat-button routerLink="home"> Home </a>
   <a mat-button routerLink="about-me"> About Me </a>
   <!-- <a *ngIf="userProfilex.email=='raj.manda@gmail.com'" mat-button routerLink="create-Gala-Event"> Create Gala Event </a> -->
-  <a *ngIf="userProfilex.email == 'raj.manda@gmail.com' || userProfilex.email == 'msvram@gmail.com'" mat-button routerLink="create-Gala-Event">
+  <a *ngIf="userProfilex.email == 'raj.manda@gmail.com' || userProfilex.email == 'msvram@gmail.com'" mat-button routerLink="create-Gala-Event"></a>
 
   <a *ngIf="!loggedin" mat-raised-button color="accent" routerLink="login" routerLinkActive="router-link-active">Login</a>
   <span *ngIf="loggedin" class="greeting-text">Hi, {{ userProfilex.given_name }} {{ userProfilex.family_name }}!</span>
