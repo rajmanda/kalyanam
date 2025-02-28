@@ -27,3 +27,151 @@
 .login-form button:hover {
   background-color: #3e8e41;
 }
+
+
+ 
+:root {
+  --theme-red-color:#C03039;
+  --orange-color: #FBC73D;
+  --white: #ffffff;
+  --blackcolor: #000000;
+  --lightdark: #0F121F;
+}
+.lato-thin {
+  font-family: "Lato", serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lato-light {
+  font-family: "Lato", serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lato-regular {
+  font-family: "Lato", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-bold {
+  font-family: "Lato", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-black {
+  font-family: "Lato", serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.lato-thin-italic {
+  font-family: "Lato", serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light-italic {
+  font-family: "Lato", serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular-italic {
+  font-family: "Lato", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold-italic {
+  font-family: "Lato", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black-italic {
+  font-family: "Lato", serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.leckerli-one-regular {
+  font-family: "Leckerli One", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+body{
+	font-family: "Lato", serif;
+}
+header{
+	background-color: var(--theme-red-color);
+}
+h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
+
+.kalyanamHeader{
+	padding-top: 10px;padding-bottom: 10px;
+}
+.kalyanamHeader ul li a{
+	color: var(--white);text-decoration: none;
+}
+.kalyanamHeader ul li a:hover{
+	text-decoration: underline;
+}
+.kalyanamHeader li {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.kalyanamHeader li:last-child { 
+    padding-right: 0px;
+}
+.kalyanamHeader ul li:last-child a {
+    background-color: var(--white);
+    color: var(--theme-red-color);
+    padding: 10px 46px;
+    border-radius: 50px; 
+}
+
+.kalyanamFooter{
+	background-color: var(--lightdark);color: var(--white);padding-top: 15px;padding-bottom: 15px;
+}
+
+.kalyanamFooter p {
+    margin-bottom: 0px;
+}
+
+.bglogin .col-md-5 {
+    padding-left: 0;
+}
+.bglogin{
+  background: url('/assets/images/background-images.jpg');
+  border-radius: 10px;
+} 
+.google-btn {
+    display: inline-flex; /* Ensures the button wraps around the content */
+    align-items: center;
+    gap: 10px;
+    background-color: #dd4b39;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    width: fit-content; /* Ensures the width adjusts to content size */
+    min-width: max-content; /* Prevents excessive shrinking */
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+.google-btn:hover {
+    background-color: #c23321;
+}
+.google-btn img {
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 5px;
+}
