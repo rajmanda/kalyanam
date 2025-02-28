@@ -18,6 +18,6 @@ export const CanActivateFn = (
     router.navigate(['/login'], { queryParams: { message: 'You need to login to access this page' } });
     return false;
   }
-};
+}; 
 
 

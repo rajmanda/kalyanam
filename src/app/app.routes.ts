@@ -7,6 +7,7 @@ import { AboutMeComponent } from './about-me/about-me.component';
 import { CreateGalaComponentComponent } from "./create-gala-component/create-gala-component.component";
 
 export const routes: Routes = [
+  { path: '', redirectTo: '/login', pathMatch: 'full' },                    // Redirect root to /login
   { path: 'login', component: GloginComponent },
   { path: 'home', component: HomeComponent, canActivate: [CanActivateFn] }, // Applying the guard function here
   { path: 'create-Gala-Event', component: CreateGalaComponentComponent},
