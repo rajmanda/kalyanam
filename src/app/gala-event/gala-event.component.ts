@@ -42,43 +42,26 @@ export class GalaEventComponent {
   userProfilex: any;
   loggedin: boolean = false;
 
-  /*
-    constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    this.userProfilex = this.authService.getUserProfile();
-
-    if (this.userProfilex && Object.keys(this.userProfilex).length > 0) {
-      // userProfilex is an object and has some properties
-      console.log('userProfilex has properties:', this.userProfilex);
-      this.loggedin = true ;
-    } else {
-      // userProfilex is empty, null, or undefined
-      console.log('userProfilex is empty or undefined');
-    }
-  */
   constructor(private _rsvpService: RsvpService,
               public _matDialog: MatDialog,
               private _snackBar: MatSnackBar,
               private authService: AuthService){}
 
   ngOnInit(): void {
-
-    this.userProfilex = this.authService.getUserProfile();
-
-    if (this.userProfilex && Object.keys(this.userProfilex).length > 0) {
-      // userProfilex is an object and has some properties
-      console.log('userProfilex has properties:', this.userProfilex);
-      this.loggedin = true ;
-    } else {
-      // userProfilex is empty, null, or undefined
-      console.log('userProfilex is empty or undefined');
-    }
-
-    if (this.galaEvent) {
-      console.log('Event data:', this.galaEvent.name);
-    }
+    // Subscribe to userProfile$ observable to react immediately to login events
+    this.authService.userProfile$.subscribe(profile => {
+      if (profile && Object.keys(profile).length > 0) {
+        console.log('User Logged In:', profile);
+        this.userProfilex = profile;
+        this.loggedin = true;
+      } else {
+        console.log('No user logged in');
+        this.userProfilex = null;
+        this.loggedin = false;
+      }
+    });
   }
+
   openRsvpDialog(event: GalaEventDetails){
     let dialogRef = this._matDialog.open(RsvpDialogComponent, {
       data: { selectedEvent: event }  // Pass event data to the dialog
@@ -99,10 +82,7 @@ export class GalaEventComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}` )
     })
-    // dialogRef.componentInstance.rsvpEvent.subscribe((rsvpDetails) => {
-    //   this.onRsvpEvent(rsvpDetails);
-    //   console.log(`rsvpDetails: ${JSON.stringify(rsvpDetails, null, 2)}`); // Pretty-printing the object
-    // });
+
   }
 
   attendees(event: GalaEventDetails){

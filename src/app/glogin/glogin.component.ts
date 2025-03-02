@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
 
 declare const google: any;  // Needed for Google authentication methods
 
@@ -13,20 +14,21 @@ declare const google: any;  // Needed for Google authentication methods
   styleUrl: './glogin.component.css'
 })
 export class GloginComponent {
-
-  public username: string = "";
-  public password: string = "";
   loginMessage: string | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {
-    // Get the message from query parameters
+  ngOnInit() {
+    // Get the query parameter message
     this.route.queryParams.subscribe(params => {
-      this.loginMessage = params['message'] || null;
-      console.log('Login message:', this.loginMessage); // Debug: Check if the message is set
+      this.loginMessage = params['message'];
     });
   }
 
-
+  loginWithGoogle(): void {
+    this.authService.login();
+  }
 }
