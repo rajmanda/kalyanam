@@ -29,7 +29,7 @@
 }
 
 
- 
+
 :root {
   --theme-red-color:#C03039;
   --orange-color: #FBC73D;
@@ -125,14 +125,14 @@ h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
     padding-left: 20px;
     padding-right: 20px;
 }
-.kalyanamHeader li:last-child { 
+.kalyanamHeader li:last-child {
     padding-right: 0px;
 }
 .kalyanamHeader ul li:last-child a {
     background-color: var(--white);
     color: var(--theme-red-color);
     padding: 10px 46px;
-    border-radius: 50px; 
+    border-radius: 50px;
 }
 
 .kalyanamFooter{
@@ -149,7 +149,7 @@ h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
 .bglogin{
   background: url('/assets/images/background-images.jpg');
   border-radius: 10px;
-} 
+}
 .google-btn {
     display: inline-flex; /* Ensures the button wraps around the content */
     align-items: center;
@@ -174,4 +174,54 @@ h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
     background-color: #fff;
     border-radius: 20px;
     padding: 5px;
+}
+
+
+/* Custom styles for the login section */
+.bglogin {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.lead {
+  color: #555;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.list-unstyled li {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.btn-primary {
+  background-color: #4285f4;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+}
+
+.btn-primary:hover {
+  background-color: #357ae8;
+}
+
+.kalyanamFooter {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+.kalyanamFooter p {
+  margin: 0;
+  font-size: 0.9rem;
 }

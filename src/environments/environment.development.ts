@@ -1,9 +1,10 @@
 export const environment = {
-    googleClientId: '175415323680-4t3u58105ihj3sk9di0er3kv70cf3arh.apps.googleusercontent.com',
-    production: false,
-    rsvpApiUrl: 'http://localhost:8080/rsvp',
-    galaEventsApiUrl: 'http://localhost:8080/gala-event',
-    //rsvpApiUrl: 'http://rsvpbackend:8090/rsvp'
-    //rsvpApiUrl: 'http://rsvpbackend.kalyanam.svc.cluster.local:8090/rsvp'
-    //rsvpApiUrl: 'http://RSVPBACKEND/rsvp'
+  production: false,
+  oauthConfig: {
+    clientId: '175415323680-4t3u58105ihj3sk9di0er3kv70cf3arh.apps.googleusercontent.com',
+    redirectUri: window.location.origin + '/callback',
+  },
+  apiBaseUrl: window.location.origin.replace(/:\d+/, ':8080'), // Replace port with 8080
+  rsvpApiUrl: window.location.origin.replace(/:\d+/, ':8080') + '/rsvp', // Full URL for RSVP API
+  galaEventsApiUrl: window.location.origin.replace(/:\d+/, ':8080') + '/gala-event', // Full URL for Gala Events API
 };
