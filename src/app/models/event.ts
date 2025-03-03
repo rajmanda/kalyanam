@@ -4,11 +4,11 @@ export interface Event {
 
   name: string;
 
-  date: String;
+  date: string;
 
-  location: String;
+  location: string;
 
-  image: String;
+  image: string;
 
   description: string;
 

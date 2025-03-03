@@ -8,9 +8,8 @@ import { MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction } from '@angula
 @Component({
   selector: 'app-confirmation-snackbar',
   standalone: true,
-  imports: [MatButtonModule, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction,
-    MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule
-  ],
+  imports: [MatButtonModule,
+    MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule],
   templateUrl: './confirmation-snackbar.component.html',
   styleUrl: './confirmation-snackbar.component.css'
 })

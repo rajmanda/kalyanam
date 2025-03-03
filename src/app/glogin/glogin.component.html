@@ -1,24 +1,49 @@
-<div *ngIf="loginMessage" class="alert alert-warning">
-  {{ loginMessage }}
-</div>
+<section>
+  <div class="container">
+    <div class="row bglogin m-5">
+      <!-- Left Column: Image -->
+      <div class="col-md-5">
+        <img src="/assets/images/loginleftlady.jpg" class="img-fluid" alt="Left Lady" />
+      </div>
 
+      <!-- Right Column: Login Form -->
+      <div class="col-md-7 d-flex align-items-center justify-content-center fmin-vh-100">
+        <div class="text-left">
+          <!-- Login Message (for warnings or errors) -->
+          <div *ngIf="loginMessage" class="alert alert-warning">
+            {{ loginMessage }}
+          </div>
 
-<form class="login-form">
-    <div 
-    id="g_id_onload"
-    data-client_id="175415323680-4t3u58105ihj3sk9di0er3kv70cf3arh.apps.googleusercontent.com"
-    data-context="signin"
-    data-ux_mode="popup"
-    data-callback="handleCredentialResponse">
+          <!-- Welcome Message -->
+          <h1>Welcome to Kalyanam!</h1>
+          <p class="lead">
+            Log in with your Google account to:
+          </p>
+          <ul class="list-unstyled">
+            <li>🎉 RSVP for the event</li>
+            <li>📅 Get the latest event updates</li>
+          </ul>
+          <hr style="border: 1px solid #777;">
+
+          <!-- Google Login Button -->
+          <button class="btn btn-primary btn-lg" (click)="loginWithGoogle()">
+            <i class="fab fa-google"></i> Sign in with Google
+          </button>
+        </div>
+      </div>
     </div>
-    
-    <div
-      class="g_id_signin"
-      data-type="standard"
-      data-shape="pill"
-      data-theme="filled_blue"
-      data-text="signin_with"
-      data-size="large"
-      data-logo_alignment="left">
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="kalyanamFooter">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="d-flex align-items-center justify-content-center">
+          <p>© 2025 Kalyanam. All rights reserved.</p>
+        </div>
+      </div>
     </div>
-  </form>
+  </div>
+</footer>

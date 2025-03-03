@@ -1,23 +1,21 @@
+import { Injectable } from '@angular/core';
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { OAuthService } from 'angular-oauth2-oidc';
 
-import { Injectable, Inject, inject } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth/auth.service';
-import { state } from '@angular/animations';
+@Injectable({ providedIn: 'root' })
+export class AuthGuard implements CanActivate {
+  constructor(private oauthService: OAuthService, private router: Router) {}
 
-export const CanActivateFn = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
+  canActivate(): boolean | UrlTree {
+    // Check if the user has a valid access token
+    const hasValidAccessToken = this.oauthService.hasValidAccessToken();
 
-  if (authService.isLoggedIn()) {
-    return true;
-  } else {
-    // Navigate to login page with a query parameter 'message'
-    router.navigate(['/login'], { queryParams: { message: 'You need to login to access this page' } });
-    return false;
+    if (hasValidAccessToken) {
+      return true; // Allow access to the route
+    } else {
+      // Redirect to the login page or another route
+      //return this.router.createUrlTree(['/login']);
+      return this.router.createUrlTree(['/login'], { queryParams: { message: 'You need to login to access this page' } });
+    }
   }
-};
-
-
+}
