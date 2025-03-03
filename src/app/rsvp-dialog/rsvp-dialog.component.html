@@ -15,6 +15,14 @@
           </mat-radio-group>
         </div>
 
+        <!-- "For Guest" Field (only for admin) -->
+        <div *ngIf="isAdmin" class="form-group">
+          <mat-form-field appearance="fill">
+            <mat-label>For Guest</mat-label>
+            <input matInput formControlName="forGuest" placeholder="Enter guest name">
+          </mat-form-field>
+        </div>
+
         <!-- <div *ngIf="rsvpForm.get('rsvp').value === 'yes'"> -->
           <div *ngIf="rsvpForm.get('rsvp')?.value === 'yes'"> <!--safe navigation operator-->
           <mat-form-field appearance="fill" class="form-group">

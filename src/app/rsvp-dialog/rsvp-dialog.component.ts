@@ -17,6 +17,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import { Event } from '../models/event';
+import { AuthService } from '../services/auth/auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-rsvp-dialog',
@@ -43,12 +45,17 @@ export class RsvpDialogComponent implements OnInit  {
   isRsvpYes: boolean | true | undefined;
   totalGuests = 0;
 
-   event: Event | undefined
+  adminEmails: string[] = environment.adminEmails; // Get admin emails from environment
+  isAdmin: boolean = false; // Flag to check if the user is an admin
+
+  event: Event | undefined
   @Output() rsvpEvent = new EventEmitter<any>();
+  userProfilex: any;
 
   // constructor(private fb: FormBuilder,
   //             private dialogRef: MatDialogRef<RsvpDialogComponent>) {
     constructor(
+      private authService: AuthService,
       private fb: FormBuilder,
       public dialogRef: MatDialogRef<RsvpDialogComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any              // Inject the passed data here
@@ -59,7 +66,8 @@ export class RsvpDialogComponent implements OnInit  {
     this.rsvpForm = this.fb.group({
       rsvp: ['no'],
       adults: [0],
-      children: [0]
+      children: [0],
+      forGuest: ''
     });
 
     // Calculate total guests when form values change
@@ -73,6 +81,19 @@ export class RsvpDialogComponent implements OnInit  {
   }
 
   ngOnInit(): void {
+    // Subscribe to userProfile$ observable to react immediately to login events
+    this.authService.userProfile$.subscribe(profile => {
+      if (profile && Object.keys(profile).length > 0) {
+        console.log('User Logged In:', profile);
+        this.userProfilex = profile;
+        this.isAdmin = this.adminEmails.includes(this.userProfilex.email);
+
+      } else {
+        console.log('No user logged in');
+        this.userProfilex = null;
+      }
+    });
+
     this.rsvpForm.valueChanges.subscribe(values => {
       console.log(`form changed: ${this.rsvpForm.value}`)
       this.updateTotalGuests(values);
