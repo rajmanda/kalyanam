@@ -42,11 +42,17 @@
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.forGuest}} </td>
     </ng-container>
 
-    <!-- Adults Column -->
-    <ng-container matColumnDef="adults">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Adults </th>
-      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.adults}} </td>
-    </ng-container>
+      <!-- Guest Name Column -->
+      <ng-container matColumnDef="forGuest">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> For Guest </th>
+        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.forGuest}} </td>
+      </ng-container>
+      
+      <!-- Adults Column -->
+      <ng-container matColumnDef="adults">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Adults </th>
+        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.adults}} </td>
+      </ng-container>
 
     <!-- Children Column -->
     <ng-container matColumnDef="children">
