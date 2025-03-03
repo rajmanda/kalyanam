@@ -16,7 +16,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, CommonModule,GalaEventsComponent],
+  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, CommonModule, GalaEventsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   providers: [GalaService]

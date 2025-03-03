@@ -25,7 +25,7 @@ import { GalaEventDetails } from '../models/galaEventDTO';
 @Component({
   selector: 'app-gala-event',
   standalone: true,
-  imports: [MatCardModule, CommonModule, RsvpDialogComponent, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction],
+  imports: [MatCardModule, CommonModule],
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
