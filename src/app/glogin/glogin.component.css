@@ -168,6 +168,8 @@ h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
     width: fit-content; /* Ensures the width adjusts to content size */
     min-width: max-content; /* Prevents excessive shrinking */
     white-space: nowrap; /* Prevents text from wrapping */
+  font-weight: normal;
+  border: 0;
 }
 .google-btn:hover {
     background-color: #c23321;
@@ -223,8 +225,15 @@ h1 {
   padding: 20px 0;
   margin-top: 40px;
 }
-
+.kalyanamHeader a{color: #fff;}
 .kalyanamFooter p {
   margin: 0;
   font-size: 0.9rem;
+}
+
+@media only screen and (max-width: 767px){
+  .loginbox {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
 }
