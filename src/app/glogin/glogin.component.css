@@ -236,4 +236,8 @@ h1 {
     padding-top: 50px;
     padding-bottom: 50px;
 }
+.bglogin h1 {
+  font-size: 30px;
+  line-height: 36px;
+}
 }
