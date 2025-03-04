@@ -58,7 +58,7 @@ export class RsvpDialogComponent implements OnInit  {
       rsvp: ['no'],
       adults: [0],
       children: [0],
-      forGuest: ''
+      forGuest: [''] 
     });
 
     // Calculate total guests when form values change
@@ -72,22 +72,24 @@ export class RsvpDialogComponent implements OnInit  {
   }
 
   ngOnInit(): void {
-    // Subscribe to userProfile$ observable to react immediately to login events
     this.authService.userProfile$.subscribe(profile => {
       if (profile && Object.keys(profile).length > 0) {
         console.log('User Logged In:', profile);
         this.userProfilex = profile;
+
+        // Move the admin check here
+        this.adminsService.isAdmin(this.userProfilex.email).subscribe(isAdmin => {
+          this.isAdmin = isAdmin; // Set the isAdmin property
+          if (isAdmin) {
+            console.log('The user is an admin.');
+          } else {
+            console.log('The user is not an admin.');
+          }
+        });
       } else {
         console.log('No user logged in');
         this.userProfilex = null;
-      }
-    });
-
-    this.adminsService.isAdmin(this.userProfilex.email).subscribe(isAdmin => {
-      if (isAdmin) {
-        console.log('The user is an admin.');
-      } else {
-        console.log('The user is not an admin.');
+        this.isAdmin = false; // Ensure isAdmin is false when no user is logged in
       }
     });
 
@@ -96,6 +98,7 @@ export class RsvpDialogComponent implements OnInit  {
       this.updateTotalGuests(values);
     });
   }
+
   submit(): void {
     if (this.rsvpForm.valid) {
       const formData = this.rsvpForm.value;
