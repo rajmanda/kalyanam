@@ -13,7 +13,7 @@ export class AdminsService {
     private adminsApiUrl = '';
     data: AdminsDTO[]  = [];
 
-    constructor(private http: HttpClient, private oauthService: OAuthService) {
+    constructor(private http: HttpClient) {
       this.adminsApiUrl  = environment.adminsApiUrl;
       console.log(environment.adminsApiUrl);
     }
