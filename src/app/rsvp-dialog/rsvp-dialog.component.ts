@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import { Event } from '../models/event';
 import { AuthService } from '../services/auth/auth.service';
-import { AdminsService } from '../admins.service';
+import { AdminsService } from '../services/admins.service';
 
 @Component({
   selector: 'app-rsvp-dialog',
