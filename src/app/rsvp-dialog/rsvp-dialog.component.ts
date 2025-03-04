@@ -58,7 +58,7 @@ export class RsvpDialogComponent implements OnInit  {
       rsvp: ['no'],
       adults: [0],
       children: [0],
-      forGuest: [''] 
+      forGuest: ['']
     });
 
     // Calculate total guests when form values change
