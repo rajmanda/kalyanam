@@ -1,10 +1,3 @@
-// import { bootstrapApplication } from '@angular/platform-browser';
-// import { appConfig } from './app/app.config';
-// import { AppComponent } from './app/app.component';
-
-// bootstrapApplication(AppComponent, appConfig)
-//   .catch((err) => console.error(err));
-
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
@@ -12,7 +5,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { appConfig } from './app/app.config';
 import { authConfig } from './app/auth-config';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { AuthInterceptor } from './app/auth.interceptor'; // Adjust the import path as necessary
+import { authInterceptor } from './app/auth.interceptor'; // Adjust the import path as necessary
 
 // Function to configure OAuth
 function configureOAuth(oauthService: OAuthService) {
@@ -35,7 +28,7 @@ const combinedConfig = {
       useFactory: configureOAuth,
       deps: [OAuthService],
     },
-    provideHttpClient(withInterceptors([AuthInterceptor])), // Register the AuthInterceptor
+    provideHttpClient(withInterceptors([authInterceptor])), // Register the functional interceptor
   ],
 };
 
