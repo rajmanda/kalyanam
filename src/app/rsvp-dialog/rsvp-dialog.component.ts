@@ -1,15 +1,6 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-// import {
-//   MatDialog,
-//   MatDialogActions,
-//   MatDialogClose,
-//   MatDialogContent,
-//   MatDialogRef,
-//   MAT_DIALOG_DATA,
-//   MatDialogTitle,
-// } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
@@ -18,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import { Event } from '../models/event';
 import { AuthService } from '../services/auth/auth.service';
-import { environment } from '../../environments/environment';
+import { AdminsService } from '../admins.service';
 
 @Component({
   selector: 'app-rsvp-dialog',
@@ -45,7 +36,6 @@ export class RsvpDialogComponent implements OnInit  {
   isRsvpYes: boolean | true | undefined;
   totalGuests = 0;
 
-  adminEmails: string[] = environment.adminEmails; // Get admin emails from environment
   isAdmin: boolean = false; // Flag to check if the user is an admin
 
   event: Event | undefined
@@ -55,6 +45,7 @@ export class RsvpDialogComponent implements OnInit  {
   // constructor(private fb: FormBuilder,
   //             private dialogRef: MatDialogRef<RsvpDialogComponent>) {
     constructor(
+      private adminsService: AdminsService,
       private authService: AuthService,
       private fb: FormBuilder,
       public dialogRef: MatDialogRef<RsvpDialogComponent>,
@@ -86,11 +77,17 @@ export class RsvpDialogComponent implements OnInit  {
       if (profile && Object.keys(profile).length > 0) {
         console.log('User Logged In:', profile);
         this.userProfilex = profile;
-        this.isAdmin = this.adminEmails.includes(this.userProfilex.email);
-
       } else {
         console.log('No user logged in');
         this.userProfilex = null;
+      }
+    });
+
+    this.adminsService.isAdmin(this.userProfilex.email).subscribe(isAdmin => {
+      if (isAdmin) {
+        console.log('The user is an admin.');
+      } else {
+        console.log('The user is not an admin.');
       }
     });
 

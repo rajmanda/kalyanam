@@ -1,58 +1,63 @@
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
-
-      <!-- RSVP ID Column -->
-      <!-- <ng-container matColumnDef="rsvpId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> RSVP ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.rsvpId}} </td>
-      </ng-container> -->
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="event">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Event </th>
-        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.name}} </td>
-      </ng-container>
-
-      <!-- Date Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.date}} </td>
-      </ng-container>
-
-      <!-- Location Column -->
-      <ng-container matColumnDef="location">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
-        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.location}} </td>
-      </ng-container>
-
-      <!-- User Name Column -->
-      <ng-container matColumnDef="userName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.userName}} </td>
-      </ng-container>
-
-      <!-- Guest Name Column -->
-      <ng-container matColumnDef="forGuest">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> For Guest </th>
-        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.forGuest}} </td>
-      </ng-container>
-      
-      <!-- Adults Column -->
-      <ng-container matColumnDef="adults">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Adults </th>
-        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.adults}} </td>
-      </ng-container>
-
-      <!-- Children Column -->
-      <ng-container matColumnDef="children">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Children </th>
-        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.children}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <!-- Totals Section -->
+  <div class="totals-section">
+    <table>
+      <tr>
+        <td><strong>Total Adults:</strong> {{ totalAdults }}</td>
+        <td><strong>Total Children:</strong> {{ totalChildren }}</td>
+        <td><strong>Grand Total:</strong> {{ grandTotal }}</td>
+      </tr>
     </table>
-
-    <!-- <mat-paginator [length]="resultsLength" [pageSize]="5"></mat-paginator> -->
-    <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of Attendees results"></mat-paginator>
   </div>
+
+  <!-- Table -->
+  <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
+    <!-- Event Column -->
+    <ng-container matColumnDef="event">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Event </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.name}} </td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.date}} </td>
+    </ng-container>
+
+    <!-- Location Column -->
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.location}} </td>
+    </ng-container>
+
+    <!-- User Name Column -->
+    <ng-container matColumnDef="userName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.userName}} </td>
+    </ng-container>
+
+    <!-- Guest Name Column -->
+    <ng-container matColumnDef="forGuest">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> For Guest </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.forGuest}} </td>
+    </ng-container>
+
+    <!-- Adults Column -->
+    <ng-container matColumnDef="adults">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Adults </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.adults}} </td>
+    </ng-container>
+
+    <!-- Children Column -->
+    <ng-container matColumnDef="children">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Children </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.children}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of Attendees results"></mat-paginator>
+</div>
