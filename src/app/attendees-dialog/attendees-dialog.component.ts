@@ -21,9 +21,13 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./attendees-dialog.component.css']
 })
 export class AttendeesDialogComponent implements AfterViewInit {
-
   selectedEvent: Event;
   private _httpClient = inject(HttpClient);
+
+  // Totals
+  totalAdults: number = 0;
+  totalChildren: number = 0;
+  grandTotal: number = 0;
 
   constructor(
     private rsvpService: RsvpService,
@@ -34,7 +38,7 @@ export class AttendeesDialogComponent implements AfterViewInit {
     this.selectedEvent = incomingData.selectedEvent;
   }
 
-  displayedColumns: string[] = ['Event', 'date', 'location', 'userName', 'adults', 'children'];
+  displayedColumns: string[] = ['event', 'date', 'location', 'userName', 'forGuest', 'adults', 'children'];
   dataSource: MatTableDataSource<RsvpDTO> = new MatTableDataSource();
 
   resultsLength = 0;
@@ -69,6 +73,16 @@ export class AttendeesDialogComponent implements AfterViewInit {
         this.dataSource = new MatTableDataSource(filteredData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+
+        // Call calculateTotals after data is loaded
+        this.calculateTotals();
       });
+  }
+
+  // Method to calculate totals
+  calculateTotals(): void {
+    this.totalAdults = this.dataSource.data.reduce((sum, element) => sum + element.rsvpDetails.adults, 0);
+    this.totalChildren = this.dataSource.data.reduce((sum, element) => sum + element.rsvpDetails.children, 0);
+    this.grandTotal = this.totalAdults + this.totalChildren;
   }
 }

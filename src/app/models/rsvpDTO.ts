@@ -5,11 +5,12 @@ export interface RsvpDetails {
   date: string;
   image: string;
   location: string;
+  username: string;
+  useremail: string;
   rsvp: string;
   adults: number;
   children: number;
-  username: string;
-  useremail: string;
+  forGuest: string ;
 }
 
 export interface RsvpDTO {
