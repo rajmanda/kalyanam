@@ -19,7 +19,13 @@ export class AdminsService {
     }
 
     getAdmins(): Observable<AdminsDTO[]> {
-      return this.http.get<AdminsDTO[]>(`${this.adminsApiUrl}/alladmins`);
+      // Get the access token from the OAuthService
+      const token = this.oauthService.getAccessToken();
+      // Set the Authorization header with the Bearer token
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+      return this.http.get<AdminsDTO[]>(`${this.adminsApiUrl}/alladmins`, { headers });
     }
 
     isAdmin(email: string): Observable<boolean> {
