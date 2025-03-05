@@ -7,7 +7,7 @@
       </div>
 
       <!-- Right Column: Login Form -->
-      <div class="col-md-7 d-flex align-items-center justify-content-center fmin-vh-100">
+      <div class="col-md-7 d-flex align-items-center justify-content-center fmin-vh-100 loginbox">
         <div class="text-left">
           <!-- Login Message (for warnings or errors) -->
           <div *ngIf="loginMessage" class="alert alert-warning">
@@ -26,7 +26,7 @@
           <hr style="border: 1px solid #777;">
 
           <!-- Google Login Button -->
-          <button class="btn btn-primary btn-lg" (click)="loginWithGoogle()">
+          <button class="google-btn mt-3" (click)="loginWithGoogle()">
             <i class="fab fa-google"></i> Sign in with Google
           </button>
         </div>

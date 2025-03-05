@@ -1,7 +1,10 @@
 .nav-spacer {
   flex: 1 1 auto;
 }
-
+.kalyanamHeader{
+	padding-top: 10px;padding-bottom: 10px;background-color: #C03039;
+}
+.kalyanamHeader a,.kalyanamHeader span{color: #ffffff;}
 .profile-photo {
   width: 40px;
   height: 40px;

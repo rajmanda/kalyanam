@@ -5,6 +5,7 @@ on:
     branches:
       - "main"              # Match the main branch
       - "feature/**"        # Match any branch that starts with 'feature'
+      - "deepakDev*" 
   # pull_request:
   #   branches:
   #     - "main"              # Match pull requests targeting the main branch

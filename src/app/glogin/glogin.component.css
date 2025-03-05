@@ -6,6 +6,10 @@
   background-color: #f2f2f2;
 }
 
+.bglogin h1{
+  color: #C03039;
+}
+
 .login-form label {
   margin-bottom: 10px;
 }
@@ -136,7 +140,7 @@ h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
 }
 
 .kalyanamFooter{
-	background-color: var(--lightdark);color: var(--white);padding-top: 15px;padding-bottom: 15px;
+	background-color: #0F121F;color: var(--white);padding-top: 15px;padding-bottom: 15px;
 }
 
 .kalyanamFooter p {
@@ -164,6 +168,8 @@ h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
     width: fit-content; /* Ensures the width adjusts to content size */
     min-width: max-content; /* Prevents excessive shrinking */
     white-space: nowrap; /* Prevents text from wrapping */
+  font-weight: normal;
+  border: 0;
 }
 .google-btn:hover {
     background-color: #c23321;
@@ -214,14 +220,24 @@ h1 {
   background-color: #357ae8;
 }
 
-.kalyanamFooter {
-  background-color: #333;
+.kalyanamFooter { 
   color: #fff;
   padding: 20px 0;
   margin-top: 40px;
 }
-
+.kalyanamHeader a{color: #fff;}
 .kalyanamFooter p {
   margin: 0;
   font-size: 0.9rem;
+}
+
+@media only screen and (max-width: 767px){
+  .loginbox {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.bglogin h1 {
+  font-size: 32px;
+  line-height: 36px;
+}
 }
