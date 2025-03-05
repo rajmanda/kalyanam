@@ -8,7 +8,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const oauthService = inject(OAuthService);
 
   const excludedUrls = [
-    'https://accounts.google.com' // Example: Google authentication URL
+    'https://accounts.google.com',     // Google authentication URL
+    '.well-known/openid-configuration'
   ];
 
   // Check if the request URL matches any of the excluded URLs
@@ -21,7 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   // Otherwise, add the Authorization header
-  const token = oauthService.getAccessToken();
+  const token = oauthService.getIdToken();
   if (token) {
     console.log(`Adding Authorization header to request: ${req.url}`);
     const authReq = req.clone({
@@ -29,6 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Bearer ${token}`
       }
     });
+    console.log('authReq', authReq) ;
     return next(authReq);
   } else {
     console.warn(`No access token available for request: ${req.url}`);
