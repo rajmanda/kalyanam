@@ -8,25 +8,6 @@
         <td><strong>Grand Total:</strong> {{ grandTotal }}</td>
       </tr>
     </table>
-
-  </div>
-
-  <!-- Table -->
-  <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
-    <!-- Event Column -->
-    <ng-container matColumnDef="event">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Event </th>
-      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.name}} </td>
-    </ng-container>
-  <!-- Totals Section -->
-  <div class="totals-section">
-    <table>
-      <tr>
-        <td><strong>Total Adults:</strong> {{ totalAdults }}</td>
-        <td><strong>Total Children:</strong> {{ totalChildren }}</td>
-        <td><strong>Grand Total:</strong> {{ grandTotal }}</td>
-      </tr>
-    </table>
   </div>
 
   <!-- Table -->
@@ -48,7 +29,6 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.location}} </td>
     </ng-container>
-
 
     <!-- User Name Column -->
     <ng-container matColumnDef="userName">
@@ -74,7 +54,7 @@
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.children}} </td>
     </ng-container>
 
-
+    <!-- Rows -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
@@ -82,4 +62,3 @@
   <!-- Paginator -->
   <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of Attendees results"></mat-paginator>
 </div>
-
