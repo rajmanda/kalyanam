@@ -7,7 +7,7 @@
   <!-- <img mat-card-image [src]="galaEvent.image" alt="Photo of {{ galaEvent.description }} "> -->
   <img mat-card-image [src]="'/assets/images/'+galaEvent.name + '.jpg'" alt="Photo of {{ galaEvent.description }}">
   <mat-card-content>
-    <p  class="text-center mt-3">{{ galaEvent.description +  ': It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout      '}}</p>
+    <p  class="text-center mt-3 text-md">{{ galaEvent.description +  ': It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout      '}}</p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button (click)="openRsvpDialog(galaEvent)" mat-dialog-close="true" class="btn btn-orange text-uppercase">RSVP</button>
