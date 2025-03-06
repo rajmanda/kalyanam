@@ -1,17 +1,17 @@
 <mat-card class="example-card" appearance="outlined">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>{{ galaEvent.name }}</mat-card-title>
+    <mat-card-title class="leckerli-one-regular">{{ galaEvent.name }}</mat-card-title>
     <mat-card-subtitle>{{ galaEvent.date }}</mat-card-subtitle>
   </mat-card-header>
   <!-- <img mat-card-image [src]="galaEvent.image" alt="Photo of {{ galaEvent.description }} "> -->
   <img mat-card-image [src]="'/assets/images/'+galaEvent.name + '.jpg'" alt="Photo of {{ galaEvent.description }}">
   <mat-card-content>
-    <p>{{ galaEvent.description +  'Deepak'}}</p>
+    <p  class="text-center mt-3 text-md">{{ galaEvent.description +  ': It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout      '}}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button (click)="openRsvpDialog(galaEvent)" mat-dialog-close="true">RSVP</button>
-    <button mat-raised-button (click)="openAttendeesDialog(galaEvent)">ATTENDEES</button>
+    <button mat-raised-button (click)="openRsvpDialog(galaEvent)" mat-dialog-close="true" class="btn btn-orange text-uppercase">RSVP</button>
+    <button mat-raised-button (click)="openAttendeesDialog(galaEvent)" class="btn btn-red text-uppercase">ATTENDEES</button>
   </mat-card-actions>
 </mat-card>
 <p> {{message}}</p>

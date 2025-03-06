@@ -1,0 +1,15 @@
+.leckerli-one-regular {
+    font-family: "Leckerli One", serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #C03039;
+  }
+
+  .mat-mdc-card-actions {
+    display: flex;
+    gap: 12px; /* Adjust space as needed */
+  }
+
+  .full-width {
+    width: 100%; /* Makes the form field take full width */
+  }
