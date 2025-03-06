@@ -140,7 +140,7 @@ h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
 }
 
 .kalyanamFooter{
-	background-color: #0F121F;color: var(--white);padding-top: 15px;padding-bottom: 15px;
+	background-color: #0F121F;color: var(--white);padding-top: 15px;padding-bottom: 15px;display: none;
 }
 
 .kalyanamFooter p {
