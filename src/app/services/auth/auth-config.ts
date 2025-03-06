@@ -7,9 +7,10 @@ export const authConfig: AuthConfig = {
   redirectUri: environment.oauthConfig.redirectUri,
   clientId: environment.oauthConfig.clientId,
   scope: 'openid profile email',
-  responseType: 'token id_token',
+  //responseType: 'token id_token',
+  responseType: 'code',
   showDebugInformation: true,
   useSilentRefresh: true,
   silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
-  customQueryParams: { ux_mode: 'popup' }
+  customQueryParams: { ux_mode: 'popup' },
 };

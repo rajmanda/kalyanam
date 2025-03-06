@@ -12,7 +12,7 @@ function configureOAuth(oauthService: OAuthService) {
   oauthService.configure(authConfig);
   oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
     if (!oauthService.hasValidAccessToken()) {
-      oauthService.initLoginFlow();
+      oauthService.initCodeFlow();
     }
   });
 }

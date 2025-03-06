@@ -53,7 +53,7 @@ export class AuthService {
 
   login(): void {
     console.log('Google Login Triggered'); // Debug Log
-    this.oauthService.initLoginFlow(undefined, { ux: 'popup' }); // Use popup for login
+    this.oauthService.initCodeFlow(undefined, { ux: 'popup' }); // Use popup for login
   }
 
   isLoggedIn(): boolean {
