@@ -1,0 +1,36 @@
+### Securing APIs in Angular and Spring Boot Applications
+
+#### Angular Application
+
+1. **OAuth 2.0 Authentication:**
+   - Utilized the `angular-oauth2-oidc` library to manage OAuth 2.0 authentication with Google, configuring the library with necessary OAuth settings and initiating the login flow.
+
+2. **Access Token Management:**
+   - Retrieved the access token from the `OAuthService` after successful user authentication with Google.
+
+3. **HttpInterceptor for Authorization:**
+   - Developed a functional `AuthInterceptor` to automatically append the `Authorization` header with the Bearer token to all outgoing HTTP requests.
+   - Registered the interceptor using `provideHttpClient` and `withInterceptors` in the standalone Angular application setup.
+   - Implemented logic within the interceptor to exclude specific requests (e.g., those to the Google authentication service) from having the `Authorization` header added.
+
+#### Spring Boot Application
+
+1. **Spring Security Configuration:**
+   - Configured Spring Security to protect APIs by requiring authentication for certain endpoints.
+   - Utilized the `SecurityFilterChain` to define security rules, allowing public access to specific endpoints (e.g., `/public/**` and `/rsvp/**`) and requiring authentication for others (e.g., `/admins/**`).
+
+2. **OAuth 2.0 Resource Server:**
+   - Configured the Spring Boot application as an OAuth 2.0 resource server to validate JWT tokens.
+   - Added necessary dependencies, such as `spring-security-oauth2-resource-server` and `spring-security-oauth2-jose`, to handle JWT token validation.
+
+3. **Application Properties:**
+   - Set the `spring.security.oauth2.resourceserver.jwt.issuer-uri` property to the appropriate issuer URI (e.g., `https://accounts.google.com`) to validate tokens issued by Google.
+
+4. **Method-Level Security (Optional):**
+   - Optionally, used annotations like `@PreAuthorize` to enforce method-level security on specific controller methods.
+
+By implementing these steps, the Angular application securely communicates with the Spring Boot application, ensuring that the Spring Boot application only allows access to authenticated users with valid tokens. This setup provides a robust security mechanism for protecting APIs in a microservices architecture.
+
+---
+
+You can copy and paste this summary into your Word document.

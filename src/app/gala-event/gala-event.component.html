@@ -4,9 +4,10 @@
     <mat-card-title>{{ galaEvent.name }}</mat-card-title>
     <mat-card-subtitle>{{ galaEvent.date }}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image [src]="galaEvent.image" alt="Photo of {{ galaEvent.description }}">
+  <!-- <img mat-card-image [src]="galaEvent.image" alt="Photo of {{ galaEvent.description }} "> -->
+  <img mat-card-image [src]="'/assets/images/'+galaEvent.name + '.jpg'" alt="Photo of {{ galaEvent.description }}">
   <mat-card-content>
-    <p>{{ galaEvent.description }}</p>
+    <p>{{ galaEvent.description +  'Deepak'}}</p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button (click)="openRsvpDialog(galaEvent)" mat-dialog-close="true">RSVP</button>
