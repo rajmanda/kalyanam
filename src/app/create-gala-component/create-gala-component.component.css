@@ -13,3 +13,18 @@
   .full-width {
     width: 100%; /* Makes the form field take full width */
   }
+
+  
+.kalyanamFooter{
+	background-color: #0F121F;color:#ffffff;padding-top: 15px;padding-bottom: 15px;
+}
+
+.kalyanamFooter p {
+    margin-bottom: 0px;
+}
+
+
+.eventformbg {
+  background: url('../../assets/images/createeventbg.jpg') scroll 0 0;
+  background-size: cover;
+}
