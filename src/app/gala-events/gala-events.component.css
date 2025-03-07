@@ -4,3 +4,12 @@
   gap: 16px;
   padding: 16px;
 }
+
+.kalyanamFooter{
+	background-color: #0F121F;color:#ffffff;padding-top: 15px;padding-bottom: 15px;
+}
+
+.kalyanamFooter p {
+    margin-bottom: 0px;
+}
+
