@@ -3,9 +3,9 @@ import { AppComponent } from './app/app.component';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { appConfig } from './app/app.config';
-import { authConfig } from './app/auth-config';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './app/auth.interceptor'; // Adjust the import path as necessary
+import { authConfig } from './app/services/auth/auth-config';
 
 // Function to configure OAuth
 function configureOAuth(oauthService: OAuthService) {
