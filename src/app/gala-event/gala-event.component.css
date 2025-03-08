@@ -33,10 +33,13 @@
 }
 .card.kalyanamcard {
   box-shadow: 8px 9px 14px 1px #d9d9d9;
-  background-color: #FFA725;
+  background-color: #dfb3ae;
+}
+.kalyanamcard .card-header{
+  border-bottom: 0;
 }
 .card.kalyanamcard:hover{
-  background-color: #dfb3ae;cursor: pointer;
+  background-color:  #FFA725;cursor: pointer;
 }
 .btn-red:hover {
   background-color: #C03039;
