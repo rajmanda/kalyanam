@@ -39,7 +39,8 @@
   border-bottom: 0;
 }
 .card.kalyanamcard:hover{
-  background-color:  #FFA725;cursor: pointer;
+ cursor: pointer;background-color: #f2f2f2;
+ /* background-color:  #FFA725; */
 }
 .btn-red:hover {
   background-color: #C03039;
