@@ -1,9 +1,12 @@
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
-  padding: 16px;
+  gap: 22px;
+  padding: 22px;
+  justify-content: center;
+  grid-auto-flow: dense;
 }
+ 
 
 .kalyanamFooter{
 	background-color: #0F121F;color:#ffffff;padding-top: 15px;padding-bottom: 15px;
