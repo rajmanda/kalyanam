@@ -1,11 +1,11 @@
-<div class="container mt-5">
+<div class="container eventformbg p-4 mt-5 mb-5">
   <div class="row">
     <div class="col-md-12">
       <!-- create-event.component.html -->
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
-  <mat-card>
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form p-5">
+  <mat-card class="p-4">
     <mat-card-header>
-      <mat-card-title class="leckerli-one-regular">Create New Gala Event</mat-card-title>
+      <mat-card-title><h2 class="leckerli-one-regular">Create New Gala Event</h2></mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-form-field appearance="fill" class="full-width">
@@ -58,4 +58,5 @@
 </form> 
     </div>
   </div>
+
 </div>

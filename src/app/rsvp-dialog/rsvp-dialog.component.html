@@ -11,9 +11,9 @@
           <label>RSVP:</label>
           <mat-radio-group formControlName="rsvp">
             <mat-radio-button value="yes">Yes</mat-radio-button>
-            <mat-radio-button value="no">No</mat-radio-button>
+            <mat-radio-button value="no" >No</mat-radio-button>
           </mat-radio-group>
-        </div>
+        </div>  
 
         <!-- "For Guest" Field (only for admin) -->
         <div *ngIf="isAdmin" class="form-group">
@@ -51,6 +51,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button color="primary" (click)="submit()">Submit</button>
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="submit()" class="btn-orange">Submit</button>
+  <button mat-button mat-dialog-close class="btn-red">Cancel</button>
 </mat-dialog-actions>

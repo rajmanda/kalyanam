@@ -1,4 +1,23 @@
 .date-color {
-  color: blue; /* Change this to your preferred color */
+  color:#C03039; /* Change this to your preferred color */
   font-style: italic;
+}
+mat-dialog-actions{
+  gap:10px
+}
+.btn-orange:hover {
+  color: #FBC73D;
+  border-radius: 50px; 
+  background-color: #fff;
+  border: 1px solid #C03039;
+  color: #C03039;
+}
+.btn-red:hover{
+background-color: #C03039;color: #C03039;border-radius: 50px;background-color: transparent;border: 1px solid #C03039;
+}
+.btn-orange{
+  background-color: #FBC73D;color: #000000;border-radius: 50px;padding: 5px 40px;border: 1px solid #FBC73D;
+}
+.btn-red{
+  background-color: #C03039;color: #ffffff;border-radius: 50px;border: 1px solid #C03039;padding: 5px 40px;
 }

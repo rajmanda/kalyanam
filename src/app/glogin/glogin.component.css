@@ -138,15 +138,7 @@ h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
     padding: 10px 46px;
     border-radius: 50px;
 }
-
-.kalyanamFooter{
-	background-color: #0F121F;color: var(--white);padding-top: 15px;padding-bottom: 15px;
-}
-
-.kalyanamFooter p {
-    margin-bottom: 0px;
-}
-
+ 
 .bglogin .col-md-5 {
     padding-left: 0;
 }
