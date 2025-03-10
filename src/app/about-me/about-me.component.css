@@ -28,8 +28,8 @@
     cursor: pointer;
   }
   .certification-icon {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     margin: 0 auto; /* Center the icons */
   }
@@ -59,7 +59,15 @@
     text-align: center;
   }
   
- 
+  .mat-mdc-card-avatar {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    object-fit: cover;
+    box-shadow: 6px 9px 7px 0px #d1d1d1;
+}
   
   /* Retain default size for mat-card-avatar image */
   .header-image {
@@ -94,15 +102,7 @@
   .mat-icon {
     margin-right: 5px; /* Adds space between the icon and the number */
   }
-  
-
-  .sidenav-container {
-    height: 100vh;
-  }
-  
-  .sidenav {
-    width: 250px;
-  }
+   
   
   .kalyanamHeader {
     display: flex;
