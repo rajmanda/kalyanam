@@ -12,7 +12,7 @@ import { CreateGalaComponentComponent } from "../create-gala-component/create-ga
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule, MatToolbarModule, MatButtonModule, RouterLink, CommonModule, MatSidenavModule],
+  imports: [MatToolbarModule, MatIconModule, MatToolbarModule, MatButtonModule, RouterLink, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

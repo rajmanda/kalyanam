@@ -21,11 +21,11 @@
       </mat-card-content>
   
   <mat-card-actions>
-    <span style="display: flex; align-items: center; margin-right: 20px;">
+    <span style="display: flex; align-items: center; margin-right: 20px;"  class="contact-button">
       <mat-icon>mail</mat-icon>
-      <a href="mailto:raj.manda&#64;gmail.com" class="contact-button">raj.manda&#64;gmail.com</a>
+      <a href="mailto:raj.manda&#64;gmail.com" >raj.manda&#64;gmail.com</a>
     </span>
-    <span style="display: flex; align-items: center;">
+    <span style="display: flex; align-items: center;"  class="contact-button">
       <mat-icon>phone</mat-icon>
       <a href="tel:315-877-5699"><span>315-877-5699</span></a> <!-- Replace with your actual number -->
     </span>
@@ -34,12 +34,12 @@
     </mat-card>
   
   <!-- Footer section for certifications -->
-  <footer class="certifications-footer">
+  <footer class="certifications-footer mb-5">
       <mat-grid-list cols="5" rowHeight="200px" gutterSize="15px">
         <mat-grid-tile *ngFor="let cert of certifications" [colspan]="1" [rowspan]="1" class="certification-tile">
-          <div style="text-align: center;">
+          <div style="text-align: center;" class="p-3">
             <img [src]="cert.icon" [alt]="cert.name" class="certification-icon" />
-            <div>{{ cert.name }}</div> <!-- Certification name -->
+            <div class="mt-2">{{ cert.name }}</div> <!-- Certification name -->
           </div>
         </mat-grid-tile>
       </mat-grid-list>

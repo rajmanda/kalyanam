@@ -33,9 +33,24 @@
     object-fit: contain;
     margin: 0 auto; /* Center the icons */
   }
-  
+  .contact-button{
+    background-color: #FBC73D; padding: 10px 30px;border-radius: 30px;border:1px solid #FBC73D;
+  }
+  .contact-button a{
+    color: #000000;text-decoration: none;
+  }
+  .contact-button:hover{
+    background-color: #C03039;border-color: #C03039;
+  }
+  .contact-button:hover a{
+    color: #ffffff;text-decoration: underline;
+  }
   .mat-icon {
-    color: #00bcd4; /* Accent color for icons */
+    color: #000000; /* Accent color for icons */
+  }
+
+  .contact-button:hover .mat-icon{
+    color: #ffffff; /* Accent hover color for icons */
   }
   
 .certifications-footer {
@@ -78,5 +93,21 @@
   }
   .mat-icon {
     margin-right: 5px; /* Adds space between the icon and the number */
+  }
+  
+
+  .sidenav-container {
+    height: 100vh;
+  }
+  
+  .sidenav {
+    width: 250px;
+  }
+  
+  .kalyanamHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
   }
   
