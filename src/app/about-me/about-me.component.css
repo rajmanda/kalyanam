@@ -17,7 +17,16 @@
     padding: 20px;
     text-align: center;
   }
-  
+  .certification-tile{
+    background-color: #FBC73D;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  .certification-tile:hover{
+    background-color: #C03039;
+    color:#ffffff;
+    cursor: pointer;
+  }
   .certification-icon {
     width: 60px;
     height: 60px;
@@ -35,11 +44,7 @@
     text-align: center;
   }
   
-  .certification-icon {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-  }
+ 
   
   /* Retain default size for mat-card-avatar image */
   .header-image {

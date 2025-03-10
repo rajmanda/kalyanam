@@ -27,7 +27,7 @@
     </span>
     <span style="display: flex; align-items: center;">
       <mat-icon>phone</mat-icon>
-      <span>315-877-5699</span> <!-- Replace with your actual number -->
+      <a href="tel:315-877-5699"><span>315-877-5699</span></a> <!-- Replace with your actual number -->
     </span>
   </mat-card-actions>
    
@@ -35,7 +35,7 @@
   
   <!-- Footer section for certifications -->
   <footer class="certifications-footer">
-      <mat-grid-list cols="5" rowHeight="100px" gutterSize="15px">
+      <mat-grid-list cols="5" rowHeight="200px" gutterSize="15px">
         <mat-grid-tile *ngFor="let cert of certifications" [colspan]="1" [rowspan]="1" class="certification-tile">
           <div style="text-align: center;">
             <img [src]="cert.icon" [alt]="cert.name" class="certification-icon" />
