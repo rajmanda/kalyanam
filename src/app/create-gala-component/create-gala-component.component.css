@@ -12,6 +12,7 @@
 
   .full-width {
     width: 100%; /* Makes the form field take full width */
+
   }
 
   
@@ -28,3 +29,4 @@
   background: url('../../assets/images/createeventbg.jpg') scroll 0 0;
   background-size: cover;
 }
+
