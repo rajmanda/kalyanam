@@ -1,16 +1,20 @@
-<app-navbar></app-navbar>
-<div class="container">
-    <div class="row justify-content-center">
-    <router-outlet></router-outlet>
+<div class="app-container">
+  <app-navbar></app-navbar>
+
+  <div class="main-content">
+    <div class="container">
+      <div class="row justify-content-center">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
+
+  <footer class="mat-elevation-z4">
+    <mat-toolbar color="black" class="footer-toolbar">
+      <span>© 2025 Kalyanam. All rights reserved.</span>
+    </mat-toolbar>
+  </footer>
 </div>
-
-
-<footer class="mat-elevation-z4">
-  <mat-toolbar color="black" class="footer-toolbar">
-    <span>© 2025 Kalyanam. All rights reserved.</span>
-  </mat-toolbar>
-</footer>
 
 
 <!-- fontfamily for header and website -->
