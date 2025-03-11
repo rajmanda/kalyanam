@@ -2,6 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavbarComponent } from './navbar.component';
 
+import { AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
+
+declare var bootstrap: any;
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -22,6 +26,3 @@ describe('NavbarComponent', () => {
     expect(component).toBeTruthy();
   });
 });
- 
-
- 
