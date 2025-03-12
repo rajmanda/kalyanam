@@ -11,6 +11,12 @@
       <mat-icon>add</mat-icon><span> Add Event</span>
     </a>
   </div>
+    <!-- Add Event Icon -->
+    <div *ngIf="isAdmin" class="add-event-icon-container">
+      <a mat-icon-button routerLink="/pictures" aria-label="Select Pictures">
+        <mat-icon>image</mat-icon><span> Select Pictures</span>
+      </a>
+  </div>
 
 <div class="card-container">
   <!-- List of Events -->

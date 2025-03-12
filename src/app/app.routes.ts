@@ -9,11 +9,12 @@ import { CallbackComponent } from './callback/callback.component';
 import { PictureGalleryComponent } from './picture-gallery/picture-gallery.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },                    // Redirect root to /login
+
   { path: 'callback', component: CallbackComponent }, // Callback route for OAuth redirect
   { path: 'login', component: GloginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }, // Protect /home
   { path: 'create-gala-event', component: CreateGalaComponentComponent},
   { path: 'about-me', component: AboutMeComponent },
-  { path: 'pictures', component: PictureGalleryComponent },
+  { path: 'pictures', component: PictureGalleryComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '/login', pathMatch: 'full' },                    // Redirect root to /login
 ]
