@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { authConfig } from './auth-config';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +12,9 @@ import { authConfig } from './auth-config';
 export class AuthService {
   private userProfileSubject = new BehaviorSubject<any>(null);
   userProfile$ = this.userProfileSubject.asObservable();
+  private adminsApiUrl = environment.adminsApiUrl; // Add admins API URL
 
-  constructor(private oauthService: OAuthService, private router: Router) {
+  constructor(private oauthService: OAuthService, private router: Router, private http: HttpClient) {
     this.configureOAuth();
   }
 
@@ -90,4 +93,30 @@ export class AuthService {
       console.error('Failed to refresh token:', err); // Debug log
     });
   }
+
+
+    // Add method to get user email
+    getUserEmail(): string {
+      const claims = this.oauthService.getIdentityClaims();
+      if (claims && 'email' in claims) {
+        return claims['email']; // Return the user's email
+      }
+      return "abc@xyz.com"; // Return null if email is not available
+    }
+
+    // Add isAdmin method
+    isAdmin(email: string): Observable<boolean> {
+      const token = this.getAccessToken();
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+
+      return this.http.get<{ email: string }[]>(`${this.adminsApiUrl}/alladmins`, { headers }).pipe(
+        map(admins => {
+          // Check if any admin has the matching email
+          const isAdmin = admins.some(admin => admin.email === email);
+          return isAdmin; // Return true or false
+        })
+      );
+    }
 }

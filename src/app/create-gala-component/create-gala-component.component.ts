@@ -78,7 +78,7 @@ export class CreateGalaComponentComponent {
         next: (response) => {
           console.log('Gala Event saved successfully:', response);
           // Navigate to a different route after successful save
-          this.router.navigate(['/']); // Adjust the route as needed
+          this.router.navigate(['/home']); // Adjust the route as needed
         },
         error: (error) => {
           console.error('Error saving Gala Event:', error);
@@ -91,7 +91,7 @@ export class CreateGalaComponentComponent {
   }
 
   onCancel(): void {
-    this.router.navigate(['/']); // Navigate back to the home page or any other route
+    this.router.navigate(['/home']); // Navigate back to the home page or any other route
   }
 
   private generateId(): string {
