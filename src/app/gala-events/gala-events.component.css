@@ -6,7 +6,7 @@
   justify-content: center;
   grid-auto-flow: dense;
 }
- 
+
 
 .kalyanamFooter{
 	background-color: #0F121F;color:#ffffff;padding-top: 15px;padding-bottom: 15px;
@@ -16,3 +16,16 @@
     margin-bottom: 0px;
 }
 
+/* Add Event Button Container */
+.add-event-button-container {
+  text-align: center; /* Center the button */
+  margin-bottom: 20px; /* Add some spacing below the button */
+}
+
+/* Add Event Button */
+.add-event-button-container button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between icon and text */
+}

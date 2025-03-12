@@ -1,7 +1,20 @@
 
+<!-- <div class="card-container">
+  <div *ngFor="let eventDTO of galaEventsDTOs" >
+    <app-gala-event [galaEventDTO]="eventDTO"> </app-gala-event>
+  </div>
+</div> -->
+
+  <!-- Add Event Icon -->
+  <div *ngIf="isAdmin" class="add-event-icon-container">
+    <a mat-icon-button routerLink="/create-gala-event" aria-label="Add Event">
+      <mat-icon>add</mat-icon><span> Add Event</span>
+    </a>
+  </div>
+
 <div class="card-container">
-  <div *ngFor="let event of events" >
-    <app-gala-event [galaEvent]="event"> </app-gala-event>
+  <!-- List of Events -->
+  <div *ngFor="let eventDTO of galaEventsDTOs">
+    <app-gala-event [galaEventDTO]="eventDTO"></app-gala-event>
   </div>
 </div>
-

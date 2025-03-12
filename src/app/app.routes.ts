@@ -12,6 +12,6 @@ export const routes: Routes = [
   { path: 'callback', component: CallbackComponent }, // Callback route for OAuth redirect
   { path: 'login', component: GloginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }, // Protect /home
-  { path: 'create-Gala-Event', component: CreateGalaComponentComponent},
+  { path: 'create-gala-event', component: CreateGalaComponentComponent},
   { path: 'about-me', component: AboutMeComponent }
 ]
