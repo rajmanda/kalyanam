@@ -74,3 +74,16 @@ mat-paginator {
   font-size: 14px; /* Match font size with Print button */
   line-height: 1.5; /* Match line height with Print button */
 }
+
+/* Hide paginator and print button during printing */
+@media print {
+  .print-button,
+  mat-paginator {
+    display: none;
+  }
+
+  /* Ensure the table takes full width */
+  .mat-table {
+    width: 100%;
+  }
+}

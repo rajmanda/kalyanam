@@ -88,7 +88,25 @@ export class AttendeesDialogComponent implements AfterViewInit {
     this.grandTotal = this.totalAdults + this.totalChildren;
   }
 
-  printPage() {
-    window.print();
-  }
+  // printPage() {
+  //   window.print();
+  // }
+
+    // Method to print all entries
+    printAll() {
+      const originalPageSize = this.paginator.pageSize;
+
+      // Temporarily set pageSize to the total number of items
+      this.paginator.pageSize = this.resultsLength;
+      this.dataSource.paginator = this.paginator;
+
+      // Trigger the print dialog
+      setTimeout(() => {
+        window.print();
+
+        // Restore the original pageSize after printing
+        this.paginator.pageSize = originalPageSize;
+        this.dataSource.paginator = this.paginator;
+      }, 500); // Small delay to ensure the table updates
+    }
 }
