@@ -1,4 +1,17 @@
 <div class="mat-elevation-z8">
+
+  <div class="totals-section">
+    <div>
+      <strong>Name:</strong> {{ selectedEvent.name }}
+    </div>
+    <div>
+      <strong>Date:</strong> {{ selectedEvent.date }}
+    </div>
+    <div>
+      <strong>Location:</strong> {{ selectedEvent.location }}
+    </div>
+  </div>
+
   <!-- Totals Section -->
   <div class="totals-section">
     <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
