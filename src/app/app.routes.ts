@@ -6,6 +6,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { CreateGalaComponentComponent } from "./create-gala-component/create-gala-component.component";
 import { CallbackComponent } from './callback/callback.component';
+import { PictureGalleryComponent } from './picture-gallery/picture-gallery.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },                    // Redirect root to /login
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'login', component: GloginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }, // Protect /home
   { path: 'create-gala-event', component: CreateGalaComponentComponent},
-  { path: 'about-me', component: AboutMeComponent }
+  { path: 'about-me', component: AboutMeComponent },
+  { path: 'pictures', component: PictureGalleryComponent },
 ]
