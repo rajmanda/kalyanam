@@ -1,0 +1,6 @@
+<div class="picture-gallery">
+  <div *ngFor="let imageFile of imageFiles" class="picture-item">
+    <img [src]="getImageUri(imageFile)" alt="Picture" class="picture-image" />
+    <div class="picture-uri">{{ getImageUri(imageFile) }}</div>
+  </div>
+</div>
