@@ -1,77 +1,76 @@
-/* Structure */
-.example-container {
-    position: relative;
-  }
+/* Totals Section */
+.totals-section {
+  margin-bottom: 20px; /* Add space below the totals section */
+}
 
-  .example-table-container {
-    position: relative;
-    min-height: 200px;
-    max-height: 400px;
-    overflow: auto;
-  }
+/* Totals Row */
+.totals-row {
+  display: flex;
+  justify-content: space-between; /* Distribute items evenly */
+  gap: 20px; /* Add spacing between items in a row */
+  padding: 10px; /* Add padding inside each row */
+  border-radius: 8px; /* Add rounded corners */
+}
 
-  table {
-    width: 100%;
-  }
+/* Gradient for the Event Details Row */
+.totals-row:first-child {
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Light blue gradient */
+}
 
-  .example-loading-shade {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 56px;
-    right: 0;
-    background: rgba(0, 0, 0, 0.15);
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+/* Gradient for the Totals Row */
+.totals-row:last-child {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3); /* Light purple gradient */
+}
 
-  .example-rate-limit-reached {
-    max-width: 360px;
-    text-align: center;
-  }
+.totals-row p {
+  margin: 0; /* Remove default margin for <p> */
+  font-size: 16px;
+  flex: 1; /* Make each <p> take equal width */
+  text-align: center; /* Center text within each <p> */
+}
 
-  /* Column Widths */
-  .mat-column-number,
-  .mat-column-state {
-    width: 64px;
-  }
+/* Ensure the Mat Dialog container has relative positioning */
+.mat-dialog-container {
+  position: relative;
+}
 
-  .mat-column-created {
-    width: 124px;
-  }
+/* Optional: Add margin to prevent overlapping with the paginator */
+mat-paginator {
+  margin-bottom: 50px; /* Add space for the button */
+}
 
-  .totals-section {
-    display: flex;
-    gap: 20px; /* Adds space between the items */
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #f5f5f5;
-  }
+/* Print Button */
+.print-button {
+  padding: 8px 16px; /* Add padding for better appearance */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Add rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  font-size: 14px; /* Match font size with paginator */
+  line-height: 1.5; /* Match line height with paginator */
+}
 
-  .totals-section p {
-    margin: 0; /* Remove default margin for <p> */
-    font-size: 16px;
-  }
+.print-button:hover {
+  background-color: #0056b3; /* Darker background on hover */
+}
 
-  .mat-elevation-z8 {
-    position: relative;
-    padding: 16px;
-  }
+/* Paginator and Print Button Container */
+.paginator-container {
+  display: flex;
+  justify-content: space-between; /* Space items evenly */
+  align-items: center; /* Align items vertically */
+  padding: 8px; /* Add padding for better spacing */
+  margin-top: 16px; /* Add space above the paginator row */
+}
 
-  .print-button {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+/* Adjust Angular Material Paginator Text */
+.mat-paginator-page-size {
+  display: flex;
+  align-items: center; /* Align "Items per page" text vertically */
+}
 
-  .print-button:hover {
-    background-color: #0056b3;
-  }
+.mat-paginator-page-size-label {
+  font-size: 14px; /* Match font size with Print button */
+  line-height: 1.5; /* Match line height with Print button */
+}

@@ -38,7 +38,9 @@ export class AttendeesDialogComponent implements AfterViewInit {
     this.selectedEvent = incomingData.selectedEvent;
   }
 
-  displayedColumns: string[] = ['event', 'date', 'location', 'userName', 'forGuest', 'adults', 'children'];
+  // displayedColumns: string[] = ['event', 'date', 'location', 'userName', 'forGuest', 'adults', 'children'];
+  //displayedColumns: string[] = ['Name', 'For Guest', 'Adults', 'Children'];
+  displayedColumns: string[] = ['userName', 'forGuest', 'adults', 'children'];
   dataSource: MatTableDataSource<RsvpDTO> = new MatTableDataSource();
 
   resultsLength = 0;
