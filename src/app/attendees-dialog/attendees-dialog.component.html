@@ -1,39 +1,39 @@
 <div class="mat-elevation-z8">
   <!-- Totals Section -->
   <div class="totals-section">
-    <table>
+    <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
       <tr>
         <td><strong>Total Adults:</strong> {{ totalAdults }}</td>
         <td><strong>Total Children:</strong> {{ totalChildren }}</td>
         <td><strong>Grand Total:</strong> {{ grandTotal }}</td>
       </tr>
       <tr>
-        <td><strong>Events: Engagement & Sangeet</strong>   </td>
-        <td><strong>Date: Aug 16th 2025	</strong> </td>
-        <td><strong>Locations: 5 Loius Ct, Princeton, NJ</strong> </td>
+        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.name}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.date}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.location}} </td>
       </tr>
     </table>
   </div>
- 
+
   <!-- Table -->
   <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
     <!-- Event Column -->
-    <ng-container matColumnDef="event">
+    <!-- <ng-container matColumnDef="event">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Event </th>
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.name}} </td>
-    </ng-container>
+    </ng-container> -->
 
     <!-- Date Column -->
-    <ng-container matColumnDef="date">
+    <!-- <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.date}} </td>
-    </ng-container>
+    </ng-container> -->
 
     <!-- Location Column -->
-    <ng-container matColumnDef="location">
+    <!-- <ng-container matColumnDef="location">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.location}} </td>
-    </ng-container>
+    </ng-container> -->
 
     <!-- User Name Column -->
     <ng-container matColumnDef="userName">
