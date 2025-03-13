@@ -45,3 +45,7 @@ Thumbs.db
 /src/app/glogin/glogin.component.html
 src/app/glogin/glogin.component.html
 kalyanam-deployment.yaml
+
+# ingore my rsa files
+vmanda21_id_rsa
+vmanda21_id_rsa.pub
