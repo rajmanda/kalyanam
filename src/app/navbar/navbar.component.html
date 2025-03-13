@@ -4,27 +4,33 @@
   <div class="nav-spacer"></div>
 
   <div class="icon-container">
-    <!-- Home Icon -->
-    <a mat-button routerLink="home">
-      <mat-icon>home</mat-icon>
-    </a>
 
-    <!-- About Me Icon -->
-    <a mat-button routerLink="about-me">
-      <mat-icon>contact_page</mat-icon>
-    </a>
+    <!-- Container for elements requiring 'loggedin' -->
+    <div *ngIf="loggedin">
 
-    <!-- Greeting Text -->
-    <span *ngIf="loggedin" class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
+      <!-- Home Icon -->
+      <a mat-button routerLink="home">
+        <mat-icon>home</mat-icon>
+      </a>
 
-    <!-- Profile Photo -->
-    <div *ngIf="loggedin" class="profile-photo spaced-photo">
-      <img [src]="userProfilex.picture" alt="Profile Photo" />
+      <!-- Greeting Text -->
+      <span class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
+
+      <!-- Profile Photo -->
+      <div class="profile-photo spaced-photo">
+        <img [src]="userProfilex.picture" alt="Profile Photo" />
+      </div>
+
+      <!-- Sign Out Button -->
+      <button mat-icon-button color="warn" (click)="handleSignOut()">
+        <mat-icon>logout</mat-icon>
+      </button>
     </div>
 
-    <!-- Sign Out Button -->
-    <button *ngIf="loggedin" mat-icon-button color="warn" (click)="handleSignOut()">
-      <mat-icon>logout</mat-icon>
-    </button>
   </div>
+
+  <!-- About Me Icon -->
+  <a mat-button routerLink="about-me">
+    <mat-icon>contact_page</mat-icon>
+  </a>
 </mat-toolbar>
