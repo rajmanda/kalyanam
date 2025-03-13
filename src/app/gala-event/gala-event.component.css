@@ -151,12 +151,19 @@ mat-card-actions button {
 /*for location*/
 .d-flex {
   display: flex;
+  align-items: center;
 }
 
-.align-items-center {
-  align-items: center;
+.location-icon {
+  font-size: 24px; /* Adjust size as needed */
+  width: 24px; /* Ensure width is sufficient */
+  height: 24px; /* Ensure height is sufficient */
 }
 
 .ms-2 {
   margin-left: 8px; /* Adjust as needed for spacing */
+}
+
+.p-2 {
+  padding: 8px; /* Ensure padding is not causing clipping */
 }
