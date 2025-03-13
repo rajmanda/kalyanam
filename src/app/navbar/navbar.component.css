@@ -1,3 +1,7 @@
+.kalyanamHeader {
+  background-color: #C03039; /* Set the background color for the entire navbar */
+}
+
 .icon-container {
   display: flex;
   align-items: center;
