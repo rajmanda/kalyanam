@@ -3,8 +3,18 @@
 
   <div class="nav-spacer"></div>
 
-  <a mat-button routerLink="home"> Home</a>
-  <a mat-button routerLink="about-me"> About Me </a>
+  <!-- <a mat-button routerLink="home"> Home</a> -->
+  <!-- Replace "Home" with a home icon -->
+  <a mat-button routerLink="home">
+    <mat-icon>home</mat-icon>
+  </a>
+
+
+  <!-- <a mat-button routerLink="about-me"> About Me </a> -->
+  <!-- Replace "About Me" with a contact_page icon -->
+  <a mat-button routerLink="about-me">
+    <mat-icon>contact_page</mat-icon>
+  </a>
 
   <span *ngIf="loggedin" class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
 
@@ -12,7 +22,12 @@
     <img [src]="userProfilex.picture" alt="Profile Photo" />
   </div>
 
-  <button *ngIf="loggedin" mat-raised-button color="warn" (click)="handleSignOut()">
+  <!-- <button *ngIf="loggedin" mat-raised-button color="warn" (click)="handleSignOut()">
     Sign Out
+  </button> -->
+  <!-- Replace "Sign Out" button with a logout icon -->
+  <button *ngIf="loggedin" mat-icon-button color="warn" (click)="handleSignOut()">
+    <mat-icon>logout</mat-icon>
   </button>
+
 </mat-toolbar>
