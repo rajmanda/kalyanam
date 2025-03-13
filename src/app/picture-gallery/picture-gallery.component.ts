@@ -21,7 +21,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PictureGalleryComponent implements OnInit {
   // Array of image file names
-  imageFiles: string[] = ['Haldi & Mehendi.jpg', 'Shravani.jpg', 'Satyanarana Swamy Pooja.jpg']; // Add your image file names here
+  imageFiles: string[] = ['Haldi & Mehendi.jpg','DhanuImage1', 'Shravani.jpg', 'Satyanarana Swamy Pooja.jpg']; // Add your image file names here
 
   // Base path for images
   basePath: string = '/assets/images/';
