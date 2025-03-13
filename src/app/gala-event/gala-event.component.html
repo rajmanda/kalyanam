@@ -6,16 +6,14 @@
       <small class="card-subtitle text-muted">{{ galaEventDTO.galaEventDetails.date }}</small>
     </div>
   </div>
-
-  <!-- <img class="card-img-top" [src]="'/assets/images/' + galaEventDTO.galaEventDetails.name + '.jpg'" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}"> -->
+<!-- <img class="card-img-top" [src]="'/assets/images/' + galaEventDTO.galaEventDetails.name + '.jpg'" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}"> -->
   <img class="card-img-top" [src]="galaEventDTO.galaEventDetails.image" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}">
 
-  <!-- Add Location Icon -->
-
-  <a mat-icon-button aria-label="location_on">
-    <mat-icon>location_on</mat-icon><span> {{galaEventDTO.galaEventDetails.location}}</span>
-  </a>
-
+  <!-- Location Icon and Text -->
+  <div class="d-flex align-items-center p-2">
+    <mat-icon>location_on</mat-icon>
+    <span class="ms-2">{{ galaEventDTO.galaEventDetails.location }}</span>
+  </div>
 
   <div class="card-body text-center">
     <p class="mt-3 text-md">
