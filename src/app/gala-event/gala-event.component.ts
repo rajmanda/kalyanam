@@ -23,11 +23,12 @@ import { GalaEventDTO, GalaEventDetails } from '../models/galaEventDTO'; // Impo
 import { GalaService } from '../services/gala.service';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-gala-event',
   standalone: true,
-  imports: [MatCardModule, CommonModule, FormsModule, MatButtonModule], // Add FormsModule and MatButtonModule
+  imports: [MatCardModule, CommonModule, FormsModule, MatButtonModule, MatIcon], // Add FormsModule and MatButtonModule
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
