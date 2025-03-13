@@ -22,10 +22,13 @@
 }
 
 .profile-photo {
-  width: 40px;
-  height: 40px;
+  width: auto; /* Allow the width to adjust automatically */
+  height: auto; /* Allow the height to adjust automatically */
+  max-width: 36px; /* Set a maximum width */
+  max-height: 36px; /* Set a maximum height */
   border-radius: 50%;
   overflow: hidden;
+  margin-right: 15px; /* Adjust margin to fit within the toolbar */
 }
 
 button[mat-raised-button], button[mat-icon-button] {
