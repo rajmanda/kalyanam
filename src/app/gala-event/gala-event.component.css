@@ -117,11 +117,3 @@ mat-card-actions button {
   width: 24px;
   height: 24px;
 }
-
-.ms-2 {
-  margin-left: 2px; /* Reduced margin */
-}
-
-.p-2 {
-  padding: 2px; /* Reduced padding */
-}
