@@ -3,31 +3,30 @@
 
   <div class="nav-spacer"></div>
 
-  <!-- <a mat-button routerLink="home"> Home</a> -->
-  <!-- Replace "Home" with a home icon -->
-  <a mat-button routerLink="home">
-    <mat-icon>home</mat-icon>
-  </a>
+  <div class="icon-container">
 
+    <!-- Home Icon -->
+    <a mat-button routerLink="home">
+      <mat-icon>home</mat-icon>
+    </a>
 
-  <!-- <a mat-button routerLink="about-me"> About Me </a> -->
-  <!-- Replace "About Me" with a contact_page icon -->
-  <a mat-button routerLink="about-me">
-    <mat-icon>contact_page</mat-icon>
-  </a>
+    <!-- About Me Icon -->
+    <a mat-button routerLink="about-me">
+      <mat-icon>contact_page</mat-icon>
+    </a>
 
-  <span *ngIf="loggedin" class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
+    <!-- Greeting Text -->
+    <span *ngIf="loggedin" class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
 
-  <div *ngIf="loggedin" class="profile-photo spaced-photo">
-    <img [src]="userProfilex.picture" alt="Profile Photo" />
+    <!-- Profile Photo -->
+    <div *ngIf="loggedin" class="profile-photo spaced-photo">
+      <img [src]="userProfilex.picture" alt="Profile Photo" />
+    </div>
+
+    <!-- Sign Out Button -->
+    <button *ngIf="loggedin" mat-icon-button color="warn" (click)="handleSignOut()">
+      <mat-icon>logout</mat-icon>
+    </button>
+
   </div>
-
-  <!-- <button *ngIf="loggedin" mat-raised-button color="warn" (click)="handleSignOut()">
-    Sign Out
-  </button> -->
-  <!-- Replace "Sign Out" button with a logout icon -->
-  <button *ngIf="loggedin" mat-icon-button color="warn" (click)="handleSignOut()">
-    <mat-icon>logout</mat-icon>
-  </button>
-
 </mat-toolbar>

@@ -1,10 +1,8 @@
-.kalyanamHeader {
-  display: flex; /* Make the toolbar a flex container */
-  align-items: center; /* Vertically center the items */
-  justify-content: space-between; /* Distribute space between items */
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #C03039;
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around; /* Automatically distribute space around elements */
+  flex-grow: 1; /* Allow the container to grow and take available space */
 }
 
 .nav-spacer {
@@ -17,7 +15,6 @@
   font-size: 16px; /* Adjust font size to match the toolbar's text */
   font-weight: 400; /* Normal weight for consistency */
   line-height: 1.5; /* Ensures good spacing */
-  margin-right: 10px; /* Add some space between text and profile photo */
 }
 
 .profile-photo {
@@ -25,13 +22,8 @@
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  margin-right: 10px; /* Adjust margin to fit within the toolbar */
 }
 
-.spaced-photo {
-  margin-left: 8px; /* Adjust this value for more or less space */
-}
-
-button[mat-raised-button] {
+button[mat-raised-button], button[mat-icon-button] {
   margin-left: 10px; /* Add some space before the button */
 }
