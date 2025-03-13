@@ -11,11 +11,11 @@
   <img class="card-img-top" [src]="galaEventDTO.galaEventDetails.image" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}">
 
   <!-- Add Location Icon -->
-  <div class="card-body text-center">
-    <a mat-icon-button aria-label="location_on">
-      <mat-icon>location_on</mat-icon><span> {{galaEventDTO.galaEventDetails.location}}</span>
-    </a>
-  </div>
+
+  <a mat-icon-button aria-label="location_on">
+    <mat-icon>location_on</mat-icon><span> {{galaEventDTO.galaEventDetails.location}}</span>
+  </a>
+
 
   <div class="card-body text-center">
     <p class="mt-3 text-md">
