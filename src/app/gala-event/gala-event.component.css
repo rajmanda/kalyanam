@@ -1,16 +1,16 @@
-  
+
 /* General Card Styling */
 /* .example-card {
-  max-width: 600px;  
+  max-width: 600px;
   margin: auto;
-  padding: 10px; 
-  width: 90%;  
+  padding: 10px;
+  width: 90%;
   box-sizing: border-box;
-  border: 1px solid #ddd;  
-  border-radius: 8px; 
+  border: 1px solid #ddd;
+  border-radius: 8px;
 } */
 
- 
+
 .leckerli-one-regular {
   font-family: "Leckerli One", serif;
   font-weight: 400;
@@ -26,7 +26,7 @@
 }
 .btn-orange:hover {
   color: #FBC73D;
-  border-radius: 50px; 
+  border-radius: 50px;
   background-color: #fff;
   border: 1px solid #C03039;
   color: #C03039;
@@ -45,7 +45,7 @@
 .btn-red:hover {
   background-color: #C03039;
   color: #C03039;
-  border-radius: 50px; 
+  border-radius: 50px;
   background-color: transparent;
   border: 1px solid #C03039;
 }
@@ -63,7 +63,7 @@
 }
 .btn-orange:hover {
   color: #FBC73D;
-  border-radius: 50px; 
+  border-radius: 50px;
   background-color: #fff;
   border: 1px solid #C03039;
   color: #C03039;
@@ -82,7 +82,7 @@
 }
 .btn-orange:hover {
   color: #FBC73D;
-  border-radius: 50px; 
+  border-radius: 50px;
   background-color: #fff;
   border: 1px solid #C03039;
   color: #C03039;
@@ -91,11 +91,11 @@
 .btn-red:hover {
   background-color: #C03039;
   color: #C03039;
-  border-radius: 50px; 
+  border-radius: 50px;
   background-color: transparent;
   border: 1px solid #C03039;
 }
- 
+
 /* Header Image Styling */
 .example-header-image {
   background-image: url('/assets/pictures/Vigneshwara.jpeg');
@@ -147,4 +147,16 @@ mat-card-actions button {
     font-size: 14px; /* Smaller text for mobile */
     line-height: 1.5; /* Increase line height for readability */
   }
+}
+/*for location*/
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.ms-2 {
+  margin-left: 8px; /* Adjust as needed for spacing */
 }
