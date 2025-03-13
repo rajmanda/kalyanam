@@ -1,10 +1,9 @@
-<mat-toolbar color="primary1" class="mat-elevation-z8 kalyanamHeader">
+<mat-toolbar color="primary1" class="mat-elevation-z8 kalyanamHeader" style="background-color: #C03039;">
   <span><mat-icon>eco</mat-icon> Kalyanam </span>
 
   <div class="nav-spacer"></div>
 
   <div class="icon-container">
-
     <!-- Home Icon -->
     <a mat-button routerLink="home">
       <mat-icon>home</mat-icon>
@@ -27,6 +26,5 @@
     <button *ngIf="loggedin" mat-icon-button color="warn" (click)="handleSignOut()">
       <mat-icon>logout</mat-icon>
     </button>
-
   </div>
 </mat-toolbar>
