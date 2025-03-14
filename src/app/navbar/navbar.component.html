@@ -4,13 +4,18 @@
   <div class="nav-spacer"></div>
 
   <div class="icon-container">
-    <!-- Container for elements requiring 'loggedin' -->
-    <div *ngIf="loggedin">
-      <!-- Home Icon -->
-      <a mat-button routerLink="home">
-        <mat-icon>home</mat-icon>
-      </a>
+    <!-- Home Icon -->
+    <a mat-button routerLink="home">
+      <mat-icon>home</mat-icon>
+    </a>
 
+    <!-- About Me Icon -->
+    <a mat-button routerLink="about-me">
+      <mat-icon>contact_page</mat-icon>
+    </a>
+
+    <!-- Logged In Components Container -->
+    <ng-container *ngIf="loggedin">
       <!-- Greeting Text -->
       <span class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
 
@@ -23,11 +28,6 @@
       <button mat-icon-button color="warn" (click)="handleSignOut()">
         <mat-icon>logout</mat-icon>
       </button>
-    </div>
-
-    <!-- About Me Icon -->
-    <a mat-button routerLink="about-me">
-      <mat-icon>contact_page</mat-icon>
-    </a>
+    </ng-container>
   </div>
 </mat-toolbar>
