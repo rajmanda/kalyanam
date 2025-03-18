@@ -3,10 +3,13 @@
     <div class="example-header-image rounded-circle me-2"></div>
     <div>
       <h5 class="card-title leckerli-one-regular mb-0">{{ galaEventDTO.galaEventDetails.name }}</h5>
-      <small class="card-subtitle text-muted">{{ galaEventDTO.galaEventDetails.date }}</small>
+      <small class="card-subtitle text-muted">
+        <!-- <small class="card-subtitle text-muted">{{ galaEventDTO.galaEventDetails.date }}</small> -->
+        {{ galaEventDTO.galaEventDetails.date | date: 'medium' }}
+      </small>
     </div>
   </div>
-<!-- <img class="card-img-top" [src]="'/assets/images/' + galaEventDTO.galaEventDetails.name + '.jpg'" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}"> -->
+  <!-- <img class="card-img-top" [src]="'/assets/images/' + galaEventDTO.galaEventDetails.name + '.jpg'" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}"> -->
   <img class="card-img-top" [src]="galaEventDTO.galaEventDetails.image" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}">
 
   <!-- Location Icon and Text -->
@@ -40,7 +43,8 @@
       </div>
       <div class="form-group">
         <label for="eventDate">Event Date</label>
-        <input type="date" class="form-control" id="eventDate" [(ngModel)]="galaEventDTO.galaEventDetails.date" name="eventDate">
+        <!-- <input type="date" class="form-control" id="eventDate" [(ngModel)]="galaEventDTO.galaEventDetails.date" name="eventDate"> -->
+        <input type="datetime-local" class="form-control" id="eventDate" [(ngModel)]="galaEventDTO.galaEventDetails.date" name="eventDate">
       </div>
       <div class="form-group">
         <label for="eventLocation">Event Location</label>
