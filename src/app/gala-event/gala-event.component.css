@@ -71,15 +71,21 @@
 }
 
 .location-icon {
-  font-size: 24px;
-  width: 24px;
-  height: 24px;
+  font-size: 12px;
+  width: 12px;
+  height: 10px;
   flex-shrink: 0; /* Prevent the icon from shrinking */
 }
 
 .location {
   font-family: 'Imperial Script', cursive;
   font-size: 18px;
+}
+
+.location-2 {
+  font-family: 'Imperial Script', cursive;
+  font-size: 14px;
+  color: blueviolet;
 }
 
 /* Apply the fonts */
@@ -89,4 +95,54 @@
 
 .card-body p {
   font-family: 'Imperial Script', cursive;
+}
+/* Image Container */
+.image-container {
+  width: 100%; /* Adjust as needed */
+  height: 575px; /* Fixed height for the container */
+  overflow: hidden; /* Hide any overflow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f2f2; /* Optional: Add a background color */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+}
+
+/* Description Container */
+.description-container {
+  height: 120px; /* Fixed height for the container */
+  overflow-y: auto; /* Add scrollbar if content overflows */
+  padding: 10px; /* Optional: Add padding for better spacing */
+  background-color: #ffffff; /* Optional: Add a background color */
+  border-top: 1px solid #e0e0e0; /* Optional: Add a border for separation */
+  border-bottom: 1px solid #e0e0e0; /* Optional: Add a border for separation */
+}
+
+.description-container .card-body {
+  padding: 0; /* Remove default padding if needed */
+}
+
+.description-container p {
+  margin: 0; /* Remove default margin for the paragraph */
+  font-family: 'Imperial Script', cursive;
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333; /* Adjust text color as needed */
+}
+/* Date Icon */
+.date-icon {
+  font-size: 12px; /* Match the size of the location icon */
+  width: 12px;
+  height: 12px;
+  margin-right: 4px; /* Add spacing between the icon and text */
+}
+.location-icon {
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  margin-right: 4px; /* Add spacing between the icon and text */
 }
