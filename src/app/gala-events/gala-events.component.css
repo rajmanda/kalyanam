@@ -37,7 +37,7 @@
 }
 
 .card-container > div {
-  flex: 1 1 calc(50% - 16px); /* Each item takes 50% of the container width minus the gap */
+  flex: 1 1 calc(33% - 16px); /* Each item takes 50% of the container width minus the gap */
   box-sizing: border-box; /* Ensure padding and border are included in the width */
 }
 

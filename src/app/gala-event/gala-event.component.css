@@ -99,7 +99,7 @@
 /* Image Container */
 .image-container {
   width: 100%; /* Adjust as needed */
-  height: 575px; /* Fixed height for the container */
+  height: 500px; /* Fixed height for the container */
   overflow: hidden; /* Hide any overflow */
   display: flex;
   align-items: center;
