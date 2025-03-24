@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms'; // Import FormsModule for form handling
-import { RsvpService } from '../services/rsvp.service';
+import { RsvpService } from '../services/rsvp/rsvp.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from "@angular/material/dialog";

@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Event } from '../models/event';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { environment } from '../../environments/environment';
-import { RsvpService } from '../services/rsvp.service';
+import { RsvpService } from '../services/rsvp/rsvp.service';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({

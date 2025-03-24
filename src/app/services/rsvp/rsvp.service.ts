@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RsvpDetails, RsvpDTO} from '../models/rsvpDTO';
-import { environment } from '../../environments/environment';
+import { RsvpDetails, RsvpDTO} from '../../models/rsvpDTO';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
