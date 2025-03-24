@@ -8,13 +8,14 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean | UrlTree {
     // Check if the user has a valid access token
-    const hasValidAccessToken = this.oauthService.hasValidAccessToken();
+    const hasValidAccessToken = this.oauthService.hasValidIdToken();
 
     if (hasValidAccessToken) {
       return true; // Allow access to the route
     } else {
       // Redirect to the login page or another route
       //return this.router.createUrlTree(['/login']);
+      console.log('AuthGuard: Redirecting to /home');
       return this.router.createUrlTree(['/login'], { queryParams: { message: 'You need to login to access this page' } });
     }
   }

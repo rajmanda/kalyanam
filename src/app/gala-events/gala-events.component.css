@@ -1,11 +1,11 @@
-.card-container {
+/* .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 22px;
   padding:4px;
   justify-content: center;
   grid-auto-flow: dense;
-}
+} */
 
 
 .kalyanamFooter{
@@ -28,4 +28,21 @@
   align-items: center;
   justify-content: center;
   gap: 8px; /* Space between icon and text */
+}
+
+.card-container {
+  display: flex; /* Enable flexbox */
+  flex-wrap: wrap; /* Allow items to wrap to the next row */
+  gap: 16px; /* Add spacing between items */
+}
+
+.card-container > div {
+  flex: 1 1 calc(33% - 16px); /* Each item takes 50% of the container width minus the gap */
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+}
+
+@media (max-width: 768px) {
+  .card-container > div {
+    flex: 1 1 100%; /* Each item takes 100% of the container width on smaller screens */
+  }
 }
