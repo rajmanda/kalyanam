@@ -1,0 +1,9 @@
+<div class="file-upload-form">
+  <form (ngSubmit)="onUpload()">
+    <div>
+      <label for="fileInput">Select an image to upload:</label>
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" />
+    </div>
+    <button type="submit" [disabled]="!selectedFile">Upload</button>
+  </form>
+</div>
