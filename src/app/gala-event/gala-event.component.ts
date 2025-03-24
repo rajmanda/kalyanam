@@ -20,7 +20,7 @@ import { ConfirmationSnackbarComponent } from '../confirmation-snackbar/confirma
 import { AuthService } from '../services/auth/auth.service';
 import { AttendeesDialogComponent } from '../attendees-dialog/attendees-dialog.component';
 import { GalaEventDTO, GalaEventDetails } from '../models/galaEventDTO'; // Import the GalaEventDTO and GalaEventDetails interfaces
-import { GalaService } from '../services/gala.service';
+import { GalaService } from '../services/gala/gala.service';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatIcon } from '@angular/material/icon';

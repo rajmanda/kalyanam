@@ -21,7 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import { GalaEventDetails } from '../models/galaEventDTO';
-import { GalaService } from '../services/gala.service';
+import { GalaService } from '../services/gala/gala.service';
 
 
 

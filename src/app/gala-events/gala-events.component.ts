@@ -4,7 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { GalaService } from '../services/gala.service';
+import { GalaService } from '../services/gala/gala.service';
 import {Event} from '../models/event';
 import { GalaEventComponent } from "../gala-event/gala-event.component";
 import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
