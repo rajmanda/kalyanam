@@ -13,7 +13,7 @@ import { of, merge, Observable, of as observableOf, Subscription } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink, RouterModule } from '@angular/router';
-import { AdminsService } from '../admins.service';
+import { AdminsService } from '../services/admin/admins.service';
 import { AuthService } from '../services/auth/auth.service';
 import { consumerMarkDirty } from '@angular/core/primitives/signals';
 

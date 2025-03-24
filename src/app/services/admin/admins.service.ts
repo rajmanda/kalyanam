@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc'; // Import OAuthService
-import { AdminsDTO } from './models/admins';
-import { environment } from '../environments/environment';
+import { AdminsDTO } from '../../models/admins';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
