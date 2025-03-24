@@ -5,7 +5,7 @@ import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout'; // npm install --save @angular/flex-layout
 import {Event} from '../models/event';
 import { CommonModule, NgFor } from '@angular/common';
-import { GalaService } from '../services/gala.service';
+import { GalaService } from '../services/gala/gala.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { GalaEventsComponent } from "../gala-events/gala-events.component";
 import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';

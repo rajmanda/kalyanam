@@ -9,4 +9,5 @@ export const environment = {
   rsvpApiUrl: window.location.origin + '/rsvp', // Full URL for RSVP API
   galaEventsApiUrl: window.location.origin + '/gala-event', // Full URL for Gala Events API
   adminsApiUrl: window.location.origin + '/admins',
+  fileUploadApiUrl: window.location.origin + '/upload',
 };

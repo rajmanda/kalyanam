@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms'; // Import FormsModule for form handling
-import { RsvpService } from '../services/rsvp.service';
+import { RsvpService } from '../services/rsvp/rsvp.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from "@angular/material/dialog";
@@ -20,7 +20,7 @@ import { ConfirmationSnackbarComponent } from '../confirmation-snackbar/confirma
 import { AuthService } from '../services/auth/auth.service';
 import { AttendeesDialogComponent } from '../attendees-dialog/attendees-dialog.component';
 import { GalaEventDTO, GalaEventDetails } from '../models/galaEventDTO'; // Import the GalaEventDTO and GalaEventDetails interfaces
-import { GalaService } from '../services/gala.service';
+import { GalaService } from '../services/gala/gala.service';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatIcon } from '@angular/material/icon';
