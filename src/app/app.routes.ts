@@ -7,6 +7,7 @@ import { AboutMeComponent } from './about-me/about-me.component';
 import { CreateGalaComponentComponent } from "./create-gala-component/create-gala-component.component";
 import { CallbackComponent } from './callback/callback.component';
 import { PictureGalleryComponent } from './picture-gallery/picture-gallery.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 export const routes: Routes = [
 
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'create-gala-event', component: CreateGalaComponentComponent},
   { path: 'about-me', component: AboutMeComponent },
   { path: 'pictures', component: PictureGalleryComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '/login', pathMatch: 'full' },                    // Redirect root to /login
+  { path: 'upload', component: FileUploadComponent},
+  { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ]
