@@ -60,5 +60,6 @@ export class FileUploadComponent {
         console.error('Upload error:', error);
       }
     });
+    
   }
 }
