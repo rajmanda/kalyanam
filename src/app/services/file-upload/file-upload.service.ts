@@ -15,12 +15,16 @@ export class FileUploadService {
 
   constructor(private http: HttpClient) {
      this.fileUploadApiUrl  = environment.fileUploadApiUrl;
-    console.log(environment.rsvpApiUrl);
+    console.log(this.fileUploadApiUrl );
   }
 
   uploadFile(file: File): Observable<any> {
     const formData = new FormData();
+    console.log('file', file, file.name );
     formData.append('file', file, file.name);
-    return this.http.post(`${this.fileUploadApiUrl}/picture-upload`, formData);
+    return this.http.post('http://localhost:8080/upload/picture-upload', formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 }

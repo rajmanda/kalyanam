@@ -29,3 +29,30 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+.progress-container {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+progress {
+  width: 100%;
+}
+
+.upload-message {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
