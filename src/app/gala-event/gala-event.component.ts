@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { FormsModule } from '@angular/forms'; // Import FormsModule for form handling
+import { FormsModule } from '@angular/forms';
 import { RsvpService } from '../services/rsvp/rsvp.service';
 import { RsvpDTO } from '../models/rsvpDTO';
 import { CommonModule } from '@angular/common';
@@ -24,28 +24,43 @@ import { GalaService } from '../services/gala/gala.service';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatIcon } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FileUploadService } from '../services/file-upload/file-upload.service';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-gala-event',
   standalone: true,
-  imports: [MatCardModule, CommonModule, FormsModule, MatButtonModule, MatIcon], // Add FormsModule and MatButtonModule
+  imports: [
+    MatCardModule,
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatIcon,
+    MatProgressBarModule
+  ],
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
 export class GalaEventComponent {
-  @Input() galaEventDTO!: GalaEventDTO; // Use GalaEventDTO as the input type
+  @Input() galaEventDTO!: GalaEventDTO;
   showAttendees: boolean = false;
   showRsvp: boolean = false;
   message: string = "";
   selectedEvent: GalaEventDetails | undefined;
   respEvent: any;
   durationInSeconds: number = 5;
-
   userProfilex: any;
   loggedin: boolean = false;
 
   showEditForm: boolean = false; // Toggle for edit form visibility
   isAdmin: boolean = false;
+
+  // New properties for file upload
+  selectedFile: File | null = null;
+  uploadProgress: number = 0;
+  isUploading: boolean = false;
+  currentPhase: 'upload' | 'update' | null = null;
 
   constructor(
     private _rsvpService: RsvpService,
@@ -53,6 +68,7 @@ export class GalaEventComponent {
     private _snackBar: MatSnackBar,
     private authService: AuthService,
     private galaService: GalaService,
+    private fileUploadService: FileUploadService,
     private router: Router
   ) {}
 
@@ -82,33 +98,107 @@ export class GalaEventComponent {
     );
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
 
-// // Delete a GalaEvent
-// deleteEvent(eventDTO: GalaEventDTO) {
-//   this.galaService.deleteGalaEventById(eventDTO.galaEventId).subscribe(
-//     () => {
-//       console.log('Event deleted successfully');
+  onSubmit() {
+    if (!this.galaEventDTO) return;
 
-//       // Show a success message
-//       this.message = `Event "${eventDTO.galaEventDetails.name}" deleted successfully.`;
-//       this.openSnackBar(this.message);
+    if (this.selectedFile) {
+      this.uploadImageAndUpdateEvent();
+    } else {
+      this.updateEventOnly();
+    }
+  }
 
-//       // Emit the eventDeleted event with the deleted event's ID
-//       this.galaService.eventDeleted.emit(eventDTO.galaEventId);
+  private uploadImageAndUpdateEvent() {
+    this.isUploading = true;
+    this.currentPhase = 'upload';
+    this.uploadProgress = 0;
 
-//       // Navigate to the /home route
-//       this.router.navigate(['/home']);
-//     },
-//     (error) => {
-//       console.error('Error deleting event:', error);
+    if (!this.selectedFile) {
+      this.handleError('No file selected', null);
+      return;
+    }
 
-//       // Show an error message
-//       this.message = `Failed to delete event "${eventDTO.galaEventDetails.name}". Please try again.`;
-//       this.openSnackBar(this.message);
-//     }
-//   );
-// }
+    this.fileUploadService.uploadFile(this.selectedFile).subscribe({
+      next: (event: any) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          // Update progress for upload phase (0-50%)
+          this.uploadProgress = Math.round(50 * (event.loaded / (event.total || 1)));
+        } else if (event.type === HttpEventType.Response) {
+          // Image upload complete - get publicUrl from response
+          const publicUrl = event.body?.publicUrl;
 
+          if (!publicUrl) {
+            throw new Error('No public URL returned from server');
+          }
+
+          // Update the event DTO with the new image URL
+          this.galaEventDTO.galaEventDetails.image = publicUrl;
+
+          // Proceed to update event
+          this.updateEventOnly();
+        }
+      },
+      error: (uploadError) => {
+        this.handleError('Image upload failed', uploadError);
+      }
+    });
+  }
+
+  private updateEventOnly() {
+    this.currentPhase = 'update';
+    this.uploadProgress = 50;
+
+    this.galaService.updateGalaEvent(
+      this.galaEventDTO.galaEventId,
+      this.galaEventDTO.galaEventDetails
+    ).subscribe({
+      next: (updatedEvent) => {
+        this.handleSuccess(updatedEvent);
+      },
+      error: (updateError) => {
+        this.handleError('Event update failed', updateError);
+      }
+    });
+  }
+
+  private handleSuccess(updatedEvent: any) {
+    this.isUploading = false;
+    this.currentPhase = null;
+    this.uploadProgress = 100;
+    this.toggleEditForm();
+
+    this._snackBar.open('Event updated successfully!', 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+
+    this.resetFileInput();
+  }
+
+  private handleError(context: string, error: any) {
+    this.isUploading = false;
+    this.currentPhase = null;
+    console.error(`${context}:`, error);
+    this._snackBar.open(`${context}. Please try again.`, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
+
+  private resetFileInput() {
+    this.selectedFile = null;
+    const fileInput = document.getElementById('eventImageUpload') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
+  }
 
 // Delete a GalaEvent
 deleteEvent(eventDTO: GalaEventDTO) {
@@ -154,37 +244,6 @@ deleteEvent(eventDTO: GalaEventDTO) {
     this.showEditForm = !this.showEditForm;
   }
 
-  // Handle form submission
-  onSubmit() {
-    console.log('Event updated:', this.galaEventDTO);
-
-    // Call the updateGalaEvent method from the GalaService
-    this.galaService.updateGalaEvent(this.galaEventDTO.galaEventId, this.galaEventDTO.galaEventDetails).subscribe(
-      (updatedEvent) => {
-        console.log('Event updated successfully:', updatedEvent);
-
-        // Hide the edit form
-        this.toggleEditForm();
-
-        // Show a success notification
-        this._snackBar.open('Event updated successfully!', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        });
-      },
-      (error) => {
-        console.error('Error updating event:', error);
-
-        // Show an error notification
-        this._snackBar.open('Failed to update event. Please try again.', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        });
-      }
-    );
-  }
 
   openRsvpDialog(event: GalaEventDetails) {
     let dialogRef = this._matDialog.open(RsvpDialogComponent, {
@@ -244,3 +303,4 @@ deleteEvent(eventDTO: GalaEventDTO) {
     });
   }
 }
+
