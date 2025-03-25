@@ -1,46 +1,38 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-picture-gallery',
-//   imports: [],
-//   templateUrl: './picture-gallery.component.html',
-//   styleUrl: './picture-gallery.component.css'
-// })
-// export class PictureGalleryComponent {
-
-// }
-
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { FileUploadService } from '../services/file-upload/file-upload.service';
 
 @Component({
   selector: 'app-picture-gallery',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './picture-gallery.component.html',
-  styleUrls: ['./picture-gallery.component.css'],
-  imports:[CommonModule]
+  styleUrls: ['./picture-gallery.component.css']
 })
 export class PictureGalleryComponent implements OnInit {
-  // Array of image file names
-  imageFiles: string[] = [
-    'Haldi & Mehendi.jpg',
-    'Shravani.jpg',
-    'Satyanarana Swamy Pooja.jpg',
-  'Shravani at sangeet.jpg',
-  'pellikuturu shravs pose.jpg',
-'shravs with family dance',
-'Shravs dancing pose.jpg',
-'vijayram family pic.jpg',
-'shravs.jpg']; // Add your image file names here
+  imageUrls: string[] = []; // Will store full public URLs from GCP bucket
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
 
-  // Base path for images
-  basePath: string = '/assets/images/';
+  constructor(private fileUploadService: FileUploadService) {}
 
-  constructor() {}
+  ngOnInit(): void {
+    this.fetchImagesFromBucket();
+  }
 
-  ngOnInit(): void {}
-
-  // Method to get the full URI for an image
-  getImageUri(imageFile: string): string {
-    return `${this.basePath}${imageFile}`;
+  fetchImagesFromBucket(): void {
+    this.fileUploadService.listImages().subscribe({
+      next: (response) => {
+        this.imageUrls = response.images;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching images:', err);
+        this.errorMessage = 'Failed to load images. Please try again later.';
+        this.isLoading = false;
+      }
+    });
   }
 }

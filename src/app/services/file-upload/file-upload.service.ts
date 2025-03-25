@@ -6,25 +6,21 @@ import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-
-@Injectable({
-  providedIn: 'root',
-})
 export class FileUploadService {
-  private fileUploadApiUrl = 'http://localhost:8080/upload';
+  private fileUploadApiUrl = environment.apiBaseUrl + '/upload';
 
-  constructor(private http: HttpClient) {
-     this.fileUploadApiUrl  = environment.fileUploadApiUrl;
-    console.log(this.fileUploadApiUrl );
-  }
+  constructor(private http: HttpClient) {}
 
   uploadFile(file: File): Observable<any> {
     const formData = new FormData();
-    console.log('file', file, file.name );
     formData.append('file', file, file.name);
     return this.http.post(`${this.fileUploadApiUrl}/picture-upload`, formData, {
       reportProgress: true,
       observe: 'events'
     });
+  }
+
+  listImages(): Observable<{images: string[]}> {
+    return this.http.get<{images: string[]}>(`${this.fileUploadApiUrl}/list-images`);
   }
 }
