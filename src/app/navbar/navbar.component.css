@@ -1,5 +1,14 @@
+/* Font Styling */
+.leckerli-one-regular {
+  font-family: "Leckerli One", serif;
+  font-weight: 00;
+  font-style: normal;
+  color: #C03039;
+  font-size: 20px;
+}
+
 .kalyanamHeader {
-  background-color: #C03039; /* Set the background color for the entire navbar */
+  background-color: #ef7b82; /* Set the background color for the entire navbar */
 }
 
 .icon-container {
@@ -14,7 +23,7 @@
 }
 
 .greeting-text {
-  color: #E0E0E0; /* Light grey text */
+  color: black;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle shadow for better readability */
   font-size: 16px; /* Adjust font size to match the toolbar's text */
   font-weight: 400; /* Normal weight for consistency */
