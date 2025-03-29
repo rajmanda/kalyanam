@@ -22,6 +22,9 @@ export class GloginComponent {
   ) {}
 
   ngOnInit() {
+    // Reset viewport scaling
+    document.querySelector('meta[name="viewport"]')?.setAttribute('content', 'width=device-width, initial-scale=1.0');
+
     // Get the query parameter message
     this.route.queryParams.subscribe(params => {
       this.loginMessage = params['message'];

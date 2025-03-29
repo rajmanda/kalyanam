@@ -1,3 +1,4 @@
+/* ===== YOUR ORIGINAL STYLES ===== */
 .bglogin {
   background-color: #FAE409;
   border-radius: 0px; /* Unified border radius for both rows */
@@ -62,3 +63,61 @@ ul.list-unstyled {
   font-size: 1.1rem;
   color: #555;
 }
+
+/* ===== NEW MOBILE FIXES (ADDED BELOW YOUR ORIGINAL STYLES) ===== */
+.loginpage {
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  .row.bglogin {
+    flex-direction: column;
+  }
+
+  .col-md-5, .col-md-7 {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .loginbox {
+    margin-top: 0;
+    padding: 20px;
+  }
+
+  img.img-fluid {
+    width: 100%;
+    height: auto;
+  }
+
+  .button-rsvp-wrapper {
+    padding: 20px;
+  }
+
+  /* Ensure your font sizes are mobile-friendly */
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .google-btn {
+    padding: 12px 24px; /* Slightly larger for mobile */
+    font-size: 1rem;
+  }
+}
+
+/* Fix for the second row */
+.row.bglogin.mt-n5 {
+  margin-top: 0 !important;
+  padding-top: 20px;
+}
+
+
