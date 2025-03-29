@@ -1,15 +1,15 @@
 .bglogin {
   background-color: #FAE409;
-  border-radius: 10px;
+  border-radius: 0px; /* Unified border radius for both rows */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  position: relative;
+}
+
+.loginbox {
+  margin-top: 20px; /* Adds space between the image and the text */
 }
 
 .button-rsvp-wrapper {
-  position: absolute;
-  bottom: 20px; /* Positions the group of button and text at the bottom */
-  right: 20px;
   display: flex;
   flex-direction: column; /* Align the button and RSVP vertically */
   align-items: center; /* Centers them horizontally */
@@ -31,7 +31,7 @@
   min-width: max-content;
   white-space: nowrap;
   font-weight: normal;
-  border: 0;
+  border: none;
 }
 
 .google-btn:hover {
@@ -46,14 +46,19 @@
   padding: 5px;
 }
 
-/* RSVP Text */
-.bglogin ul.list-unstyled {
-  font-size: 1.1rem;
-  color: #555;
-  margin: 0;
-}
-
+/* Font Styles for Headings */
 h1 {
   font-family: 'Fleur De Leah', sans-serif;
   font-size: 2.25rem;
+}
+
+/* Margin for Suswagatham Text */
+.swagatham-text {
+  margin-left: 5px; /* Adds a small margin to the left of Suswagatham */
+}
+
+/* RSVP Text */
+ul.list-unstyled {
+  font-size: 1.1rem;
+  color: #555;
 }
