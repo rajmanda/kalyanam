@@ -1,0 +1,79 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar{
+  background-color: #A6C095;
+  font-family: "Leckerli One", serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #C03039;
+  font-size: 20px;
+}
+/* Keep the warn color but better alignment */
+button[mat-icon-button].sign-out-button mat-icon {
+  margin-right: 4px; /* Space between icon and text */
+  vertical-align: middle;
+}
+
+.greeting-text {
+  color: black;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle shadow for better readability */
+  font-size: 16px; /* Adjust font size to match the toolbar's text */
+  font-weight: 400; /* Normal weight for consistency */
+  line-height: 1.5; /* Ensures good spacing */
+}
+
+.profile-photo {
+  width: 36px; /* Set a fixed width */
+  height: 36px; /* Set a fixed height */
+  border-radius: 50%; /* Make it circular */
+  overflow: hidden; /* Ensure the image stays within the circular boundary */
+  margin-right: 10px; /* Adjust margin to fit within the toolbar */
+  margin-left: 10px; /* Adjust margin to fit within the toolbar */
+}
+
+.profile-photo img {
+  width: 100%; /* Ensure the image fills the container */
+  height: 100%; /* Ensure the image fills the container */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+}
+
+/***** Mobile  /
+/* Your existing styles */
+.icon-text {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+/* Menu specific styles */
+.menu-user-info {
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+}
+
+.menu-profile-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Optional: Style for menu items */
+.mat-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.mat-menu-item mat-icon {
+  margin-right: 8px;
+}
