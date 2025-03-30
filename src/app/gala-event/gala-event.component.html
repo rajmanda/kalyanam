@@ -5,12 +5,12 @@
     <div>
       <h5 class="card-title leckerli-one-regular mb-0">{{ galaEventDTO.galaEventDetails.name }}</h5>
       <mat-icon class="date-icon">event</mat-icon>
-      <small class="location-2 card-subtitle text-muted">
+      <small class="location-2 ">
         {{ galaEventDTO.galaEventDetails.date | date: 'medium' }}
       </small>
-      <div>
+      <div class="location-2 ">
         <mat-icon class="location-icon">location_on</mat-icon>
-        <a [href]="'https://www.google.com/maps/search/?api=1&query=' + galaEventDTO.galaEventDetails.location" target="_blank" class="location-2 card-subtitle text-muted">
+        <a [href]="'https://www.google.com/maps/search/?api=1&query=' + galaEventDTO.galaEventDetails.location" target="_blank">
           {{ galaEventDTO.galaEventDetails.location }}
         </a>
       </div>

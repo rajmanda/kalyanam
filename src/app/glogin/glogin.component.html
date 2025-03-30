@@ -1,35 +1,39 @@
 <section class="loginpage">
   <div class="container">
-    <div class="row bglogin m-5">
+    <!-- First Row -->
+    <div class="row bglogin m-0">
       <!-- Left Column: Image -->
       <div class="col-md-5">
-        <img src="/assets/images/Shravani.jpg" class="img-fluid" alt="Left Lady" />
+        <img src="assets/images/Sravs solo - red -1.jpeg" class="img-fluid" alt="Left Lady" />
       </div>
 
       <!-- Right Column: Login Form -->
       <div class="col-md-7 d-flex align-items-center justify-content-center fmin-vh-100 loginbox">
-        <div class="text-left">
+        <div class="text-left pb-0">
           <!-- Login Message (for warnings or errors) -->
           <div *ngIf="loginMessage" class="alert alert-warning">
             {{ loginMessage }}
           </div>
 
           <!-- Welcome Message -->
-          <h1>Welcome to Kalyanam!</h1>
-          <p class="lead">
-            Log in with your Google account to:
-          </p>
-          <ul class="list-unstyled">
-            <li>🎉 RSVP for the event</li>
-            <li>📅 Get the latest event updates</li>
-          </ul>
-          <hr style="border: 1px solid #777;">
-
-          <!-- Google Login Button -->
-          <button class="google-btn mt-3" (click)="loginWithGoogle()">
-            <i class="fab fa-google"></i> Sign in with Google
-          </button>
+          <h1><span class="swagatham-text">Suswagatham</span></h1>
+          <h1>Shravani Kalyanam!</h1>
         </div>
+      </div>
+    </div>
+
+    <!-- Second Row for Login Button -->
+    <div class="row bglogin m-0 mt-n5 pt-0"> <!-- Adjusted margins and padding -->
+      <div class="col-md-12 text-center button-rsvp-wrapper">
+        <!-- Google Login Button -->
+        <button class="google-btn mt-3" (click)="loginWithGoogle()">
+          <i class="fab fa-google"></i> Sign in with Google
+        </button>
+
+        <!-- RSVP Text -->
+        <ul class="list-unstyled mt-3">
+          <li>🎉 RSVP</li>
+        </ul>
       </div>
     </div>
   </div>

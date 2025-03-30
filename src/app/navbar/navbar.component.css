@@ -1,49 +1,130 @@
-/* Font Styling */
+/* Your existing styles */
 .leckerli-one-regular {
   font-family: "Leckerli One", serif;
-  font-weight: 00;
+  font-weight: 400;
   font-style: normal;
   color: #C03039;
   font-size: 20px;
 }
 
 .kalyanamHeader {
-  background-color: #ef7b82; /* Set the background color for the entire navbar */
+  background-color: #ef7b82;
+  position: relative; /* Needed for mobile menu positioning */
 }
 
 .icon-container {
   display: flex;
   align-items: center;
-  justify-content: space-around; /* Automatically distribute space around elements */
-  flex-grow: 1; /* Allow the container to grow and take available space */
+  justify-content: space-around;
+  flex-grow: 1;
 }
 
 .nav-spacer {
-  flex: 1; /* Allow the spacer to take up remaining space */
+  flex: 1;
 }
 
 .greeting-text {
   color: black;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle shadow for better readability */
-  font-size: 16px; /* Adjust font size to match the toolbar's text */
-  font-weight: 400; /* Normal weight for consistency */
-  line-height: 1.5; /* Ensures good spacing */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  margin: 0 10px;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-photo {
-  width: 36px; /* Set a fixed width */
-  height: 36px; /* Set a fixed height */
-  border-radius: 50%; /* Make it circular */
-  overflow: hidden; /* Ensure the image stays within the circular boundary */
-  margin-right: 15px; /* Adjust margin to fit within the toolbar */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 15px;
 }
 
 .profile-photo img {
-  width: 100%; /* Ensure the image fills the container */
-  height: 100%; /* Ensure the image fills the container */
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 button[mat-raised-button], button[mat-icon-button] {
-  margin-left: 10px; /* Add some space before the button */
+  margin-left: 10px;
+}
+
+/* Mobile Menu Styles */
+.mobile-menu-button {
+  display: none; /* Hidden by default */
+  margin-right: 12px;
+}
+
+.icon-label {
+  display: none; /* Hidden on desktop */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .mobile-menu-button {
+    display: block; /* Show menu button */
+  }
+
+  .icon-container {
+    position: absolute;
+    top: 56px; /* Mat-toolbar height */
+    right: 0;
+    background-color: #A6C095;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 200px;
+    padding: 10px;
+    box-shadow: -2px 2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
+    gap: 10px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+
+    &.mobile-visible {
+      transform: translateX(0);
+    }
+  }
+
+  .icon-label {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  .greeting-text {
+    margin: 5px 0;
+    max-width: 100%;
+  }
+
+  .profile-photo {
+    margin: 5px 0;
+  }
+
+  button[mat-icon-button] {
+    margin-left: 0;
+  }
+}
+/* Make sign-out text match other nav items */
+button[mat-icon-button].sign-out-button {
+  font-size: 16px; /* Match your other nav items */
+  width: auto; /* Allow text to expand */
+  height: auto;
+  padding: 8px 12px; /* Similar padding to other buttons */
+}
+
+/* Keep the warn color but better alignment */
+button[mat-icon-button].sign-out-button mat-icon {
+  margin-right: 4px; /* Space between icon and text */
+  font-size: 18px; /* Slightly larger icon */
+  vertical-align: middle;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+  button[mat-icon-button].sign-out-button {
+    padding: 6px 8px;
+    font-size: 14px;
+  }
 }

@@ -1,37 +1,39 @@
-<mat-toolbar color="primary1" class="mat-elevation-z8 kalyanamHeader" style="background-color: rgb(134, 210, 134);">
+<mat-toolbar color="primary1" class="mat-elevation-z8 kalyanamHeader" style="background-color: #A6C095;">
+  <!-- Mobile Menu Button (Visible only on mobile) -->
+  <button mat-icon-button class="mobile-menu-button" (click)="toggleMobileMenu()" *ngIf="!loggedin || isMobile()">
+    <mat-icon>{{ mobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+  </button>
+
+  <!-- Title -->
   <span class="leckerli-one-regular">
     <mat-icon>eco</mat-icon> Shravani Kalyanam
   </span>
 
-
-
-
   <div class="nav-spacer"></div>
 
-  <div class="icon-container">
+  <!-- Desktop Icons (Visible always on desktop, conditionally on mobile) -->
+  <div class="icon-container" [class.mobile-visible]="mobileMenuOpen || !isMobile()">
     <!-- Home Icon -->
-    <a mat-button routerLink="home">
+    <a mat-button routerLink="home" (click)="closeMobileMenu()">
       <mat-icon>home</mat-icon>
+      <span class="icon-label">Home</span>
     </a>
 
     <!-- About Me Icon -->
-    <a mat-button routerLink="about-me">
+    <a mat-button routerLink="about-me" (click)="closeMobileMenu()">
       <mat-icon>contact_page</mat-icon>
+      <span class="icon-label">About</span>
     </a>
 
-    <!-- Logged In Components Container -->
+    <!-- Logged In Components -->
     <ng-container *ngIf="loggedin">
-      <!-- Greeting Text -->
       <span class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
-
-      <!-- Profile Photo -->
       <div class="profile-photo spaced-photo">
         <img [src]="userProfilex.picture" alt="Profile Photo" />
       </div>
-
-      <!-- Sign Out Button -->
-      <button mat-icon-button color="warn" (click)="handleSignOut()">
+      <button mat-icon-button color="warn" (click)="handleSignOut()" class="sign-out-button">
         <mat-icon>logout</mat-icon>
+        <span>Sign Out</span>
       </button>
     </ng-container>
   </div>

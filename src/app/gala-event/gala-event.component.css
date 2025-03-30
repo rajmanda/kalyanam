@@ -83,15 +83,18 @@
   font-size: 18px;
 }
 
-.location-2 {
+div.location-2 a.location-2 {
   font-family: 'Imperial Script', cursive;
-  font-size: 14px;
-  color: blueviolet;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.852);
 }
+
+
 
 /* Apply the fonts */
 .card-body {
   font-family: 'Merriweather', serif;
+  font-weight: bold;
   background-color: ;
 }
 

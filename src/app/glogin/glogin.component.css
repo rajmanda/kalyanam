@@ -1,235 +1,123 @@
-.login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f2f2f2;
-}
-
-.bglogin h1{
-  color: #C03039;
-}
-
-.login-form label {
-  margin-bottom: 10px;
-}
-
-.login-form input {
-  padding: 10px;
-  border: none;
-  margin-bottom: 10px;
-}
-
-.login-form button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.login-form button:hover {
-  background-color: #3e8e41;
-}
-
-
-
-:root {
-  --theme-red-color:#C03039;
-  --orange-color: #FBC73D;
-  --white: #ffffff;
-  --blackcolor: #000000;
-  --lightdark: #0F121F;
-}
-.lato-thin {
-  font-family: "Lato", serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.lato-light {
-  font-family: "Lato", serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.lato-regular {
-  font-family: "Lato", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.lato-bold {
-  font-family: "Lato", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.lato-black {
-  font-family: "Lato", serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.lato-thin-italic {
-  font-family: "Lato", serif;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.lato-light-italic {
-  font-family: "Lato", serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.lato-regular-italic {
-  font-family: "Lato", serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.lato-bold-italic {
-  font-family: "Lato", serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.lato-black-italic {
-  font-family: "Lato", serif;
-  font-weight: 900;
-  font-style: italic;
-}
-
-.leckerli-one-regular {
-  font-family: "Leckerli One", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-
-body{
-	font-family: "Lato", serif;
-}
-header{
-	background-color: var(--theme-red-color);
-}
-h1{font-family: "Leckerli One", serif;color: var(--theme-red-color);}
-
-.kalyanamHeader{
-	padding-top: 10px;padding-bottom: 10px;
-}
-.kalyanamHeader ul li a{
-	color: var(--white);text-decoration: none;
-}
-.kalyanamHeader ul li a:hover{
-	text-decoration: underline;
-}
-.kalyanamHeader li {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-.kalyanamHeader li:last-child {
-    padding-right: 0px;
-}
-.kalyanamHeader ul li:last-child a {
-    background-color: var(--white);
-    color: var(--theme-red-color);
-    padding: 10px 46px;
-    border-radius: 50px;
-}
- 
-.bglogin .col-md-5 {
-    padding-left: 0;
-}
-.bglogin{
-  background: url('/assets/images/background-images.jpg');
-  border-radius: 10px;
-}
-.google-btn {
-    display: inline-flex; /* Ensures the button wraps around the content */
-    align-items: center;
-    gap: 10px;
-    background-color: #dd4b39;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-    width: fit-content; /* Ensures the width adjusts to content size */
-    min-width: max-content; /* Prevents excessive shrinking */
-    white-space: nowrap; /* Prevents text from wrapping */
-  font-weight: normal;
-  border: 0;
-}
-.google-btn:hover {
-    background-color: #c23321;
-}
-.google-btn img {
-    width: 24px;
-    height: 24px;
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 5px;
-}
-
-
-/* Custom styles for the login section */
+/* ===== YOUR ORIGINAL STYLES ===== */
 .bglogin {
-  background-color: #f8f9fa;
-  border-radius: 10px;
+  background-color: #FAE409;
+  border-radius: 0px; /* Unified border radius for both rows */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
-h1 {
-  color: #333;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+.loginbox {
+  margin-top: 20px; /* Adds space between the image and the text */
 }
 
-.lead {
-  color: #555;
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
+.button-rsvp-wrapper {
+  display: flex;
+  flex-direction: column; /* Align the button and RSVP vertically */
+  align-items: center; /* Centers them horizontally */
+  gap: 10px; /* Adds space between the button and RSVP text */
 }
 
-.list-unstyled li {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 0.75rem;
-}
-
-.btn-primary {
-  background-color: #4285f4;
-  border: none;
+.google-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #dd4b39;
+  color: white;
   padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+  width: fit-content;
+  min-width: max-content;
+  white-space: nowrap;
+  font-weight: normal;
+  border: none;
+}
+
+.google-btn:hover {
+  background-color: #c23321;
+}
+
+.google-btn img {
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+/* Font Styles for Headings */
+h1 {
+  font-family: 'Fleur De Leah', sans-serif;
+  font-size: 2.25rem;
+}
+
+/* Margin for Suswagatham Text */
+.swagatham-text {
+  margin-left: 5px; /* Adds a small margin to the left of Suswagatham */
+}
+
+/* RSVP Text */
+ul.list-unstyled {
   font-size: 1.1rem;
+  color: #555;
 }
 
-.btn-primary:hover {
-  background-color: #357ae8;
+/* ===== NEW MOBILE FIXES (ADDED BELOW YOUR ORIGINAL STYLES) ===== */
+.loginpage {
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.kalyanamFooter { 
-  color: #fff;
-  padding: 20px 0;
-  margin-top: 40px;
-}
-.kalyanamHeader a{color: #fff;}
-.kalyanamFooter p {
-  margin: 0;
-  font-size: 0.9rem;
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
 }
 
-@media only screen and (max-width: 767px){
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  .row.bglogin {
+    flex-direction: column;
+  }
+
+  .col-md-5, .col-md-7 {
+    width: 100%;
+    padding: 15px;
+  }
+
   .loginbox {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    margin-top: 0;
+    padding: 20px;
+  }
+
+  img.img-fluid {
+    width: 100%;
+    height: auto;
+  }
+
+  .button-rsvp-wrapper {
+    padding: 20px;
+  }
+
+  /* Ensure your font sizes are mobile-friendly */
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .google-btn {
+    padding: 12px 24px; /* Slightly larger for mobile */
+    font-size: 1rem;
+  }
 }
-.bglogin h1 {
-  font-size: 32px;
-  line-height: 36px;
+
+/* Fix for the second row */
+.row.bglogin.mt-n5 {
+  margin-top: 0 !important;
+  padding-top: 20px;
 }
-}
+
+
