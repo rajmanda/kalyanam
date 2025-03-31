@@ -7,38 +7,47 @@
   </span>
 
   <span class="example-spacer"></span>
-  <button routerLink="home" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+  <button
+    routerLink="home"
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon"
+  >
     <mat-icon>home</mat-icon>
   </button>
 
-  <button routerLink="about-me" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+  <button
+    routerLink="about-me"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with share icon"
+  >
     <mat-icon>contact_page</mat-icon>
   </button>
 
-      <ng-container *ngIf="loggedin">
+  <ng-container *ngIf="loggedin">
+    <span class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
 
-        <span class="greeting-text">Hi, {{ userProfilex.given_name }}!</span>
+    <div class="profile-photo">
+      <img [src]="userProfilex.picture" alt="Profile Photo" />
+    </div>
 
-
-        <div class="profile-photo">
-          <img [src]="userProfilex.picture" alt="Profile Photo" />
-        </div>
-
-
-        <button mat-icon-button color="warn" (click)="handleSignOut()">
-          <mat-icon>logout</mat-icon>
-        </button>
-      </ng-container>
-
+    <button mat-icon-button color="warn" (click)="handleSignOut()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </ng-container>
 </mat-toolbar>
 
 <mat-toolbar *ngIf="isMobile">
   <!-- Hamburger menu button on the left -->
-  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+    <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    aria-label="Menu"
+    class="menu-button"
+  >
     <mat-icon>menu</mat-icon>
   </button>
-
-  <span class="example-spacer"></span>
 
   <span class="icon-text">
     <mat-icon class="icon">eco</mat-icon>
@@ -47,7 +56,18 @@
     </span>
   </span>
 
+
+
   <span class="example-spacer"></span>
+
+  <ng-container *ngIf="loggedin">
+    <div class="profile-photo">
+      <img [src]="userProfilex.picture" alt="Profile Photo" />
+    </div>
+    <button mat-icon-button color="warn" (click)="handleSignOut()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </ng-container>
 
   <!-- Menu contents -->
   <mat-menu #menu="matMenu" xPosition="before">
@@ -55,20 +75,10 @@
       <mat-icon>home</mat-icon>
       <span>Home</span>
     </button>
+    
     <button mat-menu-item routerLink="about-me">
       <mat-icon>contact_page</mat-icon>
       <span>About</span>
     </button>
-
-    <ng-container *ngIf="loggedin">
-      <div class="menu-user-info">
-        <img [src]="userProfilex.picture" alt="Profile Photo" class="menu-profile-photo">
-        <span>Hi, {{ userProfilex.given_name }}!</span>
-      </div>
-      <button mat-menu-item (click)="handleSignOut()">
-        <mat-icon>logout</mat-icon>
-        <span>Sign Out</span>
-      </button>
-    </ng-container>
   </mat-menu>
 </mat-toolbar>
