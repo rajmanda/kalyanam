@@ -2,9 +2,14 @@
   <div class="container">
     <!-- First Row -->
     <div class="row bglogin m-0">
-      <!-- Left Column: Image -->
+      <!-- Left Column: Image and Video -->
       <div class="col-md-5">
-        <img src="assets/images/Sravs solo - red -1.jpeg" class="img-fluid" alt="Left Lady" />
+        <img id="introImage" src="assets/images/Sravs solo - red -1.jpeg" class="img-fluid" alt="Sravs solo - red" />
+
+        <video id="introVideo" class="img-fluid" muted style="display: none;">
+          <source src="assets/videos/invitation.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
 
       <!-- Right Column: Login Form -->
@@ -38,3 +43,19 @@
     </div>
   </div>
 </section>
+
+<script>
+  window.onload = function() {
+    setTimeout(function() {
+      var image = document.getElementById('introImage');
+      var video = document.getElementById('introVideo');
+
+      // Hide the image and show the video
+      image.style.display = 'none';
+      video.style.display = 'block';
+
+      // Play the video
+      video.play();
+    }, 2000); // 2-second delay
+  };
+</script>
