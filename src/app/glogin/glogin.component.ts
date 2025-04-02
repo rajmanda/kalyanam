@@ -13,10 +13,7 @@ import { AuthService } from '../services/auth/auth.service';
 
 })
 export class GloginComponent implements OnInit {
-  
-  declare const google: any;  // Needed for Google authentication methods
   loginMessage: string | null = null;
-
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute
