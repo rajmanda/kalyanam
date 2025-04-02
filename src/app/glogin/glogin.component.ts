@@ -4,16 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 
+declare const google: any;  // Needed for Google authentication methods
+
 @Component({
   selector: 'app-glogin',
-  templateUrl: './glogin.component.html',
-  styleUrls: ['./glogin.component.css'],
   standalone: true,
   imports: [FormsModule, CommonModule],
-
+  templateUrl: './glogin.component.html',
+  styleUrl: './glogin.component.css'
 })
-export class GloginComponent implements OnInit {
+export class GloginComponent {
   loginMessage: string | null = null;
+
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute
@@ -27,8 +29,7 @@ export class GloginComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.loginMessage = params['message'];
     });
-
-    setTimeout(() => {
+        setTimeout(() => {
       const image = document.getElementById('introImage') as HTMLImageElement;
       const video = document.getElementById('introVideo') as HTMLVideoElement;
 
@@ -50,5 +51,9 @@ export class GloginComponent implements OnInit {
         });
       }
     }, 2000); // 2-second delay
+  }
+
+  loginWithGoogle(): void {
+    this.authService.login();
   }
 }
