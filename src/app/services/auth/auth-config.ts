@@ -6,7 +6,7 @@ export const authConfig: AuthConfig = {
   strictDiscoveryDocumentValidation: false,
   redirectUri: environment.oauthConfig.redirectUri,
   clientId: environment.oauthConfig.clientId,
-  scope: 'openid profile email',
+  scope: 'openid profile',
   responseType: 'token id_token',
   showDebugInformation: true,
   useSilentRefresh: true,
