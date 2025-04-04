@@ -66,7 +66,7 @@ ul.list-unstyled {
 
 /* ===== NEW MOBILE FIXES (ADDED BELOW YOUR ORIGINAL STYLES) ===== */
 .loginpage {
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -79,7 +79,7 @@ ul.list-unstyled {
 }
 
 /* Mobile-specific adjustments */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .row.bglogin {
     flex-direction: column;
   }
