@@ -24,9 +24,15 @@
     </a>
   </div> -->
 
-<div class="card-container">
-  <!-- List of Events -->
-  <div *ngFor="let eventDTO of galaEventsDTOs">
-    <app-gala-event [galaEventDTO]="eventDTO"></app-gala-event>
+<!-- gala-events.component.html -->
+<div *ngIf="galaEventsDTOs && galaEventsDTOs.length > 0" class="gala-events-container">
+  <div class="card-container">
+    <!-- List of Events -->
+    <div *ngFor="let eventDTO of galaEventsDTOs" class="gala-event">
+      <app-gala-event [galaEventDTO]="eventDTO"></app-gala-event>
+    </div>
   </div>
+</div>
+<div *ngIf="!galaEventsDTOs || galaEventsDTOs.length === 0">
+  Loading...
 </div>

@@ -1,19 +1,14 @@
-/* .card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 22px;
-  padding:4px;
-  justify-content: center;
-  grid-auto-flow: dense;
-} */
+/* gala-events.component.css */
 
-
-.kalyanamFooter{
-	background-color: #0F121F;color:#ffffff;padding-top: 15px;padding-bottom: 15px;
+.kalyanamFooter {
+  background-color: #0F121F;
+  color: #ffffff;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .kalyanamFooter p {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 /* Add Event Button Container */
@@ -34,15 +29,30 @@
   display: flex; /* Enable flexbox */
   flex-wrap: wrap; /* Allow items to wrap to the next row */
   gap: 16px; /* Add spacing between items */
+  justify-content: center; /* Center the cards horizontally */
+  padding: 4px; /* Add some padding around the container */
 }
 
 .card-container > div {
-  flex: 1 1 calc(33% - 16px); /* Each item takes 50% of the container width minus the gap */
+  /* flex: 1 1 calc(33% - 16px);  Each item takes 33% of the container width minus the gap */
+  flex: 0 1 calc(33.333% - 16px); /* Each item takes 33.333% of the container width minus the gap */
   box-sizing: border-box; /* Ensure padding and border are included in the width */
+  margin-bottom: 16px; /* Add spacing between rows */
+  max-width: calc(33.333% - 16px);
 }
 
+/* Media query for tablet and smaller screens */
+@media (max-width: 1024px) {
+  .card-container > div {
+    flex: 0 1 calc(50% - 16px); /* Two columns on tablet */
+    max-width: calc(50% - 16px);
+  }
+}
+
+/* Media query for mobile screens */
 @media (max-width: 768px) {
   .card-container > div {
-    flex: 1 1 100%; /* Each item takes 100% of the container width on smaller screens */
+    flex: 0 1 100%; /* Each item takes 100% of the container width on smaller screens */
+    max-width: 100%;
   }
 }
