@@ -1,30 +1,12 @@
-
-<!-- <div class="card-container">
-  <div *ngFor="let eventDTO of galaEventsDTOs" >
-    <app-gala-event [galaEventDTO]="eventDTO"> </app-gala-event>
+<!-- Video Invite Banner -->
+<div class="video-invite-banner" (click)="playVideoInvite()">
+  <div class="banner-content">
+    <mat-icon class="play-icon">play_circle_filled</mat-icon>
+    <h2 class="banner-text">Watch the Video Invite</h2>
   </div>
-</div> -->
+</div>
 
-  <!-- Add Event Icon -->
-  <div *ngIf="isAdmin" class="add-event-icon-container">
-    <a mat-icon-button routerLink="/create-gala-event" aria-label="Add Event">
-      <mat-icon>add</mat-icon><span> Add Event</span>
-    </a>
-  </div>
-  <!-- Add Event Icon -->
-  <div *ngIf="isAdmin" class="add-event-icon-container">
-    <a mat-icon-button routerLink="/pictures" aria-label="Select Pictures">
-      <mat-icon>image</mat-icon><span> Select Pictures</span>
-    </a>
-  </div>
-  <!-- Add Event Icon -->
-  <!-- <div *ngIf="isAdmin" class="add-event-icon-container">
-    <a mat-icon-button routerLink="/upload" aria-label="Upload Picture">
-      <mat-icon>upload_file</mat-icon><span> Select Pictures</span>
-    </a>
-  </div> -->
-
-<!-- gala-events.component.html -->
+<!-- Main Events Content -->
 <div *ngIf="galaEventsDTOs && galaEventsDTOs.length > 0" class="gala-events-container">
   <div class="card-container">
     <!-- List of Events -->
@@ -33,6 +15,19 @@
     </div>
   </div>
 </div>
+
 <div *ngIf="!galaEventsDTOs || galaEventsDTOs.length === 0">
   Loading...
+</div>
+
+<!-- Add Event Icons (Admin Only) -->
+<div *ngIf="isAdmin" class="add-event-icon-container">
+  <a mat-icon-button routerLink="/create-gala-event" aria-label="Add Event">
+    <mat-icon>add</mat-icon><span> Add Event</span>
+  </a>
+</div>
+<div *ngIf="isAdmin" class="add-event-icon-container">
+  <a mat-icon-button routerLink="/pictures" aria-label="Select Pictures">
+    <mat-icon>image</mat-icon><span> Select Pictures</span>
+  </a>
 </div>

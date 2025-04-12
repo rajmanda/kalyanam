@@ -1,0 +1,85 @@
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}
+
+.video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Loading Spinner */
+.spinner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+/* Controls Container */
+.controls-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  padding: 15px;
+  transition: opacity 0.3s;
+}
+
+/* Progress Bar */
+.progress-container {
+  width: 100%;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.time-display {
+  position: absolute;
+  right: 0;
+  top: -20px;
+  color: white;
+  font-size: 12px;
+}
+
+/* Main Controls */
+.main-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+button {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+  }
+}
+
+.close-button {
+  background: rgba(255, 107, 107, 0.7);
+  margin-left: auto;
+}
+
+.volume-slider {
+  width: 100px;
+}
+
+/* Fullscreen Styles */
+:host-context(.fullscreen) .video-container {
+  background: black;
+}

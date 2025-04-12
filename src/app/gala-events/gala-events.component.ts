@@ -16,6 +16,8 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { AdminsService } from '../services/admin/admins.service';
 import { AuthService } from '../services/auth/auth.service';
 import { consumerMarkDirty } from '@angular/core/primitives/signals';
+import { VideoDialogComponent } from '../video-dialog/video-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-gala-events',
@@ -32,7 +34,7 @@ export class GalaEventsComponent implements OnInit {
   eventDeletedSubscription: Subscription | undefined;
   isAdmin: boolean = false;
 
-  constructor(private galaService: GalaService, private authService: AuthService) {}
+  constructor(private galaService: GalaService, private authService: AuthService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
 
@@ -90,6 +92,16 @@ private parseDate(dateStr: string): Date {
     return new Date(cleanedDateStr);
   }
 
+  playVideoInvite() {
+    this.dialog.open(VideoDialogComponent, {
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: 'full-screen-video-dialog',
+      disableClose: true
+    });
+  }
 
 }
 
