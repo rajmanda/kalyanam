@@ -70,7 +70,8 @@ export class CreateGalaComponentComponent {
         date: this.eventForm.value.date,
         location: this.eventForm.value.location,
         image: this.eventForm.value.image,
-        description: this.eventForm.value.description
+        description: this.eventForm.value.description,
+        comments: this.eventForm.value.comments
       };
 
       // Call the saveGalaEvent method from the GalaService

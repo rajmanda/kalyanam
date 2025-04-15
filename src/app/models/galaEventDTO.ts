@@ -4,6 +4,7 @@ export interface GalaEventDetails {
   location: string;
   image: string;
   description: string;
+  comments: string;
 }
 export interface GalaEventDTO {
   galaEventId: number;

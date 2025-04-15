@@ -39,6 +39,11 @@
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.userName}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="comments">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Comments </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.comments}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="forGuest">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> For Guest </th>
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.forGuest}} </td>

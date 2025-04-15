@@ -12,4 +12,5 @@ export interface Event {
 
   description: string;
 
+  comments: string;
 }
