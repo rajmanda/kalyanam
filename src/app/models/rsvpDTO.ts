@@ -11,6 +11,7 @@ export interface RsvpDetails {
   adults: number;
   children: number;
   forGuest: string ;
+  comments: string
 }
 
 export interface RsvpDTO {

@@ -1,56 +1,62 @@
-
 <h2 mat-dialog-title>{{ data.selectedEvent.name }} -
-     <span class="date-color"> {{ data.selectedEvent.date }} </span>
+  <span class="date-color"> {{ data.selectedEvent.date }} </span>
 </h2>
 <mat-dialog-content>
-  <div class="rsvp-form">
-    <form [formGroup]="rsvpForm" >
-      <div>
-        <!-- RSVP Yes/No Field -->
-        <div class="form-group">
-          <label>RSVP:</label>
-          <mat-radio-group formControlName="rsvp">
-            <mat-radio-button value="yes">Yes</mat-radio-button>
-            <mat-radio-button value="no" >No</mat-radio-button>
-          </mat-radio-group>
-        </div>  
+<div class="rsvp-form">
+ <form [formGroup]="rsvpForm" >
+   <div>
+     <!-- RSVP Yes/No Field -->
+     <div class="form-group">
+       <label>RSVP:</label>
+       <mat-radio-group formControlName="rsvp">
+         <mat-radio-button value="yes">Yes</mat-radio-button>
+         <mat-radio-button value="no" >No</mat-radio-button>
+       </mat-radio-group>
+     </div>
 
-        <!-- "For Guest" Field (only for admin) -->
-        <div *ngIf="isAdmin" class="form-group">
-          <mat-form-field appearance="fill">
-            <mat-label>For Guest</mat-label>
-            <input matInput formControlName="forGuest" placeholder="Enter guest name">
-          </mat-form-field>
-        </div>
+     <!-- Comments Field -->
+     <div class="form-group">
+       <mat-form-field appearance="fill">
+         <mat-label>Comments</mat-label>
+         <textarea matInput formControlName="comments" placeholder="Any additional comments"></textarea>
+       </mat-form-field>
+     </div>
 
-        <!-- <div *ngIf="rsvpForm.get('rsvp').value === 'yes'"> -->
-          <div *ngIf="rsvpForm.get('rsvp')?.value === 'yes'"> <!--safe navigation operator-->
-          <mat-form-field appearance="fill" class="form-group">
-            <mat-label>Adults</mat-label>
-            <mat-select formControlName="adults">
-              <mat-option *ngFor="let num of adultOptions" [value]="num">{{ num }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+     <!-- "For Guest" Field (only for admin) -->
+     <div *ngIf="isAdmin" class="form-group">
+       <mat-form-field appearance="fill">
+         <mat-label>For Guest</mat-label>
+         <input matInput formControlName="forGuest" placeholder="Enter guest name">
+       </mat-form-field>
+     </div>
 
-          <mat-form-field appearance="fill" class="form-group">
-            <mat-label>Children</mat-label>
-            <mat-select formControlName="children">
-              <mat-option *ngFor="let num of childrenOptions" [value]="num">{{ num }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+     <div *ngIf="rsvpForm.get('rsvp')?.value === 'yes'"> <!--safe navigation operator-->
+       <mat-form-field appearance="fill" class="form-group">
+         <mat-label>Adults</mat-label>
+         <mat-select formControlName="adults">
+           <mat-option *ngFor="let num of adultOptions" [value]="num">{{ num }}</mat-option>
+         </mat-select>
+       </mat-form-field>
 
-          <div class="form-group">
-            <label for="total">Total:</label>
-            <span>{{ totalGuests }}</span>
-          </div>
-        </div>
+       <mat-form-field appearance="fill" class="form-group">
+         <mat-label>Children</mat-label>
+         <mat-select formControlName="children">
+           <mat-option *ngFor="let num of childrenOptions" [value]="num">{{ num }}</mat-option>
+         </mat-select>
+       </mat-form-field>
 
-      </div>
-    </form>
-  </div>
+       <div class="form-group">
+         <label for="total">Total:</label>
+         <span>{{ totalGuests }}</span>
+       </div>
+     </div>
+
+   </div>
+ </form>
+</div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="submit()" class="btn-orange">Submit</button>
-  <button mat-button mat-dialog-close class="btn-red">Cancel</button>
+<button mat-button (click)="submit()" class="btn-orange">Submit</button>
+<button mat-button mat-dialog-close class="btn-red">Cancel</button>
 </mat-dialog-actions>
