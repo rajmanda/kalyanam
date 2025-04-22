@@ -1,89 +1,132 @@
+/* Container for the entire component */
+.mat-elevation-z8 {
+  max-width: 100%;
+  overflow-x: auto; /* Ensures horizontal scrolling if needed */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  margin: 16px;
+  border-radius: 8px;
+}
+
 /* Totals Section */
 .totals-section {
-  margin-bottom: 20px; /* Add space below the totals section */
+  margin-bottom: 20px;
 }
 
 /* Totals Row */
 .totals-row {
   display: flex;
-  justify-content: space-between; /* Distribute items evenly */
-  gap: 20px; /* Add spacing between items in a row */
-  padding: 10px; /* Add padding inside each row */
-  border-radius: 8px; /* Add rounded corners */
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 /* Gradient for the Event Details Row */
 .totals-row:first-child {
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Light blue gradient */
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
 }
 
 /* Gradient for the Totals Row */
 .totals-row:last-child {
-  background: linear-gradient(135deg, #e0eafc, #cfdef3); /* Light purple gradient */
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
 }
 
 .totals-row p {
-  margin: 0; /* Remove default margin for <p> */
+  margin: 0;
   font-size: 16px;
-  flex: 1; /* Make each <p> take equal width */
-  text-align: center; /* Center text within each <p> */
+  flex: 1;
+  text-align: center;
 }
 
-/* Ensure the Mat Dialog container has relative positioning */
-.mat-dialog-container {
-  position: relative;
+/* Table Styling (Forces horizontal scroll on mobile) */
+.mat-table {
+  min-width: 600px; /* Ensures table doesn't shrink below this width */
+  width: 100%;
+  overflow-x: auto;
 }
 
-/* Optional: Add margin to prevent overlapping with the paginator */
-mat-paginator {
-  margin-bottom: 50px; /* Add space for the button */
+/* Table cell padding for better readability */
+th.mat-header-cell,
+td.mat-cell {
+  padding: 12px 16px;
+  white-space: nowrap; /* Prevents text wrapping */
 }
 
-/* Print Button */
-.print-button {
-  padding: 8px 16px; /* Add padding for better appearance */
-  background-color: #007bff; /* Button background color */
-  color: white; /* Button text color */
-  border: none; /* Remove border */
-  border-radius: 4px; /* Add rounded corners */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  font-size: 14px; /* Match font size with paginator */
-  line-height: 1.5; /* Match line height with paginator */
+/* Header row styling */
+.mat-header-row {
+  background-color: #f5f5f5;
 }
 
-.print-button:hover {
-  background-color: #0056b3; /* Darker background on hover */
+/* Force scrollbar visibility (works on most browsers) */
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  height: 7px;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 /* Paginator and Print Button Container */
 .paginator-container {
   display: flex;
-  justify-content: space-between; /* Space items evenly */
-  align-items: center; /* Align items vertically */
-  padding: 8px; /* Add padding for better spacing */
-  margin-top: 16px; /* Add space above the paginator row */
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  margin-top: 16px;
+}
+
+/* Print Button Styling */
+.print-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: background-color 0.3s ease;
+}
+
+.print-button:hover {
+  background-color: #0056b3;
 }
 
 /* Adjust Angular Material Paginator Text */
 .mat-paginator-page-size {
   display: flex;
-  align-items: center; /* Align "Items per page" text vertically */
+  align-items: center;
 }
 
 .mat-paginator-page-size-label {
-  font-size: 14px; /* Match font size with Print button */
-  line-height: 1.5; /* Match line height with Print button */
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-/* Hide paginator and print button during printing */
+/* Responsive Behavior (Mobile) */
+@media (max-width: 768px) {
+  .totals-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .totals-row p {
+    text-align: left;
+  }
+}
+
+/* Print Styles (Hide non-essential elements) */
 @media print {
   .print-button,
   mat-paginator {
     display: none;
   }
-
-  /* Ensure the table takes full width */
   .mat-table {
-    width: 100%;
+    width: 100% !important;
+  }
+  .totals-row {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
