@@ -30,8 +30,8 @@ import { AdminsService } from '../services/admin/admins.service';
 })
 export class RsvpDialogComponent implements OnInit  {
   rsvpForm: FormGroup;
-  adultOptions = [0, 1, 2, 3, 4];
-  childrenOptions = [0, 1, 2, 3, 4];
+  adultOptions = [0, 1, 2, 3, 4, 5, 6];
+  childrenOptions = [0, 1, 2, 3, 4, 5, 6 ];
   combinedData: undefined;
   isRsvpYes: boolean | true | undefined;
   totalGuests = 0;
