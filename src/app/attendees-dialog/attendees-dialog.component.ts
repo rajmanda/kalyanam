@@ -74,6 +74,10 @@ export class AttendeesDialogComponent implements AfterViewInit {
       .subscribe(filteredData => {
         this.dataSource = new MatTableDataSource(filteredData);
         this.dataSource.paginator = this.paginator;
+
+        // Set the default page size programmatically
+        this.paginator.pageSize = 9;
+
         this.dataSource.sort = this.sort;
 
         // Call calculateTotals after data is loaded
