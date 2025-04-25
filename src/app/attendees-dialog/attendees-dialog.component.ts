@@ -76,7 +76,7 @@ export class AttendeesDialogComponent implements AfterViewInit {
         this.dataSource.paginator = this.paginator;
 
         // Set the default page size programmatically
-        this.paginator.pageSize = 9;
+        this.paginator.pageSize = 8;
 
         this.dataSource.sort = this.sort;
 
