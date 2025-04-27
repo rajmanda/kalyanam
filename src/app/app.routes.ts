@@ -8,6 +8,7 @@ import { CreateGalaComponentComponent } from "./create-gala-component/create-gal
 import { CallbackComponent } from './callback/callback.component';
 import { PictureGalleryComponent } from './picture-gallery/picture-gallery.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { RsvpAllComponent } from './rsvp-all/rsvp-all.component';
 
 export const routes: Routes = [
 
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'about-me', component: AboutMeComponent },
   { path: 'pictures', component: PictureGalleryComponent, canActivate: [AuthGuard] },
   { path: 'upload', component: FileUploadComponent},
+  { path: 'rsvp-all', component: RsvpAllComponent},
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ]

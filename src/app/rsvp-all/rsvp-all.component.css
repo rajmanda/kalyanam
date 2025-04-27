@@ -1,0 +1,59 @@
+.container {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.event-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.mat-column-select {
+  width: 40px;
+}
+
+.mat-column-image {
+  width: 80px;
+}
+
+.mat-column-name {
+  width: 150px;
+}
+
+.mat-column-date {
+  width: 200px;
+}
+
+/* Form fields in table */
+.mat-form-field {
+  width: 100%;
+  margin: 0 8px;
+}
+
+/* Select dropdowns */
+mat-select {
+  min-width: 80px;
+}
+
+/* Conditional columns */
+.mat-column-comments,
+.mat-column-guest {
+  min-width: 200px;
+}
+
+.mat-column-adults,
+.mat-column-children {
+  min-width: 100px;
+}

@@ -7,12 +7,24 @@
   </span>
 
   <span class="example-spacer"></span>
+
+
+
+    <!-- Show only when admin check is complete AND user is admin -->
+    <button *ngIf="isAdminCheckComplete && isAdmin"
+    routerLink="rsvp-all"
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Admin RSVP">
+    <mat-icon>list_alt_add</mat-icon>
+    </button>
+
+
   <button
     routerLink="home"
     mat-icon-button
     class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-  >
+    aria-label="Example icon-button with heart icon">
     <mat-icon>home</mat-icon>
   </button>
 
@@ -40,7 +52,7 @@
 
 <mat-toolbar *ngIf="isMobile">
   <!-- Hamburger menu button on the left -->
-    <button
+  <button
     mat-icon-button
     [matMenuTriggerFor]="menu"
     aria-label="Menu"
@@ -55,8 +67,6 @@
       Shravani Kalyanam
     </span>
   </span>
-
-
 
   <span class="example-spacer"></span>
 
@@ -75,10 +85,25 @@
       <mat-icon>home</mat-icon>
       <span>Home</span>
     </button>
-    
+
     <button mat-menu-item routerLink="about-me">
       <mat-icon>contact_page</mat-icon>
       <span>About</span>
     </button>
+
+    <!-- Show only when admin check is complete AND user is admin -->
+    <button *ngIf="isAdminCheckComplete && isAdmin"
+    routerLink="rsvp-all"
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Admin RSVP">
+    <mat-icon>list_alt_add</mat-icon>
+    </button>
+
+    <!-- Optional: Add direct action version if needed -->
+    <!-- <button mat-menu-item (click)="openRsvpAllDialog()">
+      <mat-icon>list_alt_add</mat-icon>
+      <span>RSVP</span>
+    </button> -->
   </mat-menu>
 </mat-toolbar>
