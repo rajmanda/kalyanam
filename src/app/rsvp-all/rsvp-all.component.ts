@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, ViewChild, OnDestroy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Router } from '@angular/router';
-import { catchError, of, Subscription, finalize, Subject, takeUntil } from 'rxjs';
+import { catchError, of, finalize, Subject, takeUntil } from 'rxjs';
 import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
 import { GalaService } from '../services/gala/gala.service';
 import { AuthService } from '../services/auth/auth.service';
@@ -29,6 +28,7 @@ interface SelectableGalaEvent extends GalaEventDetails {
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -45,6 +45,7 @@ export class RsvpAllComponent implements OnDestroy {
   isAdmin = false;
   isLoadingResults = false;
   isMobile = false;
+  rsvpForm!: FormGroup;
 
   private destroyed$ = new Subject<void>();
 
@@ -53,15 +54,16 @@ export class RsvpAllComponent implements OnDestroy {
 
   @ViewChild(MatTable) table!: MatTable<any>;
 
-  private readonly dialogRef = inject(MatDialogRef<RsvpAllComponent>); // Inject MatDialogRef
+  private readonly dialogRef = inject(MatDialogRef<RsvpAllComponent>, { optional: true });
   private readonly snackBar = inject(MatSnackBar);
-  private readonly rsvpService = inject(RsvpService); // Your RSVP service
+  private readonly rsvpService = inject(RsvpService);
 
   private readonly authService = inject(AuthService);
   private readonly galaService = inject(GalaService);
 
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly fb = inject(FormBuilder);
 
   constructor() {
     this.breakpointObserver.observe([
@@ -123,6 +125,7 @@ export class RsvpAllComponent implements OnDestroy {
           children: 0,
           comments: ''
         })).sort((a, b) => this.sortEventsByDate(a, b));
+        this.buildForm();
         this.updateDisplayedColumns();
         this.safeDetectChanges();
       },
@@ -131,6 +134,20 @@ export class RsvpAllComponent implements OnDestroy {
         this.safeDetectChanges();
       }
     });
+  }
+
+  private buildForm() {
+    const group: { [key: string]: FormControl } = {};
+    this.events.forEach((event, i) => {
+      group[`event_${i}_adults`] = new FormControl(event.adults);
+      group[`event_${i}_children`] = new FormControl(event.children);
+      group[`event_${i}_guest`] = new FormControl(event.forGuest);
+      group[`event_${i}_comments`] = new FormControl(event.comments);
+      // Optionally include name/date if you want to submit them
+      group[`event_${i}_name`] = new FormControl(event.name);
+      group[`event_${i}_date`] = new FormControl(event.date);
+    });
+    this.rsvpForm = this.fb.group(group);
   }
 
   private sortEventsByDate(a: GalaEventDetails, b: GalaEventDetails): number {
@@ -142,15 +159,24 @@ export class RsvpAllComponent implements OnDestroy {
     return new Date(cleanedDateStr);
   }
 
-  submitRSVP(): void {
-    console.log('Submitting RSVP for events:', this.events);
-
-    this.dialogRef.close(true); // This closes the modal
+  onSubmit(): void {
+    // Map form values back to events
+    this.events.forEach((event, i) => {
+      event.adults = this.rsvpForm.value[`event_${i}_adults`];
+      event.children = this.rsvpForm.value[`event_${i}_children`];
+      event.forGuest = this.rsvpForm.value[`event_${i}_guest`];
+      event.comments = this.rsvpForm.value[`event_${i}_comments`];
+    });
 
     const eventsWithAttendees = this.events.filter(event => event.adults > 0 || event.children > 0);
     this.snackBar.open(`RSVP submitted for ${eventsWithAttendees.length} event(s)`, 'Close', { duration: 3000 });
 
-    // Here you would typically call your RSVP service to save the data
+    // Optionally close dialog if in modal
+    if (this.dialogRef) {
+      this.dialogRef.close(eventsWithAttendees);
+    }
+
+    // Call your RSVP service here if needed
     // this.rsvpService.submitRSVP(eventsWithAttendees).subscribe(...);
   }
 
