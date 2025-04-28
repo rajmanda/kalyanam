@@ -57,3 +57,36 @@ mat-select {
 .mat-column-children {
   min-width: 100px;
 }
+
+/* Force columns to stay visible on mobile */
+.responsive-table {
+  min-width: 100%;
+  overflow-x: auto;
+}
+
+.select-column {
+  width: 48px; /* Fixed width for select column */
+  min-width: 48px;
+  max-width: 48px;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 600px) {
+  .mat-table {
+    display: block;
+    width: 100%;
+  }
+
+  .mat-header-row, .mat-row {
+    display: flex;
+    flex-wrap: nowrap;
+    min-width: fit-content;
+  }
+
+  .mat-cell, .mat-header-cell {
+    flex: 1;
+    min-width: 100px; /* Adjust as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

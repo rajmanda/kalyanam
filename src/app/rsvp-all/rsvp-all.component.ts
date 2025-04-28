@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,17 +11,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { catchError, of, Subscription } from 'rxjs';
-
+import { catchError, of, Subscription, finalize, Subject, takeUntil } from 'rxjs';
 import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
 import { GalaService } from '../services/gala/gala.service';
 import { AuthService } from '../services/auth/auth.service';
 import { RsvpService } from '../services/rsvp/rsvp.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 interface SelectableGalaEvent extends GalaEventDetails {
   selected: boolean;
   rsvpStatus: boolean;
-  comments: string;
   forGuest?: string;
   adults?: number;
   children?: number;
@@ -45,13 +44,16 @@ interface SelectableGalaEvent extends GalaEventDetails {
   templateUrl: './rsvp-all.component.html',
   styleUrls: ['./rsvp-all.component.css']
 })
-export class RsvpAllComponent {
-  baseColumns = ['select', 'image', 'name', 'date', 'location', 'rsvp'];
+export class RsvpAllComponent implements OnDestroy {
+  baseColumns = ['select', 'name', 'date', 'rsvp'];
   displayedColumns: string[] = [...this.baseColumns];
   events: SelectableGalaEvent[] = [];
   allSelected = false;
   isAdmin = false;
   isLoadingResults = false;
+  isMobile = false;
+
+  private destroyed$ = new Subject<void>();
   private eventDeletedSubscription?: Subscription;
 
   private readonly authService = inject(AuthService);
@@ -61,11 +63,24 @@ export class RsvpAllComponent {
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly breakpointObserver = inject(BreakpointObserver);
 
   adultOptions = [0, 1, 2, 3, 4, 5, 6];
   childrenOptions = [0, 1, 2, 3, 4, 5, 6];
 
   @ViewChild(MatTable) table!: MatTable<any>;
+
+  constructor() {
+    this.breakpointObserver.observe([
+      Breakpoints.Handset,
+      Breakpoints.Tablet
+    ]).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe(result => {
+      this.isMobile = result.matches;
+      this.safeDetectChanges();
+    });
+  }
 
   ngOnInit(): void {
     this.checkAdminStatus();
@@ -73,16 +88,26 @@ export class RsvpAllComponent {
   }
 
   ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
     this.eventDeletedSubscription?.unsubscribe();
+  }
+
+  private safeDetectChanges() {
+    if (!this.destroyed$.closed) {
+      setTimeout(() => this.cdr.markForCheck());
+    }
   }
 
   private checkAdminStatus(): void {
     const userEmail = this.authService.getUserEmail();
-    this.authService.isAdmin(userEmail).subscribe({
+    this.authService.isAdmin(userEmail).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe({
       next: (isAdmin) => {
         this.isAdmin = isAdmin;
         this.updateDisplayedColumns();
-        this.cdr.markForCheck();
+        this.safeDetectChanges();
       },
       error: (error) => console.error('Error checking admin status:', error)
     });
@@ -90,29 +115,31 @@ export class RsvpAllComponent {
 
   loadGalaEvents(): void {
     this.isLoadingResults = true;
-    this.galaService.getAllEvents()
-      .pipe(catchError(() => of([])))
-      .subscribe({
-        next: (eventsDtos: GalaEventDTO[]) => {
-          this.events = eventsDtos.map(event => ({
-            ...event.galaEventDetails,
-            selected: false,
-            rsvpStatus: false,
-            comments: '',
-            forGuest: '',
-            adults: 0,
-            children: 0
-          })).sort((a, b) => this.sortEventsByDate(a, b));
-          this.isLoadingResults = false;
-          this.updateDisplayedColumns();
-          this.cdr.markForCheck();
-        },
-        error: (error) => {
-          console.error('Error loading events:', error);
-          this.isLoadingResults = false;
-          this.cdr.markForCheck();
-        }
-      });
+    this.galaService.getAllEvents().pipe(
+      catchError(() => of([])),
+      finalize(() => {
+        this.isLoadingResults = false;
+        this.safeDetectChanges();
+      }),
+      takeUntil(this.destroyed$)
+    ).subscribe({
+      next: (eventsDtos: GalaEventDTO[]) => {
+        this.events = eventsDtos.map(event => ({
+          ...event.galaEventDetails,
+          selected: false,
+          rsvpStatus: false,
+          forGuest: '',
+          adults: 0,
+          children: 0
+        })).sort((a, b) => this.sortEventsByDate(a, b));
+        this.updateDisplayedColumns();
+        this.safeDetectChanges();
+      },
+      error: (error) => {
+        console.error('Error loading events:', error);
+        this.safeDetectChanges();
+      }
+    });
   }
 
   private sortEventsByDate(a: GalaEventDetails, b: GalaEventDetails): number {
@@ -130,14 +157,13 @@ export class RsvpAllComponent {
       event.selected = this.allSelected;
       event.rsvpStatus = this.allSelected;
       if (!this.allSelected) {
-        event.comments = '';
         event.forGuest = '';
         event.adults = 0;
         event.children = 0;
       }
     });
     this.updateDisplayedColumns();
-    this.cdr.detectChanges();
+    this.safeDetectChanges();
   }
 
   updateAllSelected(): void {
@@ -146,7 +172,6 @@ export class RsvpAllComponent {
       this.events.forEach(event => {
         if (!event.selected) {
           event.rsvpStatus = false;
-          event.comments = '';
           event.forGuest = '';
           event.adults = 0;
           event.children = 0;
@@ -154,7 +179,7 @@ export class RsvpAllComponent {
       });
     }
     this.updateDisplayedColumns();
-    this.cdr.detectChanges();
+    this.safeDetectChanges();
   }
 
   submitRSVP(): void {
@@ -173,7 +198,6 @@ export class RsvpAllComponent {
         date: event.date,
         location: event.location,
         rsvpStatus: event.rsvpStatus ? 'Yes' : 'No',
-        comments: event.comments,
         forGuest: event.forGuest,
         adults: event.adults,
         children: event.children
@@ -185,19 +209,18 @@ export class RsvpAllComponent {
 
   updateRsvpStatus(event: SelectableGalaEvent): void {
     if (!event.rsvpStatus) {
-      event.comments = '';
       event.forGuest = '';
       event.adults = 0;
       event.children = 0;
     }
     this.updateDisplayedColumns();
-    this.cdr.detectChanges();
+    this.safeDetectChanges();
   }
 
   private updateDisplayedColumns(): void {
     const newColumns = [...this.baseColumns];
     if (this.hasSelectedEvents()) {
-      newColumns.push('comments', 'adults', 'children');
+      newColumns.push('adults', 'children');
       if (this.isAdmin) {
         newColumns.push('guest');
       }
@@ -213,14 +236,13 @@ export class RsvpAllComponent {
     event.rsvpStatus = event.selected;
     if (!event.selected) {
       event.rsvpStatus = false;
-      event.comments = '';
       event.forGuest = '';
       event.adults = 0;
       event.children = 0;
     }
     this.updateAllSelected();
     this.updateDisplayedColumns();
-    this.cdr.detectChanges();
+    this.safeDetectChanges();
     if (this.table) {
       this.table.renderRows();
     }
@@ -232,6 +254,6 @@ export class RsvpAllComponent {
   }
 
   trackByEventId(index: number, event: SelectableGalaEvent): string {
-    return event.name; // Use ID if available, otherwise fall back to name
+    return event.name;
   }
 }
