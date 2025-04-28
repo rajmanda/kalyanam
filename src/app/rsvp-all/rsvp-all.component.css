@@ -53,17 +53,27 @@
   }
 }
 
-/* Container & Button Styles */
-.container {
+/* Container & Dialog Styles */
+.container,
+.dialog-container {
   position: relative;
-  min-height: 100vh;
+  min-height: 60vh;
   padding-bottom: 80px; /* Space for the fixed button */
 }
-.submit-button-container {
+.container {
+  min-height: 100vh;
+}
+
+/* Button Styles */
+.submit-button-container,
+.actions {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 100;
+}
+.actions {
+  position: absolute;
 }
 .submit-button {
   padding: 10px 24px;
@@ -77,3 +87,4 @@
   padding: 20px;
   color: #666;
 }
+
