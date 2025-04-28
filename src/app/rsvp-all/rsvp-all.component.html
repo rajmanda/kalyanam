@@ -3,12 +3,14 @@
 
   <form [formGroup]="rsvpForm" (ngSubmit)="onSubmit()" *ngIf="events.length > 0">
     <table mat-table [dataSource]="events" class="mat-elevation-z8 compact-table">
+
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let event; let i = index">
           {{ event.name }}
         </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Date Column -->
@@ -17,6 +19,7 @@
         <td mat-cell *matCellDef="let event; let i = index">
           {{ event.date }}
         </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Adults Column -->
@@ -29,6 +32,7 @@
             </mat-select>
           </mat-form-field>
         </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Children Column -->
@@ -41,16 +45,18 @@
             </mat-select>
           </mat-form-field>
         </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Guest Column (only if admin) -->
-      <ng-container matColumnDef="guest">
+      <ng-container *ngIf="isAdmin" matColumnDef="guest">
         <th mat-header-cell *matHeaderCellDef> Guest Name </th>
         <td mat-cell *matCellDef="let event; let i = index">
           <mat-form-field appearance="outline">
             <input matInput [formControlName]="'event_' + i + '_guest'" placeholder="Guest name">
           </mat-form-field>
         </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Comments Column -->
@@ -61,21 +67,27 @@
             <textarea matInput [formControlName]="'event_' + i + '_comments'" placeholder="Comments"></textarea>
           </mat-form-field>
         </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
+      <!-- Footer Row for Submit Button -->
+      <ng-container matColumnDef="footer">
+        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" style="text-align: right; padding: 16px;">
+          <button mat-raised-button
+                  color="primary"
+                  type="submit"
+                  class="submit-button"
+                  [disabled]="rsvpForm.invalid">
+            Submit RSVP
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header, Row, and Footer Definitions -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="footerColumns"></tr>
     </table>
-
-    <div class="actions">
-      <button mat-raised-button
-              color="primary"
-              type="submit"
-              class="submit-button"
-              [disabled]="rsvpForm.invalid">
-        Submit RSVP
-      </button>
-    </div>
   </form>
 
   <div *ngIf="events.length === 0" class="no-data">

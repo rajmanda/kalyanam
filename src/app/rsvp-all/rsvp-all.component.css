@@ -64,27 +64,3 @@
   min-height: 100vh;
 }
 
-/* Button Styles */
-.submit-button-container,
-.actions {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-}
-.actions {
-  position: absolute;
-}
-.submit-button {
-  padding: 10px 24px;
-  font-size: 16px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* No Data Message */
-.no-data {
-  text-align: center;
-  padding: 20px;
-  color: #666;
-}
-
