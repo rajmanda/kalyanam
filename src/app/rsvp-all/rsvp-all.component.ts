@@ -8,12 +8,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { catchError, of, finalize, Subject, takeUntil } from 'rxjs';
+import { catchError, of, finalize, Subject, takeUntil, Subscription } from 'rxjs';
 import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
 import { GalaService } from '../services/gala/gala.service';
 import { AuthService } from '../services/auth/auth.service';
 import { RsvpService } from '../services/rsvp/rsvp.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { RsvpDetails } from '../models/rsvpDTO';
 
 interface SelectableGalaEvent extends GalaEventDetails {
   forGuest: string;
@@ -65,6 +66,9 @@ export class RsvpAllComponent implements OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly fb = inject(FormBuilder);
+  userProfilex: any;
+  loggedin: boolean | false | undefined;
+  private subscriptions = new Subscription();
 
   constructor() {
     this.breakpointObserver.observe([
@@ -79,10 +83,37 @@ export class RsvpAllComponent implements OnDestroy {
   }
 
   ngOnInit(): void {
-    this.checkAdminStatus();
+
+    const profileSubscription = this.authService.userProfile$.subscribe({
+      next: (profile) => {
+        if (profile && Object.keys(profile).length > 0) {
+          this.userProfilex = profile;
+          this.loggedin = true;
+
+          const userEmail = this.authService.getUserEmail();
+          if (userEmail) {
+            this.checkAdminStatus(userEmail);
+          }
+        } else {
+          this.clearUserData();
+        }
+      },
+      error: (err) => {
+        console.error('Error in profile subscription:', err);
+        this.clearUserData();
+      }
+    });
+
+    this.subscriptions.add(profileSubscription);
     this.loadGalaEvents();
   }
 
+  private clearUserData(): void {
+    this.userProfilex = null;
+    this.loggedin = false;
+    this.isAdmin = false;
+    this.cdr.markForCheck();
+  }
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
@@ -94,8 +125,7 @@ export class RsvpAllComponent implements OnDestroy {
     }
   }
 
-  private checkAdminStatus(): void {
-    const userEmail = this.authService.getUserEmail();
+  private checkAdminStatus(userEmail: string): void {
     this.authService.isAdmin(userEmail).pipe(
       takeUntil(this.destroyed$)
     ).subscribe({
@@ -161,25 +191,58 @@ export class RsvpAllComponent implements OnDestroy {
   }
 
   onSubmit(): void {
-    // Map form values back to events
-    this.events.forEach((event, i) => {
-      event.adults = this.rsvpForm.value[`event_${i}_adults`];
-      event.children = this.rsvpForm.value[`event_${i}_children`];
-      event.forGuest = this.rsvpForm.value[`event_${i}_guest`];
-      event.comments = this.rsvpForm.value[`event_${i}_comments`];
+    // Get user info using AuthService methods
+    const userEmail = this.authService.getUserEmail();
+    const userName = this.authService.getUserName(); // Synchronous version
+
+    // Or if you prefer the Observable version:
+    // this.authService.getUserName$().pipe(takeUntil(this.destroyed$)).subscribe(name => {
+    //   userName = name;
+    // });
+
+    // Create RsvpDetails array
+    const rsvpDetailsArray: RsvpDetails[] = this.events.map((event, i) => ({
+      name: event.name,
+      date: event.date,
+      image: event.image,
+      location: event.location,
+      description: event.description || '',
+      userName: userName || 'Anonymous User', // Use getUserName()
+      userEmail: userEmail || 'unknown@example.com', // Use getUserEmail()
+      rsvp: 'Confirmed',
+      adults: this.rsvpForm.value[`event_${i}_adults`],
+      children: this.rsvpForm.value[`event_${i}_children`],
+      forGuest: this.rsvpForm.value[`event_${i}_guest`],
+      comments: this.rsvpForm.value[`event_${i}_comments`]
+    }));
+
+    // Rest of your onSubmit logic remains the same...
+    const eventsToSubmit = rsvpDetailsArray.filter(rsvp =>
+      rsvp.adults > 0 || rsvp.children > 0
+    );
+
+    let submittedCount = 0;
+    eventsToSubmit.forEach(rsvpDetail => {
+      this.rsvpService.saveRsvp(rsvpDetail).subscribe({
+        next: () => {
+          submittedCount++;
+          if (submittedCount === eventsToSubmit.length) {
+            this.snackBar.open(`Successfully submitted ${submittedCount} RSVPs`, 'Close', { duration: 3000 });
+          }
+        },
+        error: (error) => {
+          console.error('Failed to submit RSVP for:', rsvpDetail.name, error);
+        }
+      });
     });
 
-    const eventsWithAttendees = this.events.filter(event => event.adults > 0 || event.children > 0);
-    this.snackBar.open(`RSVP submitted for ${eventsWithAttendees.length} event(s)`, 'Close', { duration: 3000 });
+    this.snackBar.open(`RSVP submitted for ${eventsToSubmit.length} event(s)`, 'Close', { duration: 3000 });
 
-    // Optionally close dialog if in modal
     if (this.dialogRef) {
-      this.dialogRef.close(eventsWithAttendees);
+      this.dialogRef.close(eventsToSubmit);
     }
-
-    // Call your RSVP service here if needed
-    // this.rsvpService.submitRSVP(eventsWithAttendees).subscribe(...);
   }
+
 
   private updateDisplayedColumns(): void {
     const columns = ['name', 'date', 'adults', 'children'];
