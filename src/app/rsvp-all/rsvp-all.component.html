@@ -2,23 +2,6 @@
   <h2>RSVP for Events</h2>
 
   <table mat-table [dataSource]="events" class="mat-elevation-z8 compact-table" *ngIf="events.length > 0">
-    <!-- Select Column -->
-    <ng-container matColumnDef="select">
-      <th mat-header-cell *matHeaderCellDef class="select-column">
-        <mat-checkbox
-          (change)="toggleAll()"
-          [checked]="allSelected"
-          [indeterminate]="someSelected()">
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let event" class="select-column">
-        <mat-checkbox
-          [(ngModel)]="event.selected"
-          (ngModelChange)="onSelectionChange(event)">
-        </mat-checkbox>
-      </td>
-    </ng-container>
-
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -31,24 +14,11 @@
       <td mat-cell *matCellDef="let event"> {{ event.date }} </td>
     </ng-container>
 
-    <!-- RSVP Toggle Column -->
-    <ng-container matColumnDef="rsvp">
-      <th mat-header-cell *matHeaderCellDef> RSVP </th>
-      <td mat-cell *matCellDef="let event">
-        <mat-slide-toggle
-          [(ngModel)]="event.rsvpStatus"
-          (change)="updateRsvpStatus(event)"
-          [disabled]="!event.selected">
-          {{ event.rsvpStatus ? 'Yes' : 'No' }}
-        </mat-slide-toggle>
-      </td>
-    </ng-container>
-
-    <!-- Adults Column - Made compact -->
+    <!-- Adults Column -->
     <ng-container matColumnDef="adults">
       <th mat-header-cell *matHeaderCellDef class="compact-header"> Adults </th>
       <td mat-cell *matCellDef="let event" class="compact-cell">
-        <mat-form-field *ngIf="event.selected && event.rsvpStatus" appearance="outline" class="compact-field">
+        <mat-form-field appearance="outline" class="compact-field">
           <mat-select [(ngModel)]="event.adults" class="compact-select">
             <mat-option *ngFor="let num of adultOptions" [value]="num">{{ num }}</mat-option>
           </mat-select>
@@ -56,14 +26,24 @@
       </td>
     </ng-container>
 
-    <!-- Children Column - Made compact -->
+    <!-- Children Column -->
     <ng-container matColumnDef="children">
       <th mat-header-cell *matHeaderCellDef class="compact-header"> Children </th>
       <td mat-cell *matCellDef="let event" class="compact-cell">
-        <mat-form-field *ngIf="event.selected && event.rsvpStatus" appearance="outline" class="compact-field">
+        <mat-form-field appearance="outline" class="compact-field">
           <mat-select [(ngModel)]="event.children" class="compact-select">
             <mat-option *ngFor="let num of childrenOptions" [value]="num">{{ num }}</mat-option>
           </mat-select>
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <!-- Guest Column -->
+    <ng-container matColumnDef="guest">
+      <th mat-header-cell *matHeaderCellDef> Guest Name </th>
+      <td mat-cell *matCellDef="let event">
+        <mat-form-field appearance="outline">
+          <input matInput [(ngModel)]="event.forGuest" placeholder="Guest name">
         </mat-form-field>
       </td>
     </ng-container>
@@ -72,18 +52,8 @@
     <ng-container matColumnDef="comments">
       <th mat-header-cell *matHeaderCellDef> Comments </th>
       <td mat-cell *matCellDef="let event">
-        <mat-form-field *ngIf="event.selected && event.rsvpStatus" appearance="outline">
+        <mat-form-field appearance="outline">
           <textarea matInput [(ngModel)]="event.comments" placeholder="Comments"></textarea>
-        </mat-form-field>
-      </td>
-    </ng-container>
-
-    <!-- Guest Column -->
-    <ng-container matColumnDef="guest">
-      <th mat-header-cell *matHeaderCellDef> For Guest </th>
-      <td mat-cell *matCellDef="let event">
-        <mat-form-field *ngIf="event.selected && event.rsvpStatus && isAdmin" appearance="outline">
-          <input matInput [(ngModel)]="event.forGuest" placeholder="Guest name">
         </mat-form-field>
       </td>
     </ng-container>
@@ -97,11 +67,11 @@
     No events available.
   </div>
 
-  <div class="button-row">
+  <div class="submit-button-container">
     <button mat-raised-button
             color="primary"
             (click)="submitRSVP()"
-            [disabled]="!hasSelectedEvents()">
+            class="submit-button">
       Submit RSVP
     </button>
   </div>

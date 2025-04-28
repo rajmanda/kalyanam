@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -19,11 +17,10 @@ import { RsvpService } from '../services/rsvp/rsvp.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 interface SelectableGalaEvent extends GalaEventDetails {
-  selected: boolean;
-  rsvpStatus: boolean;
-  forGuest?: string;
-  adults?: number;
-  children?: number;
+  forGuest: string;
+  adults: number;
+  children: number;
+  comments: string;
 }
 
 @Component({
@@ -33,9 +30,7 @@ interface SelectableGalaEvent extends GalaEventDetails {
     CommonModule,
     FormsModule,
     MatTableModule,
-    MatCheckboxModule,
     MatButtonModule,
-    MatSlideToggleModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule
@@ -45,30 +40,25 @@ interface SelectableGalaEvent extends GalaEventDetails {
   styleUrls: ['./rsvp-all.component.css']
 })
 export class RsvpAllComponent implements OnDestroy {
-  baseColumns = ['select', 'name', 'date', 'rsvp'];
-  displayedColumns: string[] = [...this.baseColumns];
+  displayedColumns: string[] = ['name', 'date', 'adults', 'children'];
   events: SelectableGalaEvent[] = [];
-  allSelected = false;
   isAdmin = false;
   isLoadingResults = false;
   isMobile = false;
 
   private destroyed$ = new Subject<void>();
-  private eventDeletedSubscription?: Subscription;
-
-  private readonly authService = inject(AuthService);
-  private readonly galaService = inject(GalaService);
-  private readonly rsvpService = inject(RsvpService);
-  private readonly snackBar = inject(MatSnackBar);
-  private readonly dialog = inject(MatDialog);
-  private readonly router = inject(Router);
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly breakpointObserver = inject(BreakpointObserver);
 
   adultOptions = [0, 1, 2, 3, 4, 5, 6];
   childrenOptions = [0, 1, 2, 3, 4, 5, 6];
 
   @ViewChild(MatTable) table!: MatTable<any>;
+
+  private readonly authService = inject(AuthService);
+  private readonly galaService = inject(GalaService);
+  private readonly rsvpService = inject(RsvpService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly breakpointObserver = inject(BreakpointObserver);
 
   constructor() {
     this.breakpointObserver.observe([
@@ -90,7 +80,6 @@ export class RsvpAllComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
-    this.eventDeletedSubscription?.unsubscribe();
   }
 
   private safeDetectChanges() {
@@ -126,11 +115,10 @@ export class RsvpAllComponent implements OnDestroy {
       next: (eventsDtos: GalaEventDTO[]) => {
         this.events = eventsDtos.map(event => ({
           ...event.galaEventDetails,
-          selected: false,
-          rsvpStatus: false,
           forGuest: '',
           adults: 0,
-          children: 0
+          children: 0,
+          comments: ''
         })).sort((a, b) => this.sortEventsByDate(a, b));
         this.updateDisplayedColumns();
         this.safeDetectChanges();
@@ -151,109 +139,31 @@ export class RsvpAllComponent implements OnDestroy {
     return new Date(cleanedDateStr);
   }
 
-  toggleAll(): void {
-    this.allSelected = !this.allSelected;
-    this.events.forEach(event => {
-      event.selected = this.allSelected;
-      event.rsvpStatus = this.allSelected;
-      if (!this.allSelected) {
-        event.forGuest = '';
-        event.adults = 0;
-        event.children = 0;
-      }
-    });
-    this.updateDisplayedColumns();
-    this.safeDetectChanges();
-  }
-
-  updateAllSelected(): void {
-    this.allSelected = this.events.every(event => event.selected);
-    if (!this.allSelected) {
-      this.events.forEach(event => {
-        if (!event.selected) {
-          event.rsvpStatus = false;
-          event.forGuest = '';
-          event.adults = 0;
-          event.children = 0;
-        }
-      });
-    }
-    this.updateDisplayedColumns();
-    this.safeDetectChanges();
-  }
-
   submitRSVP(): void {
-    const selectedEvents = this.events.filter(event => event.selected);
+    console.log('Submitting RSVP for events:', this.events);
 
-    if (selectedEvents.length === 0) {
-      this.snackBar.open('No events selected for RSVP', 'Close', { duration: 3000 });
+    // Filter out events with no attendees
+    const eventsWithAttendees = this.events.filter(
+      event => event.adults! > 0 || event.children! > 0
+    );
+
+    if (eventsWithAttendees.length === 0) {
+      this.snackBar.open('Please select at least one attendee for at least one event', 'Close', { duration: 3000 });
       return;
     }
 
-    console.log('Selected Events Count:', selectedEvents.length);
+    this.snackBar.open(`RSVP submitted for ${eventsWithAttendees.length} event(s)`, 'Close', { duration: 3000 });
 
-    selectedEvents.forEach((event, index) => {
-      console.log(`Event #${index + 1}:`, {
-        name: event.name,
-        date: event.date,
-        location: event.location,
-        rsvpStatus: event.rsvpStatus ? 'Yes' : 'No',
-        forGuest: event.forGuest,
-        adults: event.adults,
-        children: event.children
-      });
-    });
-
-    this.snackBar.open(`RSVP submitted for ${selectedEvents.length} event(s)`, 'Close', { duration: 3000 });
-  }
-
-  updateRsvpStatus(event: SelectableGalaEvent): void {
-    if (!event.rsvpStatus) {
-      event.forGuest = '';
-      event.adults = 0;
-      event.children = 0;
-    }
-    this.updateDisplayedColumns();
-    this.safeDetectChanges();
+    // Here you would typically call your RSVP service to save the data
+    // this.rsvpService.submitRSVP(eventsWithAttendees).subscribe(...);
   }
 
   private updateDisplayedColumns(): void {
-    const newColumns = [...this.baseColumns];
-    if (this.hasSelectedEvents()) {
-      newColumns.push('adults', 'children');
-      if (this.isAdmin) {
-        newColumns.push('guest');
-      }
+    const columns = ['name', 'date', 'adults', 'children'];
+    if (this.isAdmin) {
+      columns.push('guest');
     }
-    this.displayedColumns = newColumns;
-  }
-
-  hasSelectedEvents(): boolean {
-    return this.events.some(e => e.selected);
-  }
-
-  onSelectionChange(event: SelectableGalaEvent): void {
-    event.rsvpStatus = event.selected;
-    if (!event.selected) {
-      event.rsvpStatus = false;
-      event.forGuest = '';
-      event.adults = 0;
-      event.children = 0;
-    }
-    this.updateAllSelected();
-    this.updateDisplayedColumns();
-    this.safeDetectChanges();
-    if (this.table) {
-      this.table.renderRows();
-    }
-  }
-
-  someSelected(): boolean {
-    const numSelected = this.events.filter(event => event.selected).length;
-    return numSelected > 0 && numSelected < this.events.length;
-  }
-
-  trackByEventId(index: number, event: SelectableGalaEvent): string {
-    return event.name;
+    columns.push('comments');
+    this.displayedColumns = columns;
   }
 }

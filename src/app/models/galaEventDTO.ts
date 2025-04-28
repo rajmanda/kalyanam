@@ -7,8 +7,8 @@ export interface GalaEventDetails {
   description: string;
   comments: string;
 
-  selected?: boolean; // Make this optional
-  rsvpStatus?: boolean; // Make this optional
+ 
+  rsvpStatus?: string; // Make this optional
   forGuest?: string; // Make this optional
   adults?: number; // Make this optional
   children?: number; // Make this optional

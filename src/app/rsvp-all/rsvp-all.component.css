@@ -1,62 +1,79 @@
-/* Existing styles... */
-
-/* Compact table styles */
+/* Compact Table Styles */
 .compact-table {
   width: 100%;
+  margin-bottom: 20px;
 }
 
-/* Compact columns */
-.compact-header {
-  padding: 0 8px !important;
-  min-width: 70px !important;
-  max-width: 80px !important;
-}
-
+/* Compact Columns */
+.compact-header,
 .compact-cell {
   padding: 0 8px !important;
   min-width: 70px !important;
   max-width: 80px !important;
 }
 
-/* Compact form fields */
+/* Compact Form Fields */
 .compact-field {
   width: 100%;
   margin: 0 !important;
   padding: 0 !important;
 }
-
-.compact-field .mat-form-field-wrapper {
-  padding: 0 !important;
+.compact-field .mat-form-field-wrapper,
+.compact-field .mat-form-field-infix {
   margin: 0 !important;
+  padding: 0 !important;
 }
-
 .compact-field .mat-form-field-infix {
   padding: 0.5em 0 !important;
   border-top: 0 !important;
   width: auto !important;
 }
 
+/* Compact Select */
 .compact-select {
   font-size: 13px;
   min-width: 60px !important;
   width: 100% !important;
 }
 
-/* Adjust dropdown panel */
+/* Adjust Dropdown Panel */
 .mat-select-panel {
   min-width: 60px !important;
 }
 
-/* Responsive adjustments */
+/* Responsive Adjustments */
 @media (max-width: 600px) {
-  .compact-header, .compact-cell {
+  .compact-header,
+  .compact-cell {
     min-width: 60px !important;
     max-width: 70px !important;
   }
-
   .compact-select {
     font-size: 12px;
   }
 }
 
-/* Existing mobile styles... */
+/* Container & Button Styles */
+.container {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 80px; /* Space for the fixed button */
+}
+.submit-button-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+.submit-button {
+  padding: 10px 24px;
+  font-size: 16px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* No Data Message */
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
