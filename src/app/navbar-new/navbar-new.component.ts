@@ -109,14 +109,15 @@ export class NavbarNewComponent implements OnInit, OnDestroy {
     openRsvpModal(): void {
       const dialogRef = this.matDialog.open(RsvpAllComponent, {
         width: '900px',
-        maxWidth: '98vw'
+        maxWidth: '98vw',
+        disableClose: false // Prevents closing by clicking outside
       });
 
-      // Optional: Handle dialog closing
-      this.subscriptions.add(
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('Dialog closed', result);
-        })
-      );
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('RSVP was submitted successfully');
+          // Add any post-submission logic here
+        }
+      });
     }
 }

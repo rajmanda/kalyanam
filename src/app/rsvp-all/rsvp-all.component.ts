@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, ViewChil
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -53,10 +53,13 @@ export class RsvpAllComponent implements OnDestroy {
 
   @ViewChild(MatTable) table!: MatTable<any>;
 
+  private readonly dialogRef = inject(MatDialogRef<RsvpAllComponent>); // Inject MatDialogRef
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly rsvpService = inject(RsvpService); // Your RSVP service
+
   private readonly authService = inject(AuthService);
   private readonly galaService = inject(GalaService);
-  private readonly rsvpService = inject(RsvpService);
-  private readonly snackBar = inject(MatSnackBar);
+
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
 
@@ -142,16 +145,9 @@ export class RsvpAllComponent implements OnDestroy {
   submitRSVP(): void {
     console.log('Submitting RSVP for events:', this.events);
 
-    // Filter out events with no attendees
-    const eventsWithAttendees = this.events.filter(
-      event => event.adults! > 0 || event.children! > 0
-    );
+    this.dialogRef.close(true); // This closes the modal
 
-    if (eventsWithAttendees.length === 0) {
-      this.snackBar.open('Please select at least one attendee for at least one event', 'Close', { duration: 3000 });
-      return;
-    }
-
+    const eventsWithAttendees = this.events.filter(event => event.adults > 0 || event.children > 0);
     this.snackBar.open(`RSVP submitted for ${eventsWithAttendees.length} event(s)`, 'Close', { duration: 3000 });
 
     // Here you would typically call your RSVP service to save the data
