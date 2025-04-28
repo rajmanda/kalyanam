@@ -9,7 +9,7 @@
   <span class="example-spacer"></span>
 
   <!-- Admin RSVP Button with Badge -->
-  <button *ngIf="isAdminCheckComplete && isAdmin"
+  <!-- <button *ngIf="isAdminCheckComplete && isAdmin"
     routerLink="rsvp-all"
     mat-icon-button
     class="rsvp-button"
@@ -18,7 +18,19 @@
       <mat-icon>list_alt_add</mat-icon>
       <span class="rsvp-badge">RSVP</span>
     </div>
-  </button>
+  </button> -->
+  <button *ngIf="isAdminCheckComplete && isAdmin"
+    (click)="openRsvpModal()"
+    mat-icon-button
+    class="rsvp-button"
+    aria-label="RSVP Management">
+  <div class="icon-with-badge">
+    <mat-icon>list_alt_add</mat-icon>
+    <span class="rsvp-badge">RSVP</span>
+  </div>
+</button>
+
+
 
   <button
     routerLink="home"
@@ -88,11 +100,23 @@
     </button>
 
     <!-- Admin RSVP Option -->
-    <button *ngIf="isAdminCheckComplete && isAdmin"
+    <!-- <button *ngIf="isAdminCheckComplete && isAdmin"
             mat-menu-item
             routerLink="rsvp-all">
       <mat-icon>list_alt_add</mat-icon>
       <span>RSVP </span>
+    </button> -->
+    <button *ngIf="isAdminCheckComplete && isAdmin"
+        mat-menu-item
+        (click)="openRsvpModal()">
+      <mat-icon>list_alt_add</mat-icon>
+      <span>RSVP </span>
     </button>
+
+    <button mat-menu-item (click)="handleSignOut()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+
   </mat-menu>
 </mat-toolbar>

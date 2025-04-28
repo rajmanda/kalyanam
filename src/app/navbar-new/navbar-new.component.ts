@@ -11,11 +11,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { RsvpAllComponent } from '../rsvp-all/rsvp-all.component';
 import { Subscription } from 'rxjs';
-import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-navbar-new',
-  standalone: true, // Add this for standalone components
+  standalone: true,
   imports: [
     MatToolbarModule,
     MatIconModule,
@@ -26,8 +25,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
     MatMenuModule
   ],
   templateUrl: './navbar-new.component.html',
-  styleUrls: ['./navbar-new.component.css'], // Changed from styleUrl to styleUrls
-  changeDetection: ChangeDetectionStrategy.OnPush // Optional but recommended
+  styleUrls: ['./navbar-new.component.css']
 })
 export class NavbarNewComponent implements OnInit, OnDestroy {
     userProfilex: any;
@@ -35,18 +33,19 @@ export class NavbarNewComponent implements OnInit, OnDestroy {
     mobileMenuOpen: boolean = false;
     isMobile: boolean = false;
     isAdmin: boolean = false;
+    isAdminCheckComplete = false;
 
     private subscriptions = new Subscription();
 
     constructor(
       private authService: AuthService,
       private breakpointObserver: BreakpointObserver,
-      public _matDialog: MatDialog,
-      private cdr: ChangeDetectorRef // Added ChangeDetectorRef
+      private matDialog: MatDialog, // Renamed for consistency
+      private cdr: ChangeDetectorRef
     ) {
         this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
         this.isMobile = result.matches;
-        this.cdr.markForCheck(); // Notify change detection
+        this.cdr.markForCheck();
       });
     }
 
@@ -54,16 +53,14 @@ export class NavbarNewComponent implements OnInit, OnDestroy {
       const profileSubscription = this.authService.userProfile$.subscribe({
         next: (profile) => {
           if (profile && Object.keys(profile).length > 0) {
-            console.log('User Logged In:', profile);
             this.userProfilex = profile;
             this.loggedin = true;
 
             const userEmail = this.authService.getUserEmail();
-            if (userEmail) { // Added null check
+            if (userEmail) {
               this.checkAdminStatus(userEmail);
             }
           } else {
-            console.log('No user logged in');
             this.clearUserData();
           }
         },
@@ -83,17 +80,13 @@ export class NavbarNewComponent implements OnInit, OnDestroy {
       this.cdr.markForCheck();
     }
 
-// Add this to track loading state
-    isAdminCheckComplete = false;
-
     private checkAdminStatus(userEmail: string): void {
       this.isAdminCheckComplete = false;
       const adminSubscription = this.authService.isAdmin(userEmail).subscribe({
         next: (isAdmin) => {
           this.isAdmin = isAdmin;
           this.isAdminCheckComplete = true;
-          this.cdr.detectChanges(); // Force immediate update
-          console.log('Admin status updated:', isAdmin);
+          this.cdr.detectChanges();
         },
         error: () => {
           this.isAdmin = false;
@@ -113,17 +106,17 @@ export class NavbarNewComponent implements OnInit, OnDestroy {
       this.clearUserData();
     }
 
-    openRsvpAllDialog() {
-      const dialogRef = this._matDialog.open(RsvpAllComponent, {
-        width: '80%', // Added width
-        maxWidth: '800px', // Added maxWidth
-        data: { }  // Fixed data passing
+    openRsvpModal(): void {
+      const dialogRef = this.matDialog.open(RsvpAllComponent, {
+        width: '900px',
+        maxWidth: '98vw'
       });
 
-      const dialogSub = dialogRef.afterClosed().subscribe(result => {
-        console.log('Dialog result:', result);
-      });
-
-      this.subscriptions.add(dialogSub);
+      // Optional: Handle dialog closing
+      this.subscriptions.add(
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('Dialog closed', result);
+        })
+      );
     }
 }

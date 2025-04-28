@@ -1,31 +1,23 @@
 <div class="container">
   <h2>RSVP for Events</h2>
 
-  <table mat-table [dataSource]="events" class="mat-elevation-z8" *ngIf="events.length > 0">
+  <table mat-table [dataSource]="events" class="mat-elevation-z8 compact-table" *ngIf="events.length > 0">
     <!-- Select Column -->
     <ng-container matColumnDef="select">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef class="select-column">
         <mat-checkbox
           (change)="toggleAll()"
           [checked]="allSelected"
           [indeterminate]="someSelected()">
         </mat-checkbox>
       </th>
-      <td mat-cell *matCellDef="let event">
+      <td mat-cell *matCellDef="let event" class="select-column">
         <mat-checkbox
           [(ngModel)]="event.selected"
           (ngModelChange)="onSelectionChange(event)">
         </mat-checkbox>
       </td>
     </ng-container>
-
-    <!-- Image Column -->
-    <!-- <ng-container matColumnDef="image">
-      <th mat-header-cell *matHeaderCellDef> Image </th>
-      <td mat-cell *matCellDef="let event">
-        <img [src]="event.image" class="event-image" alt="{{event.name}}">
-      </td>
-    </ng-container> -->
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
@@ -39,12 +31,6 @@
       <td mat-cell *matCellDef="let event"> {{ event.date }} </td>
     </ng-container>
 
-    <!-- Location Column -->
-    <!-- <ng-container matColumnDef="location">
-      <th mat-header-cell *matHeaderCellDef> Location </th>
-      <td mat-cell *matCellDef="let event"> {{ event.location }} </td>
-    </ng-container> -->
-
     <!-- RSVP Toggle Column -->
     <ng-container matColumnDef="rsvp">
       <th mat-header-cell *matHeaderCellDef> RSVP </th>
@@ -55,6 +41,30 @@
           [disabled]="!event.selected">
           {{ event.rsvpStatus ? 'Yes' : 'No' }}
         </mat-slide-toggle>
+      </td>
+    </ng-container>
+
+    <!-- Adults Column - Made compact -->
+    <ng-container matColumnDef="adults">
+      <th mat-header-cell *matHeaderCellDef class="compact-header"> Adults </th>
+      <td mat-cell *matCellDef="let event" class="compact-cell">
+        <mat-form-field *ngIf="event.selected && event.rsvpStatus" appearance="outline" class="compact-field">
+          <mat-select [(ngModel)]="event.adults" class="compact-select">
+            <mat-option *ngFor="let num of adultOptions" [value]="num">{{ num }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <!-- Children Column - Made compact -->
+    <ng-container matColumnDef="children">
+      <th mat-header-cell *matHeaderCellDef class="compact-header"> Children </th>
+      <td mat-cell *matCellDef="let event" class="compact-cell">
+        <mat-form-field *ngIf="event.selected && event.rsvpStatus" appearance="outline" class="compact-field">
+          <mat-select [(ngModel)]="event.children" class="compact-select">
+            <mat-option *ngFor="let num of childrenOptions" [value]="num">{{ num }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </td>
     </ng-container>
 
@@ -78,33 +88,8 @@
       </td>
     </ng-container>
 
-    <!-- Adults Column -->
-    <ng-container matColumnDef="adults">
-      <th mat-header-cell *matHeaderCellDef> Adults </th>
-      <td mat-cell *matCellDef="let event">
-        <mat-form-field *ngIf="event.selected && event.rsvpStatus" appearance="outline">
-          <mat-select [(ngModel)]="event.adults">
-            <mat-option *ngFor="let num of adultOptions" [value]="num">{{ num }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </td>
-    </ng-container>
-
-    <!-- Children Column -->
-    <ng-container matColumnDef="children">
-      <th mat-header-cell *matHeaderCellDef> Children </th>
-      <td mat-cell *matCellDef="let event">
-        <mat-form-field *ngIf="event.selected && event.rsvpStatus" appearance="outline">
-          <mat-select [(ngModel)]="event.children">
-            <mat-option *ngFor="let num of childrenOptions" [value]="num">{{ num }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </td>
-    </ng-container>
-
     <!-- Header and Row definitions -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns; trackBy: trackByEventId"></tr> -->
     <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
   </table>
 

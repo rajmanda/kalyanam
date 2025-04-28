@@ -1,92 +1,62 @@
-.container {
-  padding: 20px;
-}
+/* Existing styles... */
 
-table {
+/* Compact table styles */
+.compact-table {
   width: 100%;
-  margin-bottom: 20px;
 }
 
-.button-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
+/* Compact columns */
+.compact-header {
+  padding: 0 8px !important;
+  min-width: 70px !important;
+  max-width: 80px !important;
 }
 
-.event-image {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 4px;
+.compact-cell {
+  padding: 0 8px !important;
+  min-width: 70px !important;
+  max-width: 80px !important;
 }
 
-.mat-column-select {
-  width: 40px;
-}
-
-.mat-column-image {
-  width: 80px;
-}
-
-.mat-column-name {
-  width: 150px;
-}
-
-.mat-column-date {
-  width: 200px;
-}
-
-/* Form fields in table */
-.mat-form-field {
+/* Compact form fields */
+.compact-field {
   width: 100%;
-  margin: 0 8px;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* Select dropdowns */
-mat-select {
-  min-width: 80px;
+.compact-field .mat-form-field-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-/* Conditional columns */
-.mat-column-comments,
-.mat-column-guest {
-  min-width: 200px;
+.compact-field .mat-form-field-infix {
+  padding: 0.5em 0 !important;
+  border-top: 0 !important;
+  width: auto !important;
 }
 
-.mat-column-adults,
-.mat-column-children {
-  min-width: 100px;
+.compact-select {
+  font-size: 13px;
+  min-width: 60px !important;
+  width: 100% !important;
 }
 
-/* Force columns to stay visible on mobile */
-.responsive-table {
-  min-width: 100%;
-  overflow-x: auto;
+/* Adjust dropdown panel */
+.mat-select-panel {
+  min-width: 60px !important;
 }
 
-.select-column {
-  width: 48px; /* Fixed width for select column */
-  min-width: 48px;
-  max-width: 48px;
-}
-
-/* Mobile-specific adjustments */
+/* Responsive adjustments */
 @media (max-width: 600px) {
-  .mat-table {
-    display: block;
-    width: 100%;
+  .compact-header, .compact-cell {
+    min-width: 60px !important;
+    max-width: 70px !important;
   }
 
-  .mat-header-row, .mat-row {
-    display: flex;
-    flex-wrap: nowrap;
-    min-width: fit-content;
-  }
-
-  .mat-cell, .mat-header-cell {
-    flex: 1;
-    min-width: 100px; /* Adjust as needed */
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .compact-select {
+    font-size: 12px;
   }
 }
+
+/* Existing mobile styles... */
