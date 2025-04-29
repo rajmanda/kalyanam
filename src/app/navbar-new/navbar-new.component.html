@@ -8,8 +8,8 @@
 
   <span class="example-spacer"></span>
 
-  <!-- <button *ngIf="isAdminCheckComplete && isAdmin" -->
-  <button
+  <button *ngIf="loggedin"
+
     (click)="openRsvpModal()"
     mat-raised-button
 
@@ -91,8 +91,7 @@
       <span>About</span>
     </button>
 
-    <!-- <button *ngIf="isAdminCheckComplete && isAdmin" -->
-     <button
+    <button *ngIf="loggedin"
         mat-menu-item
         (click)="openRsvpModal()">
       <mat-icon>list_alt_add</mat-icon>
