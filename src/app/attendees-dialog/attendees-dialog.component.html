@@ -34,6 +34,12 @@
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.location}} </td>
     </ng-container> -->
 
+    <!-- ID Column -->
+    <ng-container matColumnDef="rsvpId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="rsvpId">ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.rsvpId }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="userName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
       <td mat-cell *matCellDef="let element"> {{element.rsvpDetails.userName}} </td>

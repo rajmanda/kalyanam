@@ -80,8 +80,9 @@ export class AttendeesDialogComponent implements AfterViewInit {
 
         this.dataSource.sort = this.sort;
 
-        // Set the sort direction to descending
-        this.sort.direction = 'desc';
+           // Set the sort direction to descending for the 'id' column
+           this.sort.active = 'rsvpId';
+           this.sort.direction = 'desc';
 
         // Call calculateTotals after data is loaded
         this.calculateTotals();
