@@ -9,14 +9,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { catchError, of, finalize, Subject, takeUntil, Subscription } from 'rxjs';
-import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
-import { GalaService } from '../services/gala/gala.service';
 import { AuthService } from '../services/auth/auth.service';
 import { RsvpService } from '../services/rsvp/rsvp.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { RsvpDetails } from '../models/rsvpDTO';
+import { RsvpDetails, RsvpDTO } from '../models/rsvpDTO';
 
-interface SelectableGalaEvent extends GalaEventDetails {
+interface SelectableRsvpEvent extends RsvpDetails {
   forGuest: string;
   adults: number;
   children: number;
@@ -43,7 +41,7 @@ interface SelectableGalaEvent extends GalaEventDetails {
 export class RsvpAllComponent implements OnDestroy {
   displayedColumns: string[] = ['name', 'date', 'adults', 'children'];
   footerColumns: string[] = ['footer'];
-  events: SelectableGalaEvent[] = [];
+  events: SelectableRsvpEvent[] = [];
   isAdmin = false;
   isLoadingResults = false;
   isMobile = false;
@@ -61,7 +59,6 @@ export class RsvpAllComponent implements OnDestroy {
   private readonly rsvpService = inject(RsvpService);
 
   private readonly authService = inject(AuthService);
-  private readonly galaService = inject(GalaService);
 
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
@@ -83,7 +80,6 @@ export class RsvpAllComponent implements OnDestroy {
   }
 
   ngOnInit(): void {
-
     const profileSubscription = this.authService.userProfile$.subscribe({
       next: (profile) => {
         if (profile && Object.keys(profile).length > 0) {
@@ -93,6 +89,7 @@ export class RsvpAllComponent implements OnDestroy {
           const userEmail = this.authService.getUserEmail();
           if (userEmail) {
             this.checkAdminStatus(userEmail);
+            this.loadRsvps(userEmail);
           }
         } else {
           this.clearUserData();
@@ -105,7 +102,6 @@ export class RsvpAllComponent implements OnDestroy {
     });
 
     this.subscriptions.add(profileSubscription);
-    this.loadGalaEvents();
   }
 
   private clearUserData(): void {
@@ -114,6 +110,7 @@ export class RsvpAllComponent implements OnDestroy {
     this.isAdmin = false;
     this.cdr.markForCheck();
   }
+
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
@@ -138,9 +135,9 @@ export class RsvpAllComponent implements OnDestroy {
     });
   }
 
-  loadGalaEvents(): void {
+  loadRsvps(userEmail: string): void {
     this.isLoadingResults = true;
-    this.galaService.getAllEvents().pipe(
+    this.rsvpService.getAllRsvps().pipe(
       catchError(() => of([])),
       finalize(() => {
         this.isLoadingResults = false;
@@ -148,20 +145,39 @@ export class RsvpAllComponent implements OnDestroy {
       }),
       takeUntil(this.destroyed$)
     ).subscribe({
-      next: (eventsDtos: GalaEventDTO[]) => {
-        this.events = eventsDtos.map(event => ({
-          ...event.galaEventDetails,
-          forGuest: '',
-          adults: 0,
-          children: 0,
-          comments: ''
-        })).sort((a, b) => this.sortEventsByDate(a, b));
+      next: (rsvpDtos: RsvpDTO[]) => {
+        const userRsvps = rsvpDtos.filter(rsvp => rsvp.rsvpDetails.userEmail === userEmail);
+        if (userRsvps.length > 0) {
+          this.events = userRsvps.map(rsvp => ({
+            ...rsvp.rsvpDetails,
+            forGuest: rsvp.rsvpDetails.forGuest || '',
+            adults: rsvp.rsvpDetails.adults || 0,
+            children: rsvp.rsvpDetails.children || 0,
+            comments: rsvp.rsvpDetails.comments || ''
+          }));
+        } else {
+          // Populate with default values if no RSVPs are found
+          this.events = [{
+            name: 'Default Event',
+            date: new Date().toISOString(),
+            image: '',
+            location: '',
+            description: '',
+            userName: this.authService.getUserName() || 'Anonymous User',
+            userEmail: userEmail,
+            rsvp: 'Pending',
+            adults: 0,
+            children: 0,
+            forGuest: '',
+            comments: ''
+          }];
+        }
         this.buildForm();
         this.updateDisplayedColumns();
         this.safeDetectChanges();
       },
       error: (error) => {
-        console.error('Error loading events:', error);
+        console.error('Error loading RSVPs:', error);
         this.safeDetectChanges();
       }
     });
@@ -174,41 +190,24 @@ export class RsvpAllComponent implements OnDestroy {
       group[`event_${i}_children`] = new FormControl(event.children);
       group[`event_${i}_guest`] = new FormControl(event.forGuest);
       group[`event_${i}_comments`] = new FormControl(event.comments);
-      // Optionally include name/date if you want to submit them
       group[`event_${i}_name`] = new FormControl(event.name);
       group[`event_${i}_date`] = new FormControl(event.date);
     });
     this.rsvpForm = this.fb.group(group);
   }
 
-  private sortEventsByDate(a: GalaEventDetails, b: GalaEventDetails): number {
-    return this.parseDate(a.date).getTime() - this.parseDate(b.date).getTime();
-  }
-
-  private parseDate(dateStr: string): Date {
-    const cleanedDateStr = dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1');
-    return new Date(cleanedDateStr);
-  }
-
   onSubmit(): void {
-    // Get user info using AuthService methods
     const userEmail = this.authService.getUserEmail();
-    const userName = this.authService.getUserName(); // Synchronous version
+    const userName = this.authService.getUserName();
 
-    // Or if you prefer the Observable version:
-    // this.authService.getUserName$().pipe(takeUntil(this.destroyed$)).subscribe(name => {
-    //   userName = name;
-    // });
-
-    // Create RsvpDetails array
     const rsvpDetailsArray: RsvpDetails[] = this.events.map((event, i) => ({
       name: event.name,
       date: event.date,
       image: event.image,
       location: event.location,
       description: event.description || '',
-      userName: userName || 'Anonymous User', // Use getUserName()
-      userEmail: userEmail || 'unknown@example.com', // Use getUserEmail()
+      userName: userName || 'Anonymous User',
+      userEmail: userEmail || 'unknown@example.com',
       rsvp: 'Confirmed',
       adults: this.rsvpForm.value[`event_${i}_adults`],
       children: this.rsvpForm.value[`event_${i}_children`],
@@ -216,7 +215,6 @@ export class RsvpAllComponent implements OnDestroy {
       comments: this.rsvpForm.value[`event_${i}_comments`]
     }));
 
-    // Rest of your onSubmit logic remains the same...
     const eventsToSubmit = rsvpDetailsArray.filter(rsvp =>
       rsvp.adults > 0 || rsvp.children > 0
     );
@@ -242,7 +240,6 @@ export class RsvpAllComponent implements OnDestroy {
       this.dialogRef.close(eventsToSubmit);
     }
   }
-
 
   private updateDisplayedColumns(): void {
     const columns = ['name', 'date', 'adults', 'children'];
