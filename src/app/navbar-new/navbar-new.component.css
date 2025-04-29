@@ -1,100 +1,32 @@
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-.mat-toolbar{
-  background-color: #A6C095;
-  font-family: "Leckerli One", serif;
-  font-weight: 600;
-  font-style: normal;
-  color: #C03039;
-  font-size: 20px;
-}
-/* Keep the warn color but better alignment */
-button[mat-icon-button].sign-out-button mat-icon {
-  margin-right: 4px; /* Space between icon and text */
-  vertical-align: middle;
-}
-
-.greeting-text {
-  color: black;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle shadow for better readability */
-  font-size: 16px; /* Adjust font size to match the toolbar's text */
-  font-weight: 400; /* Normal weight for consistency */
-  line-height: 1.5; /* Ensures good spacing */
-}
-
-.profile-photo {
-  width: 36px; /* Set a fixed width */
-  height: 36px; /* Set a fixed height */
-  border-radius: 50%; /* Make it circular */
-  overflow: hidden; /* Ensure the image stays within the circular boundary */
-  margin-right: 10px; /* Adjust margin to fit within the toolbar */
-  margin-left: 10px; /* Adjust margin to fit within the toolbar */
-}
-
-.profile-photo img {
-  width: 100%; /* Ensure the image fills the container */
-  height: 100%; /* Ensure the image fills the container */
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
-}
-
-/***** Mobile  /
-/* Your existing styles */
-.icon-text {
-  display: flex;
-  align-items: center;
-}
-
-.icon {
-  margin-right: 8px;
-}
-
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-/* Menu specific styles */
-.menu-user-info {
-  display: flex;
-  align-items: center;
-  padding: 6px 16px;
-}
-
-.menu-profile-photo {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-/* Optional: Style for menu items */
-.mat-menu-item {
-  display: flex;
-  align-items: center;
-}
-
-.mat-menu-item mat-icon {
-  margin-right: 8px;
-}
-/* RSVP Button Styles */
+/* Add these styles to your existing CSS */
 .rsvp-button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  margin: 0 4px;
+  background-color: #b5553f;
+  color: white;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 0 16px;
+  height: 36px;
+  text-transform: uppercase;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+.rsvp-button:hover {
+  background-color: #9e4a36;
+}
+
+/* Remove or comment out the old RSVP button styles */
+/*
 .icon-with-badge {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 48px;
+  height: 36px;
 }
 
-/* Badge positioning */
 .rsvp-badge {
   position: absolute;
   bottom: -6px;
@@ -112,16 +44,59 @@ button[mat-icon-button].sign-out-button mat-icon {
   z-index: 2;
 }
 
-/* Icon styling */
 .rsvp-button mat-icon {
   font-size: 24px;
   width: 24px;
   height: 24px;
 }
+*/
 
-/* Mobile menu item styling */
-.mat-menu-item {
+/* Keep all your existing other styles */
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar{
+  background-color: #A6C095;
+  font-family: "Leckerli One", serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #C03039;
+  font-size: 20px;
+}
+
+.greeting-text {
+  color: black;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.profile-photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.icon-text {
   display: flex;
-  align-items: center;
-  gap: 8px;
+}
+
+.btn-orange {
+  background-color: #FBC73D;
+  color: #000000;
+  border-radius: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #FBC73D;
 }
