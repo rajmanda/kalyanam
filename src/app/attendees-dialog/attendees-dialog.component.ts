@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, AfterViewInit, inject, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, inject, Inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
@@ -12,6 +12,7 @@ import { RsvpDTO } from '../models/rsvpDTO';
 import { environment } from '../../environments/environment';
 import { RsvpService } from '../services/rsvp/rsvp.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-attendees-dialog',
@@ -28,18 +29,8 @@ export class AttendeesDialogComponent implements AfterViewInit {
   totalAdults: number = 0;
   totalChildren: number = 0;
   grandTotal: number = 0;
+  currentUserEmail: string | null = null;
 
-  constructor(
-    private rsvpService: RsvpService,
-    public dialogRef: MatDialogRef<AttendeesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public incomingData: any
-  ) {
-    console.log('Event passed to modal:', incomingData.selectedEvent);
-    this.selectedEvent = incomingData.selectedEvent;
-  }
-
-  // displayedColumns: string[] = ['event', 'date', 'location', 'userName', 'forGuest', 'adults', 'children'];
-  //displayedColumns: string[] = ['Name', 'For Guest', 'Adults', 'Children'];
   displayedColumns: string[] = ['userName', 'forGuest', 'adults', 'children', 'comments'];
   dataSource: MatTableDataSource<RsvpDTO> = new MatTableDataSource();
 
@@ -51,6 +42,17 @@ export class AttendeesDialogComponent implements AfterViewInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
+
+  constructor(
+    private rsvpService: RsvpService,
+    private authService: AuthService,
+    public dialogRef: MatDialogRef<AttendeesDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public incomingData: any
+  ) {
+    console.log('Event passed to modal:', incomingData.selectedEvent);
+    this.selectedEvent = incomingData.selectedEvent;
+    this.currentUserEmail = this.authService.getUserEmail();
+  }
 
   ngAfterViewInit() {
     this.isLoadingResults = true;
@@ -65,56 +67,58 @@ export class AttendeesDialogComponent implements AfterViewInit {
         }),
         map(data => {
           this.isLoadingResults = false;
-
           const filteredData = data.filter(rsvp => rsvp.rsvpDetails.name === this.selectedEvent.name);
           this.resultsLength = filteredData.length;
-          return filteredData;
+          return this.sortDataForCurrentUser(filteredData);
         })
       )
-      .subscribe(filteredData => {
-        this.dataSource = new MatTableDataSource(filteredData);
+      .subscribe(sortedData => {
+        this.dataSource = new MatTableDataSource(sortedData);
         this.dataSource.paginator = this.paginator;
-
-        // Set the default page size programmatically
         this.paginator.pageSize = 8;
-
         this.dataSource.sort = this.sort;
 
-           // Set the sort direction to descending for the 'id' column
-           this.sort.active = 'rsvpId';
-           this.sort.direction = 'desc';
+        setTimeout(() => {
+          if (this.sort) {
+            this.sort.active = 'userName';
+            this.sort.direction = 'asc';
+          }
+        });
 
-        // Call calculateTotals after data is loaded
         this.calculateTotals();
       });
   }
 
-  // Method to calculate totals
+  private sortDataForCurrentUser(data: RsvpDTO[]): RsvpDTO[] {
+    if (!this.currentUserEmail) return data;
+
+    return data.sort((a, b) => {
+      const aIsCurrentUser = a.rsvpDetails.userEmail === this.currentUserEmail;
+      const bIsCurrentUser = b.rsvpDetails.userEmail === this.currentUserEmail;
+
+      if (aIsCurrentUser && !bIsCurrentUser) return -1;
+      if (!aIsCurrentUser && bIsCurrentUser) return 1;
+
+      return a.rsvpDetails.userEmail.localeCompare(b.rsvpDetails.userEmail);
+    });
+  }
+
   calculateTotals(): void {
     this.totalAdults = this.dataSource.data.reduce((sum, element) => sum + element.rsvpDetails.adults, 0);
     this.totalChildren = this.dataSource.data.reduce((sum, element) => sum + element.rsvpDetails.children, 0);
     this.grandTotal = this.totalAdults + this.totalChildren;
   }
 
-  // printPage() {
-  //   window.print();
-  // }
+  printAll() {
+    const originalPageSize = this.paginator.pageSize;
 
-    // Method to print all entries
-    printAll() {
-      const originalPageSize = this.paginator.pageSize;
+    this.paginator.pageSize = this.resultsLength;
+    this.dataSource.paginator = this.paginator;
 
-      // Temporarily set pageSize to the total number of items
-      this.paginator.pageSize = this.resultsLength;
+    setTimeout(() => {
+      window.print();
+      this.paginator.pageSize = originalPageSize;
       this.dataSource.paginator = this.paginator;
-
-      // Trigger the print dialog
-      setTimeout(() => {
-        window.print();
-
-        // Restore the original pageSize after printing
-        this.paginator.pageSize = originalPageSize;
-        this.dataSource.paginator = this.paginator;
-      }, 500); // Small delay to ensure the table updates
-    }
+    }, 500);
+  }
 }
