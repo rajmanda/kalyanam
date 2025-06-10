@@ -16,6 +16,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { AdminsService } from '../services/admin/admins.service';
 import { AuthService } from '../services/auth/auth.service';
 import { consumerMarkDirty } from '@angular/core/primitives/signals';
+import { RsvpServiceAll } from '../services/rsvp-all.service';
 
 @Component({
   selector: 'app-gala-events',
@@ -32,7 +33,7 @@ export class GalaEventsComponent implements OnInit {
   eventDeletedSubscription: Subscription | undefined;
   isAdmin: boolean = false;
 
-  constructor(private galaService: GalaService, private authService: AuthService) {}
+  constructor(private galaService: GalaService, private authService: AuthService, private rsvpServiceAll: RsvpServiceAll) {}
 
   ngOnInit(): void {
 
@@ -90,6 +91,9 @@ private parseDate(dateStr: string): Date {
     return new Date(cleanedDateStr);
   }
 
+  onRsvpAllClick(): void {
+    this.rsvpServiceAll.openRsvpModal();
+  }
 
 }
 

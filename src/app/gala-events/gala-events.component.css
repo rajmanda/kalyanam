@@ -41,6 +41,67 @@
   max-width: calc(33.333% - 16px);
 }
 
+
+
+
+
+
+
+
+.video-invite-banner {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* For Banner */
+.video-invite-banner {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: white;
+  padding: 1rem; /* Reduced from 2rem */
+  text-align: center;
+  margin-bottom: 1rem; /* Reduced from 2rem */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 50%; /* New height property */
+  min-height: 80px; /* Ensures it doesn't get too small */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* Reduced from 1rem */
+}
+
+.play-icon {
+  font-size: 1.8rem; /* Reduced from 2.5rem */
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.banner-text {
+  font-size: 1.2rem; /* Added to control text size */
+  margin: 0; /* Removes default h2 margins */
+}
+
+
+
+
+
+
+
 /* Media query for tablet and smaller screens */
 @media (max-width: 1024px) {
   .card-container > div {
