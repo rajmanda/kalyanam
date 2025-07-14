@@ -15,6 +15,7 @@
       <p><strong>Grand Total:</strong> {{ grandTotal }}</p>
     </div>
   </div>
+  <button class="print-button" mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
 
   <!-- Table -->
   <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
