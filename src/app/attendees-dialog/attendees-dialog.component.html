@@ -15,7 +15,6 @@
       <p><strong>Grand Total:</strong> {{ grandTotal }}</p>
     </div>
   </div>
-  <button class="print-button" mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
 
   <!-- Table -->
   <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
@@ -73,8 +72,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <!-- Paginator and Print Button Container -->
-  <div class="paginator-container">
+  <!-- Paginator and Buttons Container -->
+  <div class="paginator-actions-container">
+    <button class="print-button" mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
     <button class="print-button" (click)="printAll()">Print</button>
     <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of Attendees results"></mat-paginator>
   </div>
