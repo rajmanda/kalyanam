@@ -51,5 +51,5 @@ Install new helm repo
 Install ngnix controller with our reserved External IP as load balancer
 	helm install nginx-ingress nginx-stable/nginx-ingress   --namespace ingress-nginx   --create-namespace   --set controller.service.loadBalancerIP=104.154.188.167   --set controller.debug.enable=false
 
-Then create your ingress .  
+Then create your ingress ...
   
