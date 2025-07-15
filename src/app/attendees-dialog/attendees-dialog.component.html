@@ -1,4 +1,57 @@
-<div class="mat-elevation-z8">
+<div class="attendees-dialog-container mat-elevation-z8">
+  <!-- Header -->
+  <div class="dialog-header">
+    <div class="event-title">{{ selectedEvent.name }}</div>
+    <div class="event-meta">
+      <span class="event-date"><mat-icon>event</mat-icon> {{ selectedEvent.date }}</span>
+      <span class="event-location"><mat-icon>place</mat-icon> {{ selectedEvent.location }}</span>
+    </div>
+  </div>
+
+  <!-- Totals Section -->
+  <div class="totals-row">
+    <mat-chip-list>
+      <mat-chip color="primary" selected>Total Adults: {{ totalAdults }}</mat-chip>
+      <mat-chip color="accent" selected>Total Children: {{ totalChildren }}</mat-chip>
+      <mat-chip color="warn" selected>Grand Total: {{ grandTotal }}</mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <!-- Attendees Table (with scrolling) -->
+  <div class="table-scroll-container">
+    <table mat-table [dataSource]="dataSource" class="attendees-table" matSort>
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.rsvpDetails.userName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="forGuest">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>For Guest</th>
+        <td mat-cell *matCellDef="let element">{{ element.rsvpDetails.forGuest }}</td>
+      </ng-container>
+      <ng-container matColumnDef="adults">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Adults</th>
+        <td mat-cell *matCellDef="let element">{{ element.rsvpDetails.adults }}</td>
+      </ng-container>
+      <ng-container matColumnDef="children">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Children</th>
+        <td mat-cell *matCellDef="let element">{{ element.rsvpDetails.children }}</td>
+      </ng-container>
+      <ng-container matColumnDef="comments">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Comments</th>
+        <td mat-cell *matCellDef="let element">{{ element.rsvpDetails.comments }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <!-- Sticky Footer for Actions -->
+  <div class="footer-actions">
+    <button mat-raised-button color="primary" class="print-button" (click)="printAll()">Print</button>
+    <mat-paginator [length]="resultsLength" [pageSize]="8" aria-label="Select page of Attendees results"></mat-paginator>
+  </div>
+</div>
   <!-- Totals Section -->
   <div class="totals-section">
     <!-- Event Details Row -->
