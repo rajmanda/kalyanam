@@ -72,9 +72,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <!-- Paginator and Buttons Container -->
-  <div class="paginator-actions-container">
-    <button class="print-button" mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
+  <!-- Paginator and Print Button Container -->
+  <div class="paginator-container">
     <button class="print-button" (click)="printAll()">Print</button>
     <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of Attendees results"></mat-paginator>
   </div>

@@ -1,87 +1,60 @@
 /* Container for the entire component */
 .mat-elevation-z8 {
   max-width: 100%;
-  overflow-x: hidden; /* Prevent horizontal scroll on the main container itself, let child elements handle it */
+  overflow-x: auto; /* Ensures horizontal scrolling if needed */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   margin: 16px;
   border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  background-color: #ffffff; /* Ensure a white background */
-  padding-bottom: 8px; /* Give some bottom padding */
 }
 
 /* Totals Section */
 .totals-section {
   margin-bottom: 20px;
-  padding: 16px; /* Add some padding around the totals section */
 }
 
 /* Totals Row */
 .totals-row {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Vertically align items */
   gap: 20px;
-  padding: 12px 15px; /* Slightly more vertical padding */
+  padding: 10px;
   border-radius: 8px;
-  margin-bottom: 8px; /* Space between the two totals rows */
 }
-/* Remove last margin-bottom for the last totals row */
-.totals-row:last-of-type {
-  margin-bottom: 0;
-}
-
 
 /* Gradient for the Event Details Row */
 .totals-row:first-child {
-  background: linear-gradient(135deg, #e0f2f7, #c1e4ee); /* Lighter blue tones */
-  color: #333;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
 }
 
 /* Gradient for the Totals Row */
 .totals-row:last-child {
-  background: linear-gradient(135deg, #e6ffe6, #c8edc8); /* Softer green tones */
-  color: #333;
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
 }
 
 .totals-row p {
   margin: 0;
-  font-size: 17px; /* Slightly larger for readability */
+  font-size: 16px;
   flex: 1;
   text-align: center;
-  line-height: 1.4; /* Improve line spacing */
 }
 
 /* Table Styling (Forces horizontal scroll on mobile) */
 .mat-table {
-  min-width: 700px; /* Ensures table doesn't shrink below this width, forces scroll */
+  min-width: 600px; /* Ensures table doesn't shrink below this width */
   width: 100%;
-  overflow-x: auto; /* Ensures table content can be scrolled horizontally */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  border-collapse: collapse; /* For a cleaner table look */
+  overflow-x: auto;
 }
 
 /* Table cell padding for better readability */
 th.mat-header-cell,
 td.mat-cell {
-  padding: 12px 18px; /* Increased horizontal padding */
-  white-space: nowrap; /* Prevents text wrapping, crucial for horizontal scroll */
-  border-bottom: 1px solid #eee; /* Subtle separator */
+  padding: 12px 16px;
+  white-space: nowrap; /* Prevents text wrapping */
 }
 
 /* Header row styling */
 .mat-header-row {
-  background-color: #f0f0f0; /* Slightly darker header */
-  height: 56px; /* Material default header height */
-}
-
-/* Data rows */
-.mat-row {
-  height: 48px; /* Material default row height */
-}
-
-/* Hover effect on rows */
-.mat-row:hover {
-  background-color: #f7f7f7;
+  background-color: #f5f5f5;
 }
 
 /* Force scrollbar visibility (works on most browsers) */
@@ -95,39 +68,30 @@ td.mat-cell {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-/* Paginator and Buttons Container */
-/* Renamed from paginator-container for clarity */
-.paginator-actions-container {
+/* Paginator and Print Button Container */
+.paginator-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px; /* More padding around the container */
+  padding: 8px;
   margin-top: 16px;
-  flex-wrap: wrap; /* Allow items to wrap to next line if needed */
-  gap: 10px; /* Space between flex items */
 }
 
-/* Print/Export Button Styling */
+/* Print Button Styling */
 .print-button {
-  padding: 10px 20px; /* Slightly larger padding for better tap target */
+  padding: 8px 16px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 15px; /* Slightly larger font */
+  font-size: 14px;
   line-height: 1.5;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  min-width: 120px; /* Ensure a minimum width */
-  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
 .print-button:hover {
   background-color: #0056b3;
-  transform: translateY(-1px); /* Slight lift on hover */
-}
-.print-button:active {
-  transform: translateY(0); /* Press effect */
 }
 
 /* Adjust Angular Material Paginator Text */
@@ -143,96 +107,26 @@ td.mat-cell {
 
 /* Responsive Behavior (Mobile) */
 @media (max-width: 768px) {
-  .mat-elevation-z8 {
-    margin: 8px; /* Less margin on very small screens */
-    padding: 0; /* Clear padding that might interfere */
-  }
-
   .totals-row {
-    flex-direction: column; /* Stack event details and totals vertically */
-    gap: 8px; /* Reduced gap when stacked */
-    padding: 10px 15px; /* Adjust padding for stacked items */
+    flex-direction: column;
+    gap: 10px;
   }
   .totals-row p {
-    text-align: left; /* Align text to the left when stacked */
-    font-size: 16px; /* Adjust font size slightly for consistency */
-    width: 100%; /* Ensure text takes full width */
-  }
-
-  .totals-section {
-    padding: 8px; /* Less padding for the section itself */
-  }
-
-  /* Make the action buttons and paginator stack vertically */
-  .paginator-actions-container {
-    flex-direction: column; /* Stack buttons and paginator */
-    align-items: center; /* Center them horizontally */
-    gap: 15px; /* Add more space between stacked items */
-    padding: 15px; /* More padding around the container */
-  }
-
-  .print-button {
-    width: 100%; /* Make buttons full width for easier tapping */
-    max-width: 300px; /* Prevent buttons from stretching too wide on tablet-like mobile views */
-  }
-
-  /* Angular Material Paginator tweaks for smaller screens */
-  .mat-paginator {
-    width: 100%; /* Allow paginator to take full width */
-    font-size: 13px; /* Slightly smaller font for paginator controls */
-    padding: 0; /* Remove internal padding if any */
-  }
-
-  /* Hide "Items per page" label on very small screens to save space */
-  .mat-paginator-page-size-label {
-    display: none;
-  }
-  /* Center the dropdown if the label is hidden */
-  .mat-paginator-page-size .mat-form-field {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Adjust page number range display on very small screens */
-  .mat-paginator-range-label {
-    flex-grow: 1; /* Allow it to take available space */
-    text-align: center; /* Center the page range */
-    margin: 0 8px; /* Add some horizontal margin */
-  }
-
-  /* Ensure the navigation buttons are still visible */
-  .mat-paginator-navigation-previous,
-  .mat-paginator-navigation-next {
-    padding: 0 4px; /* Reduce padding of nav buttons if needed */
+    text-align: left;
   }
 }
 
 /* Print Styles (Hide non-essential elements) */
 @media print {
   .print-button,
-  .paginator-actions-container { /* Hide the entire container now */
-    display: none !important; /* Use !important to override Material styles */
+  mat-paginator {
+    display: none;
   }
   .mat-table {
-    width: 100% !important; /* Ensure table fills page */
-    overflow-x: visible !important; /* No horizontal scroll in print */
-  }
-  .mat-elevation-z8 {
-    box-shadow: none !important; /* No shadow in print */
-    margin: 0 !important; /* No margin in print */
-    padding: 0 !important;
+    width: 100% !important;
   }
   .totals-row {
-    -webkit-print-color-adjust: exact; /* Ensure background colors print */
+    -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-    border: 1px solid #ddd !important; /* Add border for better separation when printing */
-    page-break-inside: avoid; /* Prevent paginator rows from breaking across pages */
-  }
-  th.mat-header-cell,
-  td.mat-cell {
-      border: 1px solid #ccc !important; /* Borders for all cells in print */
-  }
-  .mat-table {
-      border: 1px solid #ccc !important; /* Border around the entire table */
   }
 }

@@ -14,8 +14,6 @@ import { RsvpService } from '../services/rsvp/rsvp.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../services/auth/auth.service';
 
-import { AttendeesExportService } from '../services/attendees-export.service';
-
 @Component({
   selector: 'app-attendees-dialog',
   standalone: true,
@@ -48,7 +46,6 @@ export class AttendeesDialogComponent implements AfterViewInit {
   constructor(
     private rsvpService: RsvpService,
     private authService: AuthService,
-    private attendeesExportService: AttendeesExportService,
     public dialogRef: MatDialogRef<AttendeesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public incomingData: any
   ) {
@@ -124,9 +121,4 @@ export class AttendeesDialogComponent implements AfterViewInit {
       this.dataSource.paginator = this.paginator;
     }, 500);
   }
-
-  exportToExcel(): void {
-    this.attendeesExportService.exportToExcel(this.dataSource.data.map(rsvp => rsvp.rsvpDetails.userName), );
-  }
-
 }
