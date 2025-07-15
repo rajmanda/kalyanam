@@ -42,9 +42,32 @@
   justify-content: flex-start;
   align-items: center;
 }
-mat-chip-list {
+.totals-chips {
   display: flex;
   gap: 10px;
+  margin-bottom: 10px;
+}
+.chip {
+  display: inline-block;
+  padding: 0.25em 1em;
+  border-radius: 16px;
+  font-size: 0.95em;
+  font-weight: 500;
+  background: #e0e0e0;
+  color: #333;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+.chip-primary {
+  background: #1976d2;
+  color: #fff;
+}
+.chip-accent {
+  background: #ff4081;
+  color: #fff;
+}
+.chip-warn {
+  background: #d32f2f;
+  color: #fff;
 }
 
 .table-scroll-container {
@@ -75,9 +98,11 @@ td.mat-cell, th.mat-header-cell {
   font-size: 1rem;
   white-space: nowrap;
 }
+
 tr.mat-row:nth-child(even) td.mat-cell {
   background: #f9f9fa;
 }
+
 tr.mat-row:hover td.mat-cell {
   background: #e6f7ff;
 }
@@ -96,10 +121,7 @@ tr.mat-row:hover td.mat-cell {
   justify-content: flex-end;
   z-index: 10;
 }
-.print-button {
-  font-size: 1rem;
-  padding: 6px 18px;
-}
+
 
 @media (max-width: 600px) {
   .attendees-dialog-container {
@@ -128,32 +150,7 @@ tr.mat-row:hover td.mat-cell {
   }
 }
 
-  max-width: 100%;
-  overflow-x: auto; /* Ensures horizontal scrolling if needed */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  margin: 16px;
-  border-radius: 8px;
-}
 
-/* Totals Section */
-.totals-section {
-  margin-bottom: 20px;
-}
-
-/* Totals Row */
-.totals-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 10px;
-}
-
-/* Gradient for the Event Details Row */
-.totals-row:first-child {
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-}
-
-/* Gradient for the Totals Row */
 .totals-row:last-child {
   background: linear-gradient(135deg, #e0eafc, #cfdef3);
 }
@@ -224,10 +221,7 @@ td.mat-cell {
     padding: 8px 0 env(safe-area-inset-bottom, 8px) 0;
     z-index: 1000;
   }
-  .print-button {
-    font-size: 14px;
-    padding: 6px 10px;
-  }
+
   .mat-table {
     min-width: 100vw;
     font-size: 14px;
@@ -235,23 +229,6 @@ td.mat-cell {
   .totals-row p {
     font-size: 14px;
   }
-}
-
-/* Print Button Styling */
-.print-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1.5;
-  transition: background-color 0.3s ease;
-}
-
-.print-button:hover {
-  background-color: #0056b3;
 }
 
 /* Adjust Angular Material Paginator Text */
@@ -273,20 +250,5 @@ td.mat-cell {
   }
   .totals-row p {
     text-align: left;
-  }
-}
-
-/* Print Styles (Hide non-essential elements) */
-@media print {
-  .print-button,
-  mat-paginator {
-    display: none;
-  }
-  .mat-table {
-    width: 100% !important;
-  }
-  .totals-row {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
   }
 }

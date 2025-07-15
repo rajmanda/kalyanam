@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, AfterViewInit, inject, Inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
@@ -17,7 +19,7 @@ import { AuthService } from '../services/auth/auth.service';
 @Component({
   selector: 'app-attendees-dialog',
   standalone: true,
-  imports: [MatProgressSpinnerModule, MatTableModule, MatPaginatorModule],
+  imports: [MatProgressSpinnerModule, MatTableModule, MatPaginatorModule, MatIconModule, MatChipsModule],
   templateUrl: './attendees-dialog.component.html',
   styleUrls: ['./attendees-dialog.component.css']
 })
@@ -109,16 +111,5 @@ export class AttendeesDialogComponent implements AfterViewInit {
     this.grandTotal = this.totalAdults + this.totalChildren;
   }
 
-  printAll() {
-    const originalPageSize = this.paginator.pageSize;
 
-    this.paginator.pageSize = this.resultsLength;
-    this.dataSource.paginator = this.paginator;
-
-    setTimeout(() => {
-      window.print();
-      this.paginator.pageSize = originalPageSize;
-      this.dataSource.paginator = this.paginator;
-    }, 500);
-  }
 }

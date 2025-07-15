@@ -10,11 +10,11 @@
 
   <!-- Totals Section -->
   <div class="totals-row">
-    <mat-chip-list>
-      <mat-chip color="primary" selected>Total Adults: {{ totalAdults }}</mat-chip>
-      <mat-chip color="accent" selected>Total Children: {{ totalChildren }}</mat-chip>
-      <mat-chip color="warn" selected>Grand Total: {{ grandTotal }}</mat-chip>
-    </mat-chip-list>
+    <div class="totals-chips">
+  <span class="chip chip-primary">Total Adults: {{ totalAdults }}</span>
+  <span class="chip chip-accent">Total Children: {{ totalChildren }}</span>
+  <span class="chip chip-warn">Grand Total: {{ grandTotal }}</span>
+</div>
   </div>
 
   <!-- Attendees Table (with scrolling) -->
@@ -48,11 +48,10 @@
 
   <!-- Sticky Footer for Actions -->
   <div class="footer-actions">
-    <button mat-raised-button color="primary" class="print-button" (click)="printAll()">Print</button>
+    
     <mat-paginator [length]="resultsLength" [pageSize]="8" aria-label="Select page of Attendees results"></mat-paginator>
   </div>
-</div>
-  <!-- Totals Section -->
+<!-- Totals Section -->
   <div class="totals-section">
     <!-- Event Details Row -->
     <div class="totals-row">
@@ -127,7 +126,7 @@
 
   <!-- Paginator and Print Button Container -->
   <div class="paginator-container">
-    <button class="print-button" (click)="printAll()">Print</button>
+    
     <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of Attendees results"></mat-paginator>
   </div>
 </div>
