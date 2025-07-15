@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, AfterViewInit, inject, Inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
@@ -19,11 +20,20 @@ import { AuthService } from '../services/auth/auth.service';
 @Component({
   selector: 'app-attendees-dialog',
   standalone: true,
-  imports: [MatProgressSpinnerModule, MatTableModule, MatPaginatorModule, MatIconModule, MatChipsModule],
+  imports: [MatProgressSpinnerModule, MatTableModule, MatPaginatorModule, MatIconModule, MatChipsModule, DatePipe],
   templateUrl: './attendees-dialog.component.html',
   styleUrls: ['./attendees-dialog.component.css']
 })
 export class AttendeesDialogComponent implements AfterViewInit {
+  get googleMapsUrl(): string {
+    return this.selectedEvent && this.selectedEvent.location
+      ? 'https://www.google.com/maps/search/' + encodeURIComponent(this.selectedEvent.location)
+      : '';
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
+  }
   selectedEvent: Event;
   private _httpClient = inject(HttpClient);
 

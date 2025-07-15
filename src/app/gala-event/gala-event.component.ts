@@ -260,7 +260,11 @@ deleteEvent(eventDTO: GalaEventDTO) {
 
   openAttendeesDialog(event: GalaEventDetails) {
     let dialogRef = this._matDialog.open(AttendeesDialogComponent, {
-      data: { selectedEvent: event }  // Pass event data to the dialog
+      data: { selectedEvent: event },
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100vw',
+      panelClass: 'fullscreen-modal'
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
