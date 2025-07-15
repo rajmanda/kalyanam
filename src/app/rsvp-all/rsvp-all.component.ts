@@ -39,6 +39,20 @@ interface SelectableRsvpEvent extends RsvpDetails {
   styleUrls: ['./rsvp-all.component.css']
 })
 export class RsvpAllComponent implements OnDestroy {
+  // ... existing properties and methods ...
+
+  onGetAllRsvps(): void {
+    this.rsvpService.getAllRsvps().subscribe({
+      next: (allRsvps) => {
+        this.snackBar.open(`Fetched ${allRsvps.length} RSVPs.`, 'Close', { duration: 3000 });
+        // Optionally: you can display or process the RSVPs here
+      },
+      error: (error) => {
+        this.snackBar.open('Failed to fetch all RSVPs', 'Close', { duration: 3000 });
+        console.error('Error fetching all RSVPs:', error);
+      }
+    });
+  }
   displayedColumns: string[] = ['name', 'date', 'adults', 'children'];
   footerColumns: string[] = ['footer'];
   events: SelectableRsvpEvent[] = [];
