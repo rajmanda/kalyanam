@@ -3,9 +3,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, ViewChil
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
-import { AllRsvpsDialogComponent } from './all-rsvps-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,52 +32,13 @@ interface SelectableRsvpEvent extends RsvpDetails {
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
-    MatSortModule
+    MatSelectModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './rsvp-all.component.html',
   styleUrls: ['./rsvp-all.component.css']
 })
 export class RsvpAllComponent implements OnDestroy {
-  constructor(
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private rsvpService: RsvpService,
-    private authService: AuthService,
-    private cdr: ChangeDetectorRef,
-    private breakpointObserver: BreakpointObserver,
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<RsvpAllComponent>
-  ) {
-    this.breakpointObserver.observe([
-      Breakpoints.Handset,
-      Breakpoints.Tablet
-    ]).pipe(
-      takeUntil(this.destroyed$)
-    ).subscribe(result => {
-      this.isMobile = result.matches;
-      this.safeDetectChanges();
-    });
-  }
-
-  // ... existing properties and methods ...
-
-  onGetAllRsvps(): void {
-    this.rsvpService.getAllRsvps().subscribe({
-      next: (allRsvps) => {
-        this.dialog.open(AllRsvpsDialogComponent, {
-          width: '90vw',
-          maxWidth: '1200px',
-          data: allRsvps
-        });
-      },
-      error: (error) => {
-        this.snackBar.open('Failed to fetch all RSVPs', 'Close', { duration: 3000 });
-        console.error('Error fetching all RSVPs:', error);
-      }
-    });
-  }
   displayedColumns: string[] = ['name', 'date', 'adults', 'children'];
   footerColumns: string[] = ['footer'];
   events: SelectableRsvpEvent[] = [];
@@ -96,12 +54,30 @@ export class RsvpAllComponent implements OnDestroy {
 
   @ViewChild(MatTable) table!: MatTable<any>;
 
+  private readonly dialogRef = inject(MatDialogRef<RsvpAllComponent>, { optional: true });
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly rsvpService = inject(RsvpService);
 
+  private readonly authService = inject(AuthService);
+
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly fb = inject(FormBuilder);
   userProfilex: any;
   loggedin: boolean | false | undefined;
   private subscriptions = new Subscription();
 
-
+  constructor() {
+    this.breakpointObserver.observe([
+      Breakpoints.Handset,
+      Breakpoints.Tablet
+    ]).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe(result => {
+      this.isMobile = result.matches;
+      this.safeDetectChanges();
+    });
+  }
 
   ngOnInit(): void {
     const profileSubscription = this.authService.userProfile$.subscribe({
