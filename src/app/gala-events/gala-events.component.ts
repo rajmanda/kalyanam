@@ -8,6 +8,9 @@ import { GalaService } from '../services/gala/gala.service';
 import {Event} from '../models/event';
 import { GalaEventComponent } from "../gala-event/gala-event.component";
 import { GalaEventDetails, GalaEventDTO } from '../models/galaEventDTO';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { RsvpService } from '../services/rsvp/rsvp.service';
+import { AllRsvpsDialogComponent } from '../rsvp-all-report/all-rsvps-dialog.component';
 
 import { of, merge, Observable, of as observableOf, Subscription } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
@@ -21,7 +24,7 @@ import { RsvpServiceAll } from '../services/rsvp-all.service';
 @Component({
   selector: 'app-gala-events',
   standalone: true,
-  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, CommonModule, GalaEventComponent, MatIcon, RouterModule, RouterLink],
+  imports: [MatGridListModule, MatCardModule, MatButtonModule, FlexLayoutModule, NgFor, CommonModule, GalaEventComponent, MatIcon, RouterModule, RouterLink, MatDialogModule],
   templateUrl: './gala-events.component.html',
   styleUrl: './gala-events.component.css'
 })
@@ -33,7 +36,13 @@ export class GalaEventsComponent implements OnInit {
   eventDeletedSubscription: Subscription | undefined;
   isAdmin: boolean = false;
 
-  constructor(private galaService: GalaService, private authService: AuthService, private rsvpServiceAll: RsvpServiceAll) {}
+  constructor(
+    private galaService: GalaService,
+    private authService: AuthService,
+    private rsvpServiceAll: RsvpServiceAll,
+    private matDialog: MatDialog,
+    private rsvpService: RsvpService
+  ) {}
 
   ngOnInit(): void {
 
@@ -54,6 +63,21 @@ export class GalaEventsComponent implements OnInit {
     this.eventDeletedSubscription = this.galaService.eventDeleted.subscribe((deletedEventId) => {
       console.log(`Event with ID ${deletedEventId} was deleted. Reloading events...`);
       this.loadGalaEvents(); // Reload the events
+    });
+  }
+
+  onListAllRsvpsClick(): void {
+    this.rsvpService.getAllRsvps().subscribe({
+      next: (rsvps) => {
+        this.matDialog.open(AllRsvpsDialogComponent, {
+          width: '900px',
+          maxWidth: '98vw',
+          data: rsvps
+        });
+      },
+      error: (err) => {
+        console.error('Failed to fetch RSVPs:', err);
+      }
     });
   }
 
