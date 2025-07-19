@@ -32,6 +32,11 @@
   </div>
 </div>
 
+<div *ngIf="isAdmin" class="video-invite-banner" (click)="onListAllRsvpsClick()">
+  <div class="banner-content">
+    <h2 class="banner-text">LIST OF ALL RSVPS</h2>
+  </div>
+</div>
 
 <!-- gala-events.component.html -->
 <div *ngIf="galaEventsDTOs && galaEventsDTOs.length > 0" class="gala-events-container">
