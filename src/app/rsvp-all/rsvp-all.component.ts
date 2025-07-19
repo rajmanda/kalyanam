@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { RsvpService } from '../services/rsvp/rsvp.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { RsvpDetails, RsvpDTO } from '../models/rsvpDTO';
+import { GalaService } from '../services/gala/gala.service';
 
 interface SelectableRsvpEvent extends RsvpDetails {
   forGuest: string;
@@ -57,7 +58,7 @@ export class RsvpAllComponent implements OnDestroy {
   private readonly dialogRef = inject(MatDialogRef<RsvpAllComponent>, { optional: true });
   private readonly snackBar = inject(MatSnackBar);
   private readonly rsvpService = inject(RsvpService);
-
+  private readonly galaService = inject(GalaService);
   private readonly authService = inject(AuthService);
 
   private readonly cdr = inject(ChangeDetectorRef);
@@ -157,20 +158,7 @@ export class RsvpAllComponent implements OnDestroy {
           }));
         } else {
           // Populate with default values if no RSVPs are found
-          this.events = [{
-            name: 'Default Event',
-            date: new Date().toISOString(),
-            image: '',
-            location: '',
-            description: '',
-            userName: this.authService.getUserName() || 'Anonymous User',
-            userEmail: userEmail,
-            rsvp: 'Pending',
-            adults: 0,
-            children: 0,
-            forGuest: '',
-            comments: ''
-          }];
+          this.loadEventsFromGalas()
         }
         this.buildForm();
         this.updateDisplayedColumns();
@@ -248,5 +236,38 @@ export class RsvpAllComponent implements OnDestroy {
     }
     columns.push('comments');
     this.displayedColumns = columns;
+  }
+
+  private loadEventsFromGalas(): SelectableRsvpEvent[] {
+    this.isLoadingResults = true;
+    this.galaService.getGalas().pipe(
+      finalize(() => {
+        this.isLoadingResults = false;
+        this.safeDetectChanges();
+      }),
+      takeUntil(this.destroyed$)
+    ).subscribe({
+      next: (galas) => {
+        // Populate events from gala events
+        this.events = galas.map(gala => ({
+          ...gala.galaEventDetails,
+          adults: 0,
+          children: 0,
+          forGuest: '',
+          comments: '',
+          rsvp: 'Pending',
+          userName: this.authService.getUserName() || 'Anonymous User',
+          userEmail: this.authService.getUserEmail() || '',
+        }));
+        this.buildForm();
+        this.updateDisplayedColumns();
+        this.safeDetectChanges();
+      },
+      error: (error) => {
+        console.error('Error loading gala events:', error);
+        this.safeDetectChanges();
+      }
+    });
+    return this.events;
   }
 }
