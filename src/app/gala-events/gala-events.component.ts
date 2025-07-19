@@ -17,6 +17,11 @@ import { AdminsService } from '../services/admin/admins.service';
 import { AuthService } from '../services/auth/auth.service';
 import { consumerMarkDirty } from '@angular/core/primitives/signals';
 import { RsvpServiceAll } from '../services/rsvp-all.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from
+'@angular/material/snack-bar';
+import { RsvpService } from '../services/rsvp/rsvp.service';
+import { AllRsvpsDialogComponent } from '../rsvp-all-report/all-rsvps-dialog.component';
 
 @Component({
   selector: 'app-gala-events',
@@ -33,7 +38,13 @@ export class GalaEventsComponent implements OnInit {
   eventDeletedSubscription: Subscription | undefined;
   isAdmin: boolean = false;
 
-  constructor(private galaService: GalaService, private authService: AuthService, private rsvpServiceAll: RsvpServiceAll) {}
+  constructor(
+    private galaService: GalaService,
+    private authService: AuthService,
+    private rsvpServiceAll: RsvpServiceAll,
+    private rsvpService: RsvpService,
+    public matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
 
@@ -93,6 +104,21 @@ private parseDate(dateStr: string): Date {
 
   onRsvpAllClick(): void {
     this.rsvpServiceAll.openRsvpModal();
+  }
+
+    onListAllRsvpsClick(): void {
+    this.rsvpService.getAllRsvps().subscribe({
+      next: (rsvps) => {
+        this.matDialog.open(AllRsvpsDialogComponent, {
+          width: '900px',
+          maxWidth: '98vw',
+          data: rsvps
+        });
+      },
+      error: (err) => {
+        console.error('Failed to fetch RSVPs:', err);
+      }
+    });
   }
 
 }

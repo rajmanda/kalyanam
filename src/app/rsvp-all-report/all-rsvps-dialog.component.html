@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>All RSVPs</h2>
+
+<div mat-dialog-content>
+  <button mat-raised-button color="primary" style="margin-bottom: 16px; float: right;" (click)="downloadCsv()">Download CSV</button>
+  <mat-form-field style="width: 100%; margin-bottom: 16px;" appearance="outline">
+    <mat-label>Search RSVPs</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Type to filter...">
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort *ngIf="dataSource.data.length">
+    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ displayHeader(column) }}</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="column === 'date'; else normalCell">
+          {{ formatDate(element[column]) }}
+        </ng-container>
+        <ng-template #normalCell>{{ element[column] }}</ng-template>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <div *ngIf="!dataSource.data.length">No RSVPs found.</div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</div>
