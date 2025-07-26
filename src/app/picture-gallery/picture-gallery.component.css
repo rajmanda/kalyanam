@@ -27,6 +27,49 @@
   gap: 10px;
 }
 
+/* Upload section */
+.upload-section {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.upload-section button[mat-raised-button] {
+  margin-right: 10px;
+}
+
+.selected-files {
+  margin-top: 20px;
+  padding: 15px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.selected-files h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-weight: 500;
+}
+
+.file-size {
+  color: #666;
+  font-size: 0.8em;
+}
+
+.upload-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.upload-actions button {
+  margin-left: 10px;
+}
+
 /* Upload Progress */
 .upload-progress {
   margin: 15px 0;
@@ -122,6 +165,60 @@
   color: #777;
 }
 
+/* File list styles */
+.file-list {
+  margin: 15px 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.file-item:last-child {
+  border-bottom: none;
+}
+
+.file-item mat-icon {
+  margin-right: 12px;
+  color: #757575;
+}
+
+.file-details {
+  flex: 1;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #212121;
+  margin-bottom: 2px;
+  word-break: break-all;
+}
+
+.file-size {
+  font-size: 12px;
+  color: #757575;
+}
+
+.upload-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.upload-actions button {
+  margin-left: 10px;
+}
+
 /* Loading State */
 .loading-message {
   display: flex;
@@ -183,5 +280,29 @@
 @media (max-width: 480px) {
   .picture-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .upload-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .upload-actions button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .upload-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .upload-actions button {
+    width: 100%;
+    margin: 5px 0;
   }
 }

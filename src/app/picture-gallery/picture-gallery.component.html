@@ -2,24 +2,55 @@
   <!-- Header with title and upload button -->
   <div class="gallery-header">
     <h2>Photo Gallery</h2>
-    <div class="upload-container">
+    <div class="upload-section">
       <button mat-raised-button color="primary" (click)="triggerFileInput()" [disabled]="isUploading">
-        <mat-icon>cloud_upload</mat-icon> Upload Photo
+        <mat-icon>cloud_upload</mat-icon> Upload Photos (Max {{fileLimit}})
       </button>
       <input
         type="file"
         id="fileInput"
         style="display: none"
         accept="image/*"
+        multiple
         (change)="onFileSelected($event)"
       >
-    </div>
-  </div>
 
-  <!-- Upload progress bar -->
-  <div *ngIf="isUploading" class="upload-progress">
-    <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
-    <div class="progress-text">Uploading: {{uploadProgress}}%</div>
+      <!-- Selected files preview -->
+      <div *ngIf="selectedFiles.length > 0" class="selected-files">
+        <h4>Selected Files ({{selectedFiles.length}}/{{fileLimit}}):</h4>
+        <div class="file-list">
+          <div *ngFor="let file of selectedFiles" class="file-item">
+            <mat-icon>image</mat-icon>
+            <div class="file-details">
+              <div class="file-name">{{file.name}}</div>
+              <div class="file-size">{{file.size | fileSize}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="upload-actions">
+          <button mat-button (click)="selectedFiles = []" [disabled]="isUploading">
+            <mat-icon>clear</mat-icon> Clear Selection
+          </button>
+          <button mat-raised-button color="primary" (click)="uploadImages()" [disabled]="isUploading">
+            <mat-icon>cloud_upload</mat-icon> Upload {{selectedFiles.length}} File{{selectedFiles.length === 1 ? '' : 's'}}
+          </button>
+        </div>
+      </div>
+
+      <!-- Upload progress -->
+      <div *ngIf="isUploading" class="upload-progress">
+        <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+        <div class="progress-text">Uploading: {{uploadProgress}}%</div>
+      </div>
+
+      <!-- Error messages -->
+      <div *ngIf="uploadErrors.length > 0" class="error-message">
+        <mat-icon>error_outline</mat-icon>
+        <div>
+          <div *ngFor="let error of uploadErrors">{{error}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Error message -->

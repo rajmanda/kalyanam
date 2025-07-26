@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { FileUploadService, UploadResponse, ListImagesResponse } from '../services/file-upload/file-upload.service';
 import { AuthService } from '../services/auth/auth.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,10 @@ import { RouterModule } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
+import { Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { MatListModule } from '@angular/material/list';
+import { FileSizePipe } from '../shared/pipes/file-size.pipe';
 
 type GalleryView = 'all' | 'mine';
 
@@ -33,7 +37,9 @@ interface GalleryImage {
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    RouterModule
+    MatListModule,
+    RouterModule,
+    FileSizePipe
   ],
   templateUrl: './picture-gallery.component.html',
   styleUrls: ['./picture-gallery.component.css']
@@ -43,12 +49,15 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   filteredImages: GalleryImage[] = [];
   isLoading: boolean = true;
   errorMessage: string | null = null;
-  selectedFile: File | null = null;
+  selectedFiles: File[] = [];
+  fileLimit = 30;
+  uploadErrors: string[] = [];
   uploadProgress: number = 0;
   isUploading: boolean = false;
   activeView: 'all' | 'mine' = 'all';
   currentUserEmail: string | null = null;
   currentEvent: string = '';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fileUploadService: FileUploadService,
@@ -63,7 +72,9 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     this.currentUserEmail = this.authService.getUserEmail();
     console.log('Current user email:', this.currentUserEmail);
 
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((params: Params) => {
       console.log('Route query params:', params);
 
       // Decode the event name from URL
@@ -83,37 +94,32 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   }
 
   onFileSelected(event: Event): void {
-    console.log('File selection event triggered');
     const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
 
-    if (!input.files || input.files.length === 0) {
-      console.error('No files selected');
-      this.errorMessage = 'No file selected';
+    const files = Array.from(input.files);
+    this.uploadErrors = [];
+
+    // Check total files don't exceed limit
+    if (files.length > this.fileLimit) {
+      this.uploadErrors.push(`You can only upload up to ${this.fileLimit} files at once.`);
       return;
     }
 
-    this.selectedFile = input.files[0];
-    console.log('Selected file:', {
-      name: this.selectedFile.name,
-      type: this.selectedFile.type,
-      size: this.selectedFile.size
-    });
+    // Check file types
+    const invalidFiles = files.filter(file => !file.type.startsWith('image/'));
+    if (invalidFiles.length > 0) {
+      this.uploadErrors.push('Only image files are allowed.');
+      return;
+    }
 
-    this.uploadImage();
+    this.selectedFiles = files;
+    this.uploadImages();
   }
 
-  uploadImage(): void {
-    console.log('Starting upload...', { file: this.selectedFile, event: this.currentEvent });
-
-    if (!this.selectedFile) {
-      console.error('No file selected');
-      this.errorMessage = 'Please select a file to upload';
-      return;
-    }
-
-    if (!this.currentEvent) {
-      console.error('No event specified');
-      this.errorMessage = 'No event specified. Please navigate from an event page.';
+  uploadImages(): void {
+    if (!this.selectedFiles.length || !this.currentEvent) {
+      this.uploadErrors.push('No files selected or event not set');
       return;
     }
 
@@ -121,34 +127,26 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     this.uploadProgress = 0;
     this.errorMessage = null;
 
-    console.log('Calling uploadFile service with event name:', this.currentEvent);
-
-    this.fileUploadService.uploadFile(this.selectedFile, this.currentEvent).subscribe({
+    this.fileUploadService.uploadMultipleFiles(this.selectedFiles, this.currentEvent).subscribe({
       next: (event: any) => {
-        if (event.type === HttpEventType.UploadProgress && event.total) {
-          this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+        if (event.type === HttpEventType.UploadProgress) {
+          // Update progress
+          this.uploadProgress = Math.round(100 * event.loaded / (event.total || 1));
         } else if (event.type === HttpEventType.Response) {
-          const response = event.body as UploadResponse;
-          if (response && response.publicUrl) {
-            // Add the new image to the gallery
-            this.images.unshift({
-              url: response.publicUrl,
-              uploadedBy: this.currentUserEmail || 'Unknown',
-              uploadedAt: new Date().toISOString(),
-              eventName: this.currentEvent
-            });
-            this.filterImages(this.activeView);
-          }
+          // Handle successful upload
+          console.log('Upload successful', event.body);
           this.uploadProgress = 100;
+          this.selectedFiles = [];
           this.isUploading = false;
-          this.selectedFile = null;
+          // Refresh the gallery
+          this.fetchImages();
         }
       },
-      error: (error: any) => {
-        console.error('Upload failed:', error);
-        this.errorMessage = 'Failed to upload image. Please try again.';
+      error: (error) => {
+        console.error('Upload error:', error);
+        this.errorMessage = 'Upload failed. Please try again.';
         this.isUploading = false;
-        this.selectedFile = null;
+        this.uploadProgress = 0;
       }
     });
   }
@@ -263,6 +261,7 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Clean up any subscriptions if needed
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
