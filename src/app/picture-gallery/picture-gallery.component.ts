@@ -1,38 +1,248 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { FileUploadService } from '../services/file-upload/file-upload.service';
+import { ActivatedRoute } from '@angular/router';
+import { FileUploadService, UploadResponse, ListImagesResponse } from '../services/file-upload/file-upload.service';
+import { AuthService } from '../services/auth/auth.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterModule } from '@angular/router';
+import { HttpEventType } from '@angular/common/http';
+
+type GalleryView = 'all' | 'mine';
+
+interface GalleryImage {
+  url: string;
+  uploadedBy?: string;
+  uploadedAt?: string;
+  eventName?: string;
+}
 
 @Component({
   selector: 'app-picture-gallery',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    RouterModule
+  ],
   templateUrl: './picture-gallery.component.html',
   styleUrls: ['./picture-gallery.component.css']
 })
 export class PictureGalleryComponent implements OnInit {
-  imageUrls: string[] = []; // Will store full public URLs from GCP bucket
+  images: GalleryImage[] = [];
+  filteredImages: GalleryImage[] = [];
   isLoading: boolean = true;
   errorMessage: string | null = null;
+  selectedFile: File | null = null;
+  uploadProgress: number = 0;
+  isUploading: boolean = false;
+  activeView: 'all' | 'mine' = 'all';
+  currentUserEmail: string | null = null;
+  currentEvent: string = '';
 
-  constructor(private fileUploadService: FileUploadService) {}
+  constructor(
+    private fileUploadService: FileUploadService,
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.fetchImagesFromBucket();
+    console.log('Initializing PictureGalleryComponent');
+
+    this.currentUserEmail = this.authService.getUserEmail();
+    console.log('Current user email:', this.currentUserEmail);
+
+    this.route.queryParams.subscribe(params => {
+      console.log('Route query params:', params);
+
+      // Decode the event name from URL
+      this.currentEvent = params['event'] ? decodeURIComponent(params['event']) : '';
+
+      console.log('Current event name:', this.currentEvent);
+
+      if (!this.currentEvent) {
+        console.warn('No event parameter found in URL');
+        this.errorMessage = 'No event specified. Please navigate from an event page.';
+      } else {
+        this.errorMessage = null;
+      }
+
+      this.fetchImages();
+    });
   }
 
-  fetchImagesFromBucket(): void {
-    this.fileUploadService.listImages().subscribe({
-      next: (response) => {
-        this.imageUrls = response.images;
+  onFileSelected(event: Event): void {
+    console.log('File selection event triggered');
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      console.error('No files selected');
+      this.errorMessage = 'No file selected';
+      return;
+    }
+
+    this.selectedFile = input.files[0];
+    console.log('Selected file:', {
+      name: this.selectedFile.name,
+      type: this.selectedFile.type,
+      size: this.selectedFile.size
+    });
+
+    this.uploadImage();
+  }
+
+  uploadImage(): void {
+    console.log('Starting upload...', { file: this.selectedFile, event: this.currentEvent });
+
+    if (!this.selectedFile) {
+      console.error('No file selected');
+      this.errorMessage = 'Please select a file to upload';
+      return;
+    }
+
+    if (!this.currentEvent) {
+      console.error('No event specified');
+      this.errorMessage = 'No event specified. Please navigate from an event page.';
+      return;
+    }
+
+    this.isUploading = true;
+    this.uploadProgress = 0;
+    this.errorMessage = null;
+
+    console.log('Calling uploadFile service with event name:', this.currentEvent);
+
+    this.fileUploadService.uploadFile(this.selectedFile, this.currentEvent).subscribe({
+      next: (event: any) => {
+        if (event.type === HttpEventType.UploadProgress && event.total) {
+          this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+        } else if (event.type === HttpEventType.Response) {
+          const response = event.body as UploadResponse;
+          if (response && response.publicUrl) {
+            // Add the new image to the gallery
+            this.images.unshift({
+              url: response.publicUrl,
+              uploadedBy: this.currentUserEmail || 'Unknown',
+              uploadedAt: new Date().toISOString(),
+              eventName: this.currentEvent
+            });
+            this.filterImages(this.activeView);
+          }
+          this.uploadProgress = 100;
+          this.isUploading = false;
+          this.selectedFile = null;
+        }
+      },
+      error: (error: any) => {
+        console.error('Upload failed:', error);
+        this.errorMessage = 'Failed to upload image. Please try again.';
+        this.isUploading = false;
+        this.selectedFile = null;
+      }
+    });
+  }
+
+  fetchImages(): void {
+    this.isLoading = true;
+
+    // Get user email if in 'mine' view and we have a current user
+    const userEmail = this.activeView === 'mine' && this.currentUserEmail
+      ? this.currentUserEmail
+      : undefined;
+
+    console.log('[PictureGallery] fetchImages - Calling backend with:', {
+      view: this.activeView,
+      event: this.currentEvent,
+      user: userEmail || 'undefined (showing all)',
+      currentUserEmail: this.currentUserEmail
+    });
+
+    this.fileUploadService.listImages(this.currentEvent, userEmail).subscribe({
+      next: (response: ListImagesResponse) => {
+        console.log('[PictureGallery] Received response with', response.images?.length || 0, 'images');
+
+        // Map the string URLs to GalleryImage objects
+        this.images = response.images.map(url => ({
+          url,
+          uploadedBy: this.extractUsernameFromUrl(url) || this.currentUserEmail || 'Unknown',
+          uploadedAt: new Date().toISOString(),
+          eventName: this.currentEvent
+        }));
+
+        this.filteredImages = [...this.images];
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error('Error fetching images:', err);
+      error: (error: any) => {
+        console.error('[PictureGallery] Error fetching images:', error);
         this.errorMessage = 'Failed to load images. Please try again later.';
         this.isLoading = false;
       }
     });
+  }
+
+  private extractUsernameFromUrl(url: string): string | null {
+    try {
+      const urlObj = new URL(url);
+      const pathParts = urlObj.pathname.split('/');
+      // Assuming the format is /bucket/event/username/filename
+      if (pathParts.length >= 4) {
+        return pathParts[3]; // Returns the username part
+      }
+    } catch (e) {
+      console.error('Error parsing image URL:', e);
+    }
+    return null;
+  }
+
+  onTabChange(event: any): void {
+    // Get the index of the selected tab (0 = 'all', 1 = 'mine')
+    const tabIndex = event.index;
+    const view: 'all' | 'mine' = tabIndex === 1 ? 'mine' : 'all';
+
+    console.log('[PictureGallery] onTabChange - Tab changed to:', view,
+               '(tab index:', tabIndex, 'label:', event.tab.textLabel + ')');
+
+    this.filterImages(view);
+  }
+
+  filterImages(view: 'all' | 'mine'): void {
+    console.log('[PictureGallery] filterImages - Setting view to:', view,
+               '(current user:', this.currentUserEmail + ')');
+
+    // Update the active view
+    this.activeView = view;
+
+    // Only fetch images if we have a current event
+    if (this.currentEvent) {
+      this.fetchImages();
+    } else {
+      console.error('[PictureGallery] Cannot fetch images: No current event');
+      this.errorMessage = 'No event specified. Please navigate from an event page.';
+      this.isLoading = false;
+    }
+  }
+
+  triggerFileInput(): void {
+    console.log('Upload button clicked');
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+
+    if (!fileInput) {
+      console.error('File input element not found');
+      this.errorMessage = 'Upload functionality not available';
+      return;
+    }
+
+    // Reset the input value to allow selecting the same file again
+    fileInput.value = '';
+
+    console.log('Triggering file input click');
+    fileInput.click();
   }
 }

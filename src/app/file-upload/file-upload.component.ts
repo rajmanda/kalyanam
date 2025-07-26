@@ -16,6 +16,7 @@ export class FileUploadComponent {
   uploadProgress: number = 0;
   isUploading: boolean = false;
   uploadMessage: string = '';
+  eventId: string = 'default-event'; // Default event ID
 
   constructor(private fileUploadService: FileUploadService) {}
 
@@ -37,7 +38,7 @@ export class FileUploadComponent {
     this.uploadProgress = 0;
     this.uploadMessage = 'Uploading...';
 
-    this.fileUploadService.uploadFile(this.selectedFile).subscribe({
+    this.fileUploadService.uploadFile(this.selectedFile, this.eventId).subscribe({
       next: (event) => {
         if (event.type === HttpEventType.UploadProgress) {
           // Calculate upload progress
@@ -56,10 +57,9 @@ export class FileUploadComponent {
       },
       error: (error) => {
         this.isUploading = false;
-        this.uploadMessage = 'Upload failed!';
+        this.uploadMessage = 'Upload failed. Please try again.';
         console.error('Upload error:', error);
       }
     });
-    
   }
 }
