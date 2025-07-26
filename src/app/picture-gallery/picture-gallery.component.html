@@ -41,8 +41,10 @@
       </div>
       <ng-template #galleryContent>
         <div class="picture-grid">
-          <div *ngFor="let image of filteredImages" class="picture-item">
-            <img [src]="image.url" loading="lazy" alt="Gallery picture" class="picture-image" />
+          <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)">
+            <div class="picture-image-container">
+              <img [src]="image.url" loading="lazy" [alt]="'Image uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
+            </div>
             <div class="picture-meta">
               <span class="uploader" *ngIf="image.uploadedBy">
                 <mat-icon>person</mat-icon> {{ image.uploadedBy }}
@@ -71,8 +73,10 @@
       </div>
       <ng-template #myPhotosContent>
         <div class="picture-grid">
-          <div *ngFor="let image of filteredImages" class="picture-item">
-            <img [src]="image.url" loading="lazy" alt="Your gallery picture" class="picture-image" />
+          <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)">
+            <div class="picture-image-container">
+              <img [src]="image.url" loading="lazy" [alt]="'Image uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
+            </div>
             <div class="picture-meta">
               <span class="date">
                 <mat-icon>schedule</mat-icon> {{ image.uploadedAt | date:'medium' }}

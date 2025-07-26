@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FileUploadService, UploadResponse, ListImagesResponse } from '../services/file-upload/file-upload.service';
 import { AuthService } from '../services/auth/auth.service';
@@ -10,6 +10,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 type GalleryView = 'all' | 'mine';
 
@@ -30,12 +32,13 @@ interface GalleryImage {
     MatTabsModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
     RouterModule
   ],
   templateUrl: './picture-gallery.component.html',
   styleUrls: ['./picture-gallery.component.css']
 })
-export class PictureGalleryComponent implements OnInit {
+export class PictureGalleryComponent implements OnInit, OnDestroy {
   images: GalleryImage[] = [];
   filteredImages: GalleryImage[] = [];
   isLoading: boolean = true;
@@ -50,7 +53,8 @@ export class PictureGalleryComponent implements OnInit {
   constructor(
     private fileUploadService: FileUploadService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -244,5 +248,21 @@ export class PictureGalleryComponent implements OnInit {
 
     console.log('Triggering file input click');
     fileInput.click();
+  }
+
+  onImageClick(image: GalleryImage): void {
+    this.dialog.open(ImageDialogComponent, {
+      data: {
+        imageUrl: image.url,
+        altText: `Image uploaded by ${image.uploadedBy || 'unknown user'}`
+      },
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      panelClass: 'image-dialog-container'
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Clean up any subscriptions if needed
   }
 }
