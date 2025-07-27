@@ -2,7 +2,7 @@
   <form (ngSubmit)="onUpload($event)">
     <div>
       <label for="fileInput">Select an image to upload:</label>
-      <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*" />
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*,video/*" />
     </div>
 
     <button type="submit" [disabled]="!selectedFile || isUploading">
