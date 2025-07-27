@@ -10,7 +10,7 @@
         type="file"
         id="fileInput"
         style="display: none"
-        accept="image/*"
+        accept="image/*,video/*"
         multiple
         (change)="onFileSelected($event)"
       >
@@ -74,7 +74,12 @@
         <div class="picture-grid">
           <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)">
             <div class="picture-image-container">
-              <img [src]="image.url" loading="lazy" [alt]="'Image uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
+              <img [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
+              <div *ngIf="isVideoUrl(image.url)" class="video-overlay">
+                <div class="play-button">
+                  <mat-icon>play_circle_filled</mat-icon>
+                </div>
+              </div>
             </div>
             <div class="picture-meta">
               <span class="uploader" *ngIf="image.uploadedBy">
@@ -106,7 +111,12 @@
         <div class="picture-grid">
           <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)">
             <div class="picture-image-container">
-              <img [src]="image.url" loading="lazy" [alt]="'Image uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
+              <img [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
+              <div *ngIf="isVideoUrl(image.url)" class="video-overlay">
+                <div class="play-button">
+                  <mat-icon>play_circle_filled</mat-icon>
+                </div>
+              </div>
             </div>
             <div class="picture-meta">
               <span class="date">

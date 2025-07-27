@@ -22,10 +22,33 @@ export class FileUploadComponent {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
+    console.log('File input changed. Files:', input.files);
+
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
       this.uploadProgress = 0;
       this.uploadMessage = '';
+
+      // Log detailed file information
+      console.group('Selected File Details');
+      console.log('Name:', this.selectedFile.name);
+      console.log('Type:', this.selectedFile.type);
+      console.log('Size (bytes):', this.selectedFile.size);
+      console.log('Last Modified:', new Date(this.selectedFile.lastModified).toLocaleString());
+
+      // Log the file extension
+      const fileExt = this.selectedFile.name.split('.').pop()?.toLowerCase();
+      console.log('File Extension:', fileExt);
+
+      // Log if the file is an image or video
+      const isImage = this.selectedFile.type.startsWith('image/');
+      const isVideo = this.selectedFile.type.startsWith('video/');
+      console.log('Is Image:', isImage);
+      console.log('Is Video:', isVideo);
+
+      console.groupEnd();
+    } else {
+      console.log('No file was selected or file selection was canceled');
     }
   }
 

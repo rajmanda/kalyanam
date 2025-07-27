@@ -107,9 +107,9 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     }
 
     // Check file types
-    const invalidFiles = files.filter(file => !file.type.startsWith('image/'));
+    const invalidFiles = files.filter(file => !file.type.startsWith('image/') && !file.type.startsWith('video/'));
     if (invalidFiles.length > 0) {
-      this.uploadErrors.push('Only image files are allowed.');
+      this.uploadErrors.push('Only image and video files are allowed.');
       return;
     }
 
@@ -201,6 +201,13 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
       console.error('Error parsing image URL:', e);
     }
     return null;
+  }
+
+  isVideoUrl(url: string): boolean {
+    if (!url) return false;
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.wmv'];
+    const lowerUrl = url.toLowerCase();
+    return videoExtensions.some(ext => lowerUrl.endsWith(ext));
   }
 
   onTabChange(event: any): void {
