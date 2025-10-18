@@ -27,6 +27,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FileUploadService } from '../services/file-upload/file-upload.service';
 import { HttpEventType } from '@angular/common/http';
+import { RouterModule } from '@angular/router'; // Import RouterModule
 
 @Component({
   selector: 'app-gala-event',
@@ -37,7 +38,8 @@ import { HttpEventType } from '@angular/common/http';
     FormsModule,
     MatButtonModule,
     MatIcon,
-    MatProgressBarModule
+    MatProgressBarModule,
+    RouterModule // Add RouterModule to the imports array
   ],
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
@@ -125,7 +127,10 @@ export class GalaEventComponent {
       return;
     }
 
-    this.fileUploadService.uploadFile(this.selectedFile).subscribe({
+    // Get the event ID from the current event
+    const eventId = this.galaEventDTO?.galaEventId?.toString() || 'default-event';
+
+    this.fileUploadService.uploadFile(this.selectedFile, eventId).subscribe({
       next: (event: any) => {
         if (event.type === HttpEventType.UploadProgress) {
           // Update progress for upload phase (0-50%)
@@ -302,5 +307,18 @@ deleteEvent(eventDTO: GalaEventDTO) {
       duration: this.durationInSeconds * 1000,
     });
   }
-}
 
+  navigateToGallery() {
+    if (!this.galaEventDTO?.galaEventDetails?.name) {
+      console.error('Cannot navigate to gallery: No event name available');
+      return;
+    }
+
+    // Encode the event name to handle spaces and special characters
+    const eventName = encodeURIComponent(this.galaEventDTO.galaEventDetails.name);
+
+    this.router.navigate(['/pictures'], {
+      queryParams: { event: eventName }
+    });
+  }
+}

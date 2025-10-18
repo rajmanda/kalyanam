@@ -49,9 +49,24 @@
 }
 
 .btn-red:hover {
-  background-color: transparent;
+  background-color: #fff;
   border: 1px solid #C03039;
   color: #C03039;
+}
+
+.btn-blue {
+  background-color: #3F51B5;
+  color: #ffffff;
+  border-radius: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #3F51B5;
+}
+
+.btn-blue:hover {
+  background-color: #fff;
+  border: 1px solid #3F51B5;
+  color: #3F51B5;
 }
 
 /* Header Image Styling */
@@ -95,7 +110,6 @@ div.location-2 a.location-2 {
 .card-body {
   font-family: 'Merriweather', serif;
   font-weight: bold;
-  background-color: ;
 }
 
 .card-body p {

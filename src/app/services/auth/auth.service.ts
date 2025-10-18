@@ -30,13 +30,18 @@ export class AuthService {
       if (this.isLoggedIn()) {
         console.log('User is logged in');
         this.publishUserInfo();
-        this.router.navigate(['/home']);
+
+        // Redirect to the original requested URL if present
+        const nav = this.router.getCurrentNavigation();
+        const targetUrl = nav?.extras?.state?.['targetUrl'];
+        if (targetUrl) {
+          this.router.navigateByUrl(targetUrl);
+        }
       } else {
         console.log('User is not logged in');
       }
-    }).catch((err) => {
-      console.error('Error loading discovery document or trying login:', err);
     });
+
 
     this.oauthService.events.subscribe((event) => {
       console.log('OAuth Event:', event);
@@ -56,10 +61,12 @@ export class AuthService {
     });
   }
 
-  login(): void {
+  login(targetUrl?: string): void {
     console.log('Google Login Triggered');
-    this.oauthService.initLoginFlow(undefined, { ux: 'popup' });
+    const extras = targetUrl ? { state: { targetUrl } } : undefined;
+    this.oauthService.initLoginFlow(undefined, extras);
   }
+
 
   isLoggedIn(): boolean {
     const isLoggedIn = this.oauthService.hasValidAccessToken();
