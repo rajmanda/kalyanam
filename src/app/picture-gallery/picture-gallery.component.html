@@ -1,9 +1,9 @@
-<div class="gallery-container">
+<div class="gallery-container" data-testid="picture-gallery-root">
   <!-- Header with title and upload button -->
   <div class="gallery-header">
     <h2>Photo Gallery</h2>
-    <div class="upload-section">
-      <button mat-raised-button color="primary" (click)="triggerFileInput()" [disabled]="isUploading">
+    <div class="upload-section" data-testid="gallery-upload-section">
+      <button mat-raised-button color="primary" (click)="triggerFileInput()" [disabled]="isUploading" data-testid="gallery-upload-button">
         <mat-icon>cloud_upload</mat-icon> Upload Photos (Max {{fileLimit}})
       </button>
       <input
@@ -13,13 +13,14 @@
         accept="image/*,video/*"
         multiple
         (change)="onFileSelected($event)"
+        data-testid="gallery-file-input"
       >
 
       <!-- Selected files preview -->
-      <div *ngIf="selectedFiles.length > 0" class="selected-files">
+      <div *ngIf="selectedFiles.length > 0" class="selected-files" data-testid="gallery-selected-files">
         <h4>Selected Files ({{selectedFiles.length}}/{{fileLimit}}):</h4>
         <div class="file-list">
-          <div *ngFor="let file of selectedFiles" class="file-item">
+          <div *ngFor="let file of selectedFiles" class="file-item" data-testid="gallery-selected-file-item">
             <mat-icon>image</mat-icon>
             <div class="file-details">
               <div class="file-name">{{file.name}}</div>
@@ -28,23 +29,23 @@
           </div>
         </div>
         <div class="upload-actions">
-          <button mat-button (click)="selectedFiles = []" [disabled]="isUploading">
+          <button mat-button (click)="selectedFiles = []" [disabled]="isUploading" data-testid="gallery-clear-selection-button">
             <mat-icon>clear</mat-icon> Clear Selection
           </button>
-          <button mat-raised-button color="primary" (click)="uploadImages()" [disabled]="isUploading">
+          <button mat-raised-button color="primary" (click)="uploadImages()" [disabled]="isUploading" data-testid="gallery-upload-start-button">
             <mat-icon>cloud_upload</mat-icon> Upload {{selectedFiles.length}} File{{selectedFiles.length === 1 ? '' : 's'}}
           </button>
         </div>
       </div>
 
       <!-- Upload progress -->
-      <div *ngIf="isUploading" class="upload-progress">
+      <div *ngIf="isUploading" class="upload-progress" data-testid="gallery-upload-progress">
         <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
         <div class="progress-text">Uploading: {{uploadProgress}}%</div>
       </div>
 
       <!-- Error messages -->
-      <div *ngIf="uploadErrors.length > 0" class="error-message">
+      <div *ngIf="uploadErrors.length > 0" class="error-message" data-testid="gallery-upload-errors">
         <mat-icon>error_outline</mat-icon>
         <div>
           <div *ngFor="let error of uploadErrors">{{error}}</div>
@@ -54,25 +55,25 @@
   </div>
 
   <!-- Error message -->
-  <div *ngIf="errorMessage" class="error-message">
+  <div *ngIf="errorMessage" class="error-message" data-testid="gallery-error-message">
     <mat-icon>error_outline</mat-icon>
     <span>{{ errorMessage }}</span>
   </div>
 
   <!-- View tabs -->
-  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+  <mat-tab-group (selectedTabChange)="onTabChange($event)" data-testid="gallery-tabs">
     <mat-tab label="All Photos">
       <ng-template mat-tab-label>
         <mat-icon class="tab-icon">photo_library</mat-icon>
         All Photos
       </ng-template>
-      <div *ngIf="isLoading; else galleryContent" class="loading-message">
+      <div *ngIf="isLoading; else galleryContent" class="loading-message" data-testid="gallery-loading-all">
         <mat-spinner></mat-spinner>
         <p>Loading images...</p>
       </div>
       <ng-template #galleryContent>
         <div class="picture-grid">
-          <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)">
+          <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)" data-testid="gallery-picture-item">
             <div class="picture-image-container">
               <img [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
               <div *ngIf="isVideoUrl(image.url)" class="video-overlay">
@@ -90,7 +91,7 @@
               </span>
             </div>
           </div>
-          <div *ngIf="filteredImages.length === 0" class="empty-state">
+          <div *ngIf="filteredImages.length === 0" class="empty-state" data-testid="gallery-empty-all">
             <mat-icon>photo_library</mat-icon>
             <p>No photos found. Be the first to upload one!</p>
           </div>
@@ -103,13 +104,13 @@
         <mat-icon class="tab-icon">person</mat-icon>
         My Photos
       </ng-template>
-      <div *ngIf="isLoading; else myPhotosContent" class="loading-message">
+      <div *ngIf="isLoading; else myPhotosContent" class="loading-message" data-testid="gallery-loading-mine">
         <mat-spinner></mat-spinner>
         <p>Loading your photos...</p>
       </div>
       <ng-template #myPhotosContent>
         <div class="picture-grid">
-          <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)">
+          <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)" data-testid="gallery-picture-item">
             <div class="picture-image-container">
               <img [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
               <div *ngIf="isVideoUrl(image.url)" class="video-overlay">
@@ -124,7 +125,7 @@
               </span>
             </div>
           </div>
-          <div *ngIf="filteredImages.length === 0" class="empty-state">
+          <div *ngIf="filteredImages.length === 0" class="empty-state" data-testid="gallery-empty-mine">
             <mat-icon>add_a_photo</mat-icon>
             <p>You haven't uploaded any photos yet. Click the upload button to get started!</p>
           </div>

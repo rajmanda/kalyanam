@@ -1,16 +1,21 @@
-<div class="file-upload-form">
-  <form (ngSubmit)="onUpload($event)">
+<div class="file-upload-form" data-testid="file-upload-form">
+  <form (ngSubmit)="onUpload($event)" data-testid="file-upload-form-element">
     <div>
       <label for="fileInput">Select an image to upload:</label>
-      <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*,video/mp4,video/quicktime,.mp4,.mov" />
+      <input
+        type="file"
+        id="fileInput"
+        data-testid="file-upload-input"
+        (change)="onFileSelected($event)"
+        accept="image/*,video/mp4,video/quicktime,.mp4,.mov" />
     </div>
 
-    <button type="submit" [disabled]="!selectedFile || isUploading">
+    <button type="submit" [disabled]="!selectedFile || isUploading" data-testid="file-upload-submit-button">
       {{ isUploading ? 'Uploading...' : 'Upload' }}
     </button>
 
     <!-- Progress bar -->
-    <div *ngIf="isUploading" class="progress-container">
+    <div *ngIf="isUploading" class="progress-container" data-testid="file-upload-progress">
       <progress [value]="uploadProgress" max="100"></progress>
       <span>{{ uploadProgress }}%</span>
     </div>
@@ -18,7 +23,8 @@
     <!-- Status message -->
     <div *ngIf="uploadMessage" class="upload-message"
          [class.success]="uploadMessage.includes('success')"
-         [class.error]="uploadMessage.includes('failed')">
+         [class.error]="uploadMessage.includes('failed')"
+         data-testid="file-upload-status-message">
       {{ uploadMessage }}
     </div>
   </form>
