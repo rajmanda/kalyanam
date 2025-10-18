@@ -34,6 +34,11 @@ export interface ListImagesResponse {
   [key: string]: any; // For any additional properties
 }
 
+function sanitizeFilename(name: string): string {
+  // Backend sanitization rule: replace characters not in [a-zA-Z0-9._-] with underscore
+  return (name || '').replace(/[^a-zA-Z0-9._-]/g, '_');
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -99,15 +104,20 @@ export class FileUploadService {
       }
     ).pipe(
       switchMap((response) => {
-        const results = response.uploadUrls.map(async (urlInfo) => {
-          // Find the matching File by fileName
-          const file = files.find((f) => f.name === urlInfo.fileName);
+        const uploadUrls = response.uploadUrls || [];
+
+        const results = uploadUrls.map(async (urlInfo, idx) => {
+          // Preferred matching: by exact filename, then by sanitized filename, then by index fallback
+          let file = files.find((f) => f.name === urlInfo.fileName)
+            || files.find((f) => sanitizeFilename(f.name) === urlInfo.fileName)
+            || files[idx];
+
           if (!file) {
             return {
               fileName: urlInfo.fileName,
               blobPath: urlInfo.blobPath,
               success: false,
-              error: 'File not found in selection'
+              error: 'No matching file found for returned signed URL (filename may have been sanitized)'
             } as UploadResult;
           }
 
