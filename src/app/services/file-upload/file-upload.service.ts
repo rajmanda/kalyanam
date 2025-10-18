@@ -184,4 +184,24 @@ export class FileUploadService {
       })
     );
   }
+
+  /**
+   * Get a signed URL for viewing a blob
+   * @param blobPath - The blob path in GCS (e.g., "events/123/image.jpg")
+   * @returns Observable with signed URL for viewing
+   */
+  getSignedViewUrl(blobPath: string): Observable<{ signedUrl: string }> {
+    return this.http.post<{ signedUrl: string }>(
+      `${this.fileUploadApiUrl}/generate-download-url`,
+      { blobPath }
+    ).pipe(
+      tap((response) => {
+        console.log('[FileUploadService] getSignedViewUrl - Generated signed URL for:', blobPath);
+      }),
+      catchError((error) => {
+        console.error('[FileUploadService] Error generating signed view URL:', error);
+        throw error;
+      })
+    );
+  }
 }
