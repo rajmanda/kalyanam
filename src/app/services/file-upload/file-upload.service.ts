@@ -64,6 +64,7 @@ export class FileUploadService {
       }
     ).pipe(
       switchMap((response) => {
+        console.log('[FileUploadService] uploadFile - Received signed URL:', response.signedUrl, 'blobPath:', response.blobPath);
         return from(
           fetch(response.signedUrl, {
             method: 'PUT',
@@ -71,9 +72,10 @@ export class FileUploadService {
             headers: {
               'Content-Type': contentType
             }
-          }).then((gcsResponse) => {
+          }).then(async (gcsResponse) => {
             if (!gcsResponse.ok) {
-              throw new Error(`GCS upload failed: ${gcsResponse.status} ${gcsResponse.statusText}`);
+              const bodyText = await gcsResponse.text().catch(() => '<unable to read body>');
+              throw new Error(`GCS upload failed: ${gcsResponse.status} ${gcsResponse.statusText} - ${bodyText}`);
             }
             return {
               fileName: response.fileName,
@@ -129,7 +131,8 @@ export class FileUploadService {
               headers: { 'Content-Type': contentType }
             });
             if (!gcsResponse.ok) {
-              throw new Error(`GCS upload failed for ${urlInfo.fileName}: ${gcsResponse.status} ${gcsResponse.statusText}`);
+              const bodyText = await gcsResponse.text().catch(() => '<unable to read body>');
+              throw new Error(`GCS upload failed for ${urlInfo.fileName}: ${gcsResponse.status} ${gcsResponse.statusText} - ${bodyText}`);
             }
             return {
               fileName: urlInfo.fileName,
