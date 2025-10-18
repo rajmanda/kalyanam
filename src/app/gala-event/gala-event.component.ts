@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit, OnChanges } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { RsvpService } from '../services/rsvp/rsvp.service';
@@ -26,7 +26,6 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FileUploadService } from '../services/file-upload/file-upload.service';
-import { HttpEventType } from '@angular/common/http';
 import { RouterModule } from '@angular/router'; // Import RouterModule
 
 @Component({
@@ -44,7 +43,7 @@ import { RouterModule } from '@angular/router'; // Import RouterModule
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
-export class GalaEventComponent {
+export class GalaEventComponent implements OnInit, OnChanges {
   @Input() galaEventDTO!: GalaEventDTO;
   showAttendees: boolean = false;
   showRsvp: boolean = false;
@@ -63,6 +62,9 @@ export class GalaEventComponent {
   uploadProgress: number = 0;
   isUploading: boolean = false;
   currentPhase: 'upload' | 'update' | null = null;
+
+  // For handling signed URLs for image display
+  displayImageUrl: string = '';
 
   constructor(
     private _rsvpService: RsvpService,
@@ -98,6 +100,40 @@ export class GalaEventComponent {
         console.error('Error checking admin status:', error);
       }
     );
+
+    // Load the image URL
+    this.loadImageUrl();
+  }
+
+  ngOnChanges(): void {
+    // Reload image URL if galaEventDTO changes
+    this.loadImageUrl();
+  }
+
+  private loadImageUrl(): void {
+    if (!this.galaEventDTO?.galaEventDetails?.image) {
+      return;
+    }
+
+    const imageValue = this.galaEventDTO.galaEventDetails.image;
+
+    // Check if it's already a full URL (http/https)
+    if (imageValue.startsWith('http://') || imageValue.startsWith('https://')) {
+      this.displayImageUrl = imageValue;
+      return;
+    }
+
+    // Otherwise, it's a blobPath - get signed URL
+    this.fileUploadService.getSignedViewUrl(imageValue).subscribe({
+      next: (response) => {
+        this.displayImageUrl = response.signedUrl;
+      },
+      error: (error) => {
+        console.error('Failed to load signed URL for image:', error);
+        // Fallback to the original value
+        this.displayImageUrl = imageValue;
+      }
+    });
   }
 
   onFileSelected(event: Event): void {
@@ -120,7 +156,7 @@ export class GalaEventComponent {
   private uploadImageAndUpdateEvent() {
     this.isUploading = true;
     this.currentPhase = 'upload';
-    this.uploadProgress = 0;
+    this.uploadProgress = 10;
 
     if (!this.selectedFile) {
       this.handleError('No file selected', null);
@@ -131,23 +167,22 @@ export class GalaEventComponent {
     const eventId = this.galaEventDTO?.galaEventId?.toString() || 'default-event';
 
     this.fileUploadService.uploadFile(this.selectedFile, eventId).subscribe({
-      next: (event: any) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          // Update progress for upload phase (0-50%)
-          this.uploadProgress = Math.round(50 * (event.loaded / (event.total || 1)));
-        } else if (event.type === HttpEventType.Response) {
-          // Image upload complete - get publicUrl from response
-          const publicUrl = event.body?.publicUrl;
-
-          if (!publicUrl) {
-            throw new Error('No public URL returned from server');
-          }
-
-          // Update the event DTO with the new image URL
-          this.galaEventDTO.galaEventDetails.image = publicUrl;
+      next: (result) => {
+        // Image upload complete
+        if (result.success) {
+          console.log('Upload successful, blobPath:', result.blobPath);
+          
+          // Update progress to 50%
+          this.uploadProgress = 50;
+          
+          // Use blobPath as the image reference
+          // The backend will serve/sign this when needed
+          this.galaEventDTO.galaEventDetails.image = result.blobPath;
 
           // Proceed to update event
           this.updateEventOnly();
+        } else {
+          throw new Error(result.error || 'Upload failed');
         }
       },
       error: (uploadError) => {
@@ -178,6 +213,9 @@ export class GalaEventComponent {
     this.currentPhase = null;
     this.uploadProgress = 100;
     this.toggleEditForm();
+
+    // Reload the image URL to get the new signed URL
+    this.loadImageUrl();
 
     this._snackBar.open('Event updated successfully!', 'Close', {
       duration: 3000,

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { FileUploadService, UploadResponse, ListImagesResponse } from '../services/file-upload/file-upload.service';
+import { FileUploadService, ListImagesResponse, UploadResult } from '../services/file-upload/file-upload.service';
 import { AuthService } from '../services/auth/auth.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,10 +9,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
-import { HttpEventType } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
-import { Subscription, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatListModule } from '@angular/material/list';
 import { FileSizePipe } from '../shared/pipes/file-size.pipe';
@@ -67,23 +66,15 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log('Initializing PictureGalleryComponent');
-
     this.currentUserEmail = this.authService.getUserEmail();
-    console.log('Current user email:', this.currentUserEmail);
 
     this.route.queryParams.pipe(
       takeUntil(this.destroy$)
     ).subscribe((params: Params) => {
-      console.log('Route query params:', params);
-
       // Decode the event name from URL
       this.currentEvent = params['event'] ? decodeURIComponent(params['event']) : '';
 
-      console.log('Current event name:', this.currentEvent);
-
       if (!this.currentEvent) {
-        console.warn('No event parameter found in URL');
         this.errorMessage = 'No event specified. Please navigate from an event page.';
       } else {
         this.errorMessage = null;
@@ -100,13 +91,11 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     const files = Array.from(input.files);
     this.uploadErrors = [];
 
-    // Check total files don't exceed limit
     if (files.length > this.fileLimit) {
       this.uploadErrors.push(`You can only upload up to ${this.fileLimit} files at once.`);
       return;
     }
 
-    // Check file types
     const invalidFiles = files.filter(file => !file.type.startsWith('image/') && !file.type.startsWith('video/'));
     if (invalidFiles.length > 0) {
       this.uploadErrors.push('Only image and video files are allowed.');
@@ -114,33 +103,31 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     }
 
     this.selectedFiles = files;
-    this.uploadImages();
   }
 
-  uploadImages(): void {
+  async uploadImages(): Promise<void> {
     if (!this.selectedFiles.length || !this.currentEvent) {
       this.uploadErrors.push('No files selected or event not set');
       return;
     }
 
     this.isUploading = true;
-    this.uploadProgress = 0;
+    this.uploadProgress = 25; // staged progress start
     this.errorMessage = null;
 
     this.fileUploadService.uploadMultipleFiles(this.selectedFiles, this.currentEvent).subscribe({
-      next: (event: any) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          // Update progress
-          this.uploadProgress = Math.round(100 * event.loaded / (event.total || 1));
-        } else if (event.type === HttpEventType.Response) {
-          // Handle successful upload
-          console.log('Upload successful', event.body);
-          this.uploadProgress = 100;
-          this.selectedFiles = [];
-          this.isUploading = false;
-          // Refresh the gallery
-          this.fetchImages();
-        }
+      next: (results: UploadResult[]) => {
+        const successes = results.filter(r => r.success);
+        const failures = results.filter(r => !r.success);
+
+        this.uploadErrors = failures.map(f => `Failed: ${f.fileName} - ${f.error || 'Unknown error'}`);
+
+        this.uploadProgress = 100;
+        this.isUploading = false;
+        this.selectedFiles = [];
+
+        // Refresh the gallery
+        this.fetchImages();
       },
       error: (error) => {
         console.error('Upload error:', error);
@@ -154,23 +141,10 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   fetchImages(): void {
     this.isLoading = true;
 
-    // Get user email if in 'mine' view and we have a current user
-    const userEmail = this.activeView === 'mine' && this.currentUserEmail
-      ? this.currentUserEmail
-      : undefined;
-
-    console.log('[PictureGallery] fetchImages - Calling backend with:', {
-      view: this.activeView,
-      event: this.currentEvent,
-      user: userEmail || 'undefined (showing all)',
-      currentUserEmail: this.currentUserEmail
-    });
+    const userEmail = this.activeView === 'mine' && this.currentUserEmail ? this.currentUserEmail : undefined;
 
     this.fileUploadService.listImages(this.currentEvent, userEmail).subscribe({
       next: (response: ListImagesResponse) => {
-        console.log('[PictureGallery] Received response with', response.images?.length || 0, 'images');
-
-        // Map the string URLs to GalleryImage objects
         this.images = response.images.map(url => ({
           url,
           uploadedBy: this.extractUsernameFromUrl(url) || this.currentUserEmail || 'Unknown',
@@ -193,9 +167,8 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     try {
       const urlObj = new URL(url);
       const pathParts = urlObj.pathname.split('/');
-      // Assuming the format is /bucket/event/username/filename
       if (pathParts.length >= 4) {
-        return pathParts[3]; // Returns the username part
+        return pathParts[3]; // username
       }
     } catch (e) {
       console.error('Error parsing image URL:', e);
@@ -211,50 +184,30 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   }
 
   onTabChange(event: any): void {
-    // Get the index of the selected tab (0 = 'all', 1 = 'mine')
     const tabIndex = event.index;
     const view: 'all' | 'mine' = tabIndex === 1 ? 'mine' : 'all';
-
-    console.log('[PictureGallery] onTabChange - Tab changed to:', view,
-               '(tab index:', tabIndex, 'label:', event.tab.textLabel + ')');
-
     this.filterImages(view);
   }
 
   filterImages(view: 'all' | 'mine'): void {
-    console.log('[PictureGallery] filterImages - Setting view to:', view,
-               '(current user:', this.currentUserEmail + ')');
-
-    // Update the active view
     this.activeView = view;
-
-    // Only fetch images if we have a current event
     if (this.currentEvent) {
       this.fetchImages();
     } else {
-      console.error('[PictureGallery] Cannot fetch images: No current event');
       this.errorMessage = 'No event specified. Please navigate from an event page.';
       this.isLoading = false;
     }
   }
 
   triggerFileInput(): void {
-    console.log('Upload button clicked');
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-
     if (!fileInput) {
-      console.error('File input element not found');
       this.errorMessage = 'Upload functionality not available';
       return;
     }
-
-    // Reset the input value to allow selecting the same file again
     fileInput.value = '';
-
-    console.log('Triggering file input click');
     fileInput.click();
   }
-
   onImageClick(image: GalleryImage): void {
     this.dialog.open(ImageDialogComponent, {
       data: {
@@ -266,6 +219,7 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
       panelClass: 'image-dialog-container'
     });
   }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();
