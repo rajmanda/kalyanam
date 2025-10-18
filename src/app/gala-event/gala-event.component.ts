@@ -26,7 +26,6 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FileUploadService } from '../services/file-upload/file-upload.service';
-import { HttpEventType } from '@angular/common/http';
 import { RouterModule } from '@angular/router'; // Import RouterModule
 
 @Component({
