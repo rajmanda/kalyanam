@@ -214,6 +214,9 @@ export class GalaEventComponent implements OnInit, OnChanges {
     this.uploadProgress = 100;
     this.toggleEditForm();
 
+    // Reload the image URL to get the new signed URL
+    this.loadImageUrl();
+
     this._snackBar.open('Event updated successfully!', 'Close', {
       duration: 3000,
       horizontalPosition: 'center',
