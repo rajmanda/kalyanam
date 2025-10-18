@@ -208,6 +208,18 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     fileInput.value = '';
     fileInput.click();
   }
+  onImageClick(image: GalleryImage): void {
+    this.dialog.open(ImageDialogComponent, {
+      data: {
+        imageUrl: image.url,
+        altText: `Image uploaded by ${image.uploadedBy || 'unknown user'}`
+      },
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      panelClass: 'image-dialog-container'
+    });
+  }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();
