@@ -43,7 +43,7 @@ import { RouterModule } from '@angular/router'; // Import RouterModule
   templateUrl: './gala-event.component.html',
   styleUrl: './gala-event.component.css'
 })
-export class GalaEventComponent {
+export class GalaEventComponent implements OnInit, OnChanges {
   @Input() galaEventDTO!: GalaEventDTO;
   showAttendees: boolean = false;
   showRsvp: boolean = false;
