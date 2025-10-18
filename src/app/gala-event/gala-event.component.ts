@@ -120,7 +120,7 @@ export class GalaEventComponent {
   private uploadImageAndUpdateEvent() {
     this.isUploading = true;
     this.currentPhase = 'upload';
-    this.uploadProgress = 0;
+    this.uploadProgress = 10;
 
     if (!this.selectedFile) {
       this.handleError('No file selected', null);
@@ -131,23 +131,22 @@ export class GalaEventComponent {
     const eventId = this.galaEventDTO?.galaEventId?.toString() || 'default-event';
 
     this.fileUploadService.uploadFile(this.selectedFile, eventId).subscribe({
-      next: (event: any) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          // Update progress for upload phase (0-50%)
-          this.uploadProgress = Math.round(50 * (event.loaded / (event.total || 1)));
-        } else if (event.type === HttpEventType.Response) {
-          // Image upload complete - get publicUrl from response
-          const publicUrl = event.body?.publicUrl;
-
-          if (!publicUrl) {
-            throw new Error('No public URL returned from server');
-          }
-
-          // Update the event DTO with the new image URL
-          this.galaEventDTO.galaEventDetails.image = publicUrl;
+      next: (result) => {
+        // Image upload complete
+        if (result.success) {
+          console.log('Upload successful, blobPath:', result.blobPath);
+          
+          // Update progress to 50%
+          this.uploadProgress = 50;
+          
+          // Use blobPath as the image reference
+          // The backend will serve/sign this when needed
+          this.galaEventDTO.galaEventDetails.image = result.blobPath;
 
           // Proceed to update event
           this.updateEventOnly();
+        } else {
+          throw new Error(result.error || 'Upload failed');
         }
       },
       error: (uploadError) => {
