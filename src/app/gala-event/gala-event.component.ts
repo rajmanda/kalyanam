@@ -63,6 +63,9 @@ export class GalaEventComponent {
   isUploading: boolean = false;
   currentPhase: 'upload' | 'update' | null = null;
 
+  // For handling signed URLs for image display
+  displayImageUrl: string = '';
+
   constructor(
     private _rsvpService: RsvpService,
     public _matDialog: MatDialog,
@@ -97,6 +100,40 @@ export class GalaEventComponent {
         console.error('Error checking admin status:', error);
       }
     );
+
+    // Load the image URL
+    this.loadImageUrl();
+  }
+
+  ngOnChanges(): void {
+    // Reload image URL if galaEventDTO changes
+    this.loadImageUrl();
+  }
+
+  private loadImageUrl(): void {
+    if (!this.galaEventDTO?.galaEventDetails?.image) {
+      return;
+    }
+
+    const imageValue = this.galaEventDTO.galaEventDetails.image;
+
+    // Check if it's already a full URL (http/https)
+    if (imageValue.startsWith('http://') || imageValue.startsWith('https://')) {
+      this.displayImageUrl = imageValue;
+      return;
+    }
+
+    // Otherwise, it's a blobPath - get signed URL
+    this.fileUploadService.getSignedViewUrl(imageValue).subscribe({
+      next: (response) => {
+        this.displayImageUrl = response.signedUrl;
+      },
+      error: (error) => {
+        console.error('Failed to load signed URL for image:', error);
+        // Fallback to the original value
+        this.displayImageUrl = imageValue;
+      }
+    });
   }
 
   onFileSelected(event: Event): void {
