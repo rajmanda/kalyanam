@@ -8,6 +8,10 @@ Scope: Update Angular frontend to use backend only for generating signed URLs; u
 - [ ] M3: Update multi-file upload path in picture-gallery to new 2-step flow
 - [ ] M4: Ensure listing uses signed URLs with current filters (no code change if already string[])
 - [ ] M5: Add robust error handling (backend and GCS errors, URL expiration messaging)
+- [x] M1: Wire up API contracts in FileUploadService (signed URL generation + direct PUT to GCS)
+- [x] M2: Update single-file upload component (file-upload.component) to new 2-step flow
+- [x] M3: Update multi-file upload path in picture-gallery to new 2-step flow
+
 - [ ] M6: Add data-testid attributes for testability on all key UI elements
 - [ ] M7: Manual verification and polish
 
