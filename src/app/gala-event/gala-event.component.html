@@ -19,7 +19,7 @@
 
   <!-- Image Container -->
   <div class="image-container">
-    <img class="card-img-top" [src]="galaEventDTO.galaEventDetails.image" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}">
+    <img class="card-img-top" [src]="displayImageUrl || galaEventDTO.galaEventDetails.image" alt="Photo of {{ galaEventDTO.galaEventDetails.description }}">
   </div>
 
   <!-- Description Container -->
