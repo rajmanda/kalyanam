@@ -150,7 +150,8 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
           url,
           uploadedBy: this.extractUsernameFromUrl(url) || this.currentUserEmail || 'Unknown',
           uploadedAt: new Date().toISOString(),
-          eventName: this.currentEvent
+          eventName: this.currentEvent,
+          fileName: this.getBaseNameFromUrl(url)
         }));
 
         this.filteredImages = [...this.images];
