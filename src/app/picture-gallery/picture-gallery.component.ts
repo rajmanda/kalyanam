@@ -16,9 +16,9 @@ import { takeUntil } from 'rxjs/operators';
 import { MatListModule } from '@angular/material/list';
 import { FileSizePipe } from '../shared/pipes/file-size.pipe';
 
-type GalleryView = 'all' | 'mine';
+ type GalleryView = 'all' | 'mine';
 
-interface GalleryImage {
+ interface GalleryImage {
   url: string;
   uploadedBy?: string;
   uploadedAt?: string;
@@ -54,7 +54,7 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   uploadErrors: string[] = [];
   uploadProgress: number = 0;
   isUploading: boolean = false;
-  activeView: 'all' | 'mine' = 'all';
+  activeView: GalleryView = 'all';
   currentUserEmail: string | null = null;
   currentEvent: string = '';
   private destroy$ = new Subject<void>();
@@ -174,19 +174,19 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
       }
     } catch (e) {
       console.error('Error parsing image URL:', e);
+    }
+    return null;
+  }
+
   private getBaseNameFromUrl(url: string): string | undefined {
     try {
       // Try to parse query-less path first
       const u = new URL(url);
       const path = u.pathname;
       const lastSegment = path.split('/').filter(Boolean).pop() || '';
-      // Some signed URLs include the original filename in the path; strip known prefixes
       const rawName = decodeURIComponent(lastSegment);
-      // If there are blob-style segments, keep the actual file segment
-      // Remove query params already handled by URL
-      // Return base name (keep extension)
       if (!rawName) return undefined;
-      return rawName;
+      return rawName; // keep extension
     } catch {
       // Fallback if not a valid URL: treat as path or filename
       const cleaned = url.split('?')[0];
@@ -194,10 +194,6 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
       const candidate = parts[parts.length - 1];
       return decodeURIComponent(candidate || '');
     }
-  }
-
-    }
-    return null;
   }
 
   isVideoUrl(url: string): boolean {
@@ -209,11 +205,11 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
 
   onTabChange(event: any): void {
     const tabIndex = event.index;
-    const view: 'all' | 'mine' = tabIndex === 1 ? 'mine' : 'all';
+    const view: GalleryView = tabIndex === 1 ? 'mine' : 'all';
     this.filterImages(view);
   }
 
-  filterImages(view: 'all' | 'mine'): void {
+  filterImages(view: GalleryView): void {
     this.activeView = view;
     if (this.currentEvent) {
       this.fetchImages();
@@ -232,6 +228,7 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     fileInput.value = '';
     fileInput.click();
   }
+
   onImageClick(image: GalleryImage): void {
     this.dialog.open(ImageDialogComponent, {
       data: {
@@ -243,7 +240,6 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
       panelClass: 'image-dialog-container'
     });
   }
-
 
   ngOnDestroy(): void {
     this.destroy$.next();
