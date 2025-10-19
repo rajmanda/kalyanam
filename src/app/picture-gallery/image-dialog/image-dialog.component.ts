@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -8,24 +8,31 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, CommonModule],
   template: `
-    <div class="media-dialog">
+    <div class="media-dialog" data-testid="image-dialog-root">
       <img
-        *ngIf="isImage"
+        *ngIf="!showVideo"
         [src]="data.imageUrl"
         class="enlarged-media"
-        [alt]="'Enlarged ' + (data.altText || 'image')">
+        [alt]="'Enlarged ' + (data.altText || 'image')"
+        data-testid="image-dialog-img">
 
       <video
-        *ngIf="!isImage"
+        *ngIf="showVideo"
+        #videoEl
         [src]="data.imageUrl"
         class="enlarged-media"
         controls
-        [attr.aria-label]="'Video ' + (data.altText || 'media')">
+        autoplay
+        muted
+        playsinline
+        (ended)="onVideoEnded()"
+        [attr.aria-label]="'Video ' + (data.altText || 'media')"
+        data-testid="image-dialog-video">
         Your browser does not support the video tag.
       </video>
 
       <div class="dialog-actions">
-        <button mat-button (click)="onClose()" color="primary">Close</button>
+        <button mat-button (click)="onClose()" color="primary" data-testid="image-dialog-close-btn">Close</button>
       </div>
     </div>
   `,
@@ -50,21 +57,65 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class ImageDialogComponent {
-  isImage: boolean;
+export class ImageDialogComponent implements AfterViewInit {
+  showVideo: boolean;
+  @ViewChild('videoEl') videoRef?: ElementRef<HTMLVideoElement>;
+  private hasEnded = false;
+  private autoCloseDelayMs = 500; // delay before auto-close after video ends
 
   constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { imageUrl: string, altText?: string }
+    @Inject(MAT_DIALOG_DATA) public data: { imageUrl: string; altText?: string }
   ) {
-    // Check if the URL points to an image or video
-    this.isImage = this.checkIfImage(data.imageUrl);
+    // Decide media type using robust extension check (querystring-safe)
+    this.showVideo = this.isLikelyVideo(data.imageUrl);
   }
 
-  private checkIfImage(url: string): boolean {
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-    const lowerUrl = url.toLowerCase();
-    return imageExtensions.some(ext => lowerUrl.endsWith(ext));
+  ngAfterViewInit(): void {
+    // Try playing automatically in Chrome: requires muted + playsinline set in template
+    if (this.showVideo && this.videoRef?.nativeElement) {
+      const v = this.videoRef.nativeElement;
+      const tryPlay = async () => {
+        try {
+          await v.play();
+        } catch (e) {
+          // Autoplay might be blocked due to policies; ensure muted then retry
+          v.muted = true;
+          try {
+            await v.play();
+          } catch (err) {
+            // If still blocked, leave controls visible so user can start it
+            console.warn('[ImageDialog] Autoplay failed:', err);
+          }
+        }
+      };
+      // slight delay to ensure element is attached
+      setTimeout(tryPlay, 0);
+    }
+  }
+
+  onVideoEnded(): void {
+    // Auto-close dialog when video completes, with a small delay for UX
+    if (this.hasEnded) return; // guard against duplicate events
+    this.hasEnded = true;
+    setTimeout(() => {
+      // If dialog is still open, close it
+      if (this.dialogRef) {
+        this.dialogRef.close('ended');
+      }
+    }, this.autoCloseDelayMs);
+  }
+
+  private isLikelyVideo(url: string): boolean {
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.wmv', '.mkv'];
+    try {
+      const u = new URL(url);
+      const path = u.pathname.toLowerCase();
+      return videoExtensions.some((ext) => path.endsWith(ext));
+    } catch {
+      const cleaned = (url || '').split('?')[0].toLowerCase();
+      return videoExtensions.some((ext) => cleaned.endsWith(ext));
+    }
   }
 
   onClose(): void {

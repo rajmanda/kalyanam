@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, RouterModule } from '@angular/router';
 import { FileUploadService, ListImagesResponse, UploadResult } from '../services/file-upload/file-upload.service';
 import { AuthService } from '../services/auth/auth.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { Subject } from 'rxjs';
@@ -16,6 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatListModule } from '@angular/material/list';
 import { FileSizePipe } from '../shared/pipes/file-size.pipe';
 
+// Types
 type GalleryView = 'all' | 'mine';
 
 interface GalleryImage {
@@ -23,6 +23,9 @@ interface GalleryImage {
   uploadedBy?: string;
   uploadedAt?: string;
   eventName?: string;
+  fileName?: string;
+  isVideo?: boolean;
+  posterUrl?: string;
 }
 
 @Component({
@@ -30,6 +33,7 @@ interface GalleryImage {
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatButtonModule,
     MatIconModule,
     MatTabsModule,
@@ -37,7 +41,6 @@ interface GalleryImage {
     MatProgressSpinnerModule,
     MatDialogModule,
     MatListModule,
-    RouterModule,
     FileSizePipe
   ],
   templateUrl: './picture-gallery.component.html',
@@ -46,16 +49,16 @@ interface GalleryImage {
 export class PictureGalleryComponent implements OnInit, OnDestroy {
   images: GalleryImage[] = [];
   filteredImages: GalleryImage[] = [];
-  isLoading: boolean = true;
+  isLoading = true;
   errorMessage: string | null = null;
   selectedFiles: File[] = [];
   fileLimit = 30;
   uploadErrors: string[] = [];
-  uploadProgress: number = 0;
-  isUploading: boolean = false;
-  activeView: 'all' | 'mine' = 'all';
+  uploadProgress = 0;
+  isUploading = false;
+  activeView: GalleryView = 'all';
   currentUserEmail: string | null = null;
-  currentEvent: string = '';
+  currentEvent = '';
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -68,20 +71,19 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentUserEmail = this.authService.getUserEmail();
 
-    this.route.queryParams.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((params: Params) => {
-      // Decode the event name from URL
-      this.currentEvent = params['event'] ? decodeURIComponent(params['event']) : '';
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => {
+        this.currentEvent = params['event'] ? decodeURIComponent(params['event']) : '';
 
-      if (!this.currentEvent) {
-        this.errorMessage = 'No event specified. Please navigate from an event page.';
-      } else {
-        this.errorMessage = null;
-      }
+        if (!this.currentEvent) {
+          this.errorMessage = 'No event specified. Please navigate from an event page.';
+        } else {
+          this.errorMessage = null;
+        }
 
-      this.fetchImages();
-    });
+        this.fetchImages();
+      });
   }
 
   onFileSelected(event: Event): void {
@@ -96,7 +98,9 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const invalidFiles = files.filter(file => !file.type.startsWith('image/') && !file.type.startsWith('video/'));
+    const invalidFiles = files.filter(
+      (file) => !file.type.startsWith('image/') && !file.type.startsWith('video/')
+    );
     if (invalidFiles.length > 0) {
       this.uploadErrors.push('Only image and video files are allowed.');
       return;
@@ -112,45 +116,52 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     }
 
     this.isUploading = true;
-    this.uploadProgress = 25; // staged progress start
+    this.uploadProgress = 25;
     this.errorMessage = null;
 
-    this.fileUploadService.uploadMultipleFiles(this.selectedFiles, this.currentEvent).subscribe({
-      next: (results: UploadResult[]) => {
-        const successes = results.filter(r => r.success);
-        const failures = results.filter(r => !r.success);
+    this.fileUploadService
+      .uploadMultipleFiles(this.selectedFiles, this.currentEvent)
+      .subscribe({
+        next: (results: UploadResult[]) => {
+          const failures = results.filter((r) => !r.success);
+          this.uploadErrors = failures.map(
+            (f) => `Failed: ${f.fileName} - ${f.error || 'Unknown error'}`
+          );
 
-        this.uploadErrors = failures.map(f => `Failed: ${f.fileName} - ${f.error || 'Unknown error'}`);
-
-        this.uploadProgress = 100;
-        this.isUploading = false;
-        this.selectedFiles = [];
-
-        // Refresh the gallery
-        this.fetchImages();
-      },
-      error: (error) => {
-        console.error('Upload error:', error);
-        this.errorMessage = 'Upload failed. Please try again.';
-        this.isUploading = false;
-        this.uploadProgress = 0;
-      }
-    });
+          this.uploadProgress = 100;
+          this.isUploading = false;
+          this.selectedFiles = [];
+          this.fetchImages();
+        },
+        error: (error) => {
+          console.error('Upload error:', error);
+          this.errorMessage = 'Upload failed. Please try again.';
+          this.isUploading = false;
+          this.uploadProgress = 0;
+        }
+      });
   }
 
   fetchImages(): void {
     this.isLoading = true;
 
-    const userEmail = this.activeView === 'mine' && this.currentUserEmail ? this.currentUserEmail : undefined;
+    const userEmail =
+      this.activeView === 'mine' && this.currentUserEmail ? this.currentUserEmail : undefined;
 
     this.fileUploadService.listImages(this.currentEvent, userEmail).subscribe({
       next: (response: ListImagesResponse) => {
-        this.images = response.images.map(url => ({
-          url,
-          uploadedBy: this.extractUsernameFromUrl(url) || this.currentUserEmail || 'Unknown',
-          uploadedAt: new Date().toISOString(),
-          eventName: this.currentEvent
-        }));
+        this.images = response.images.map((url) => {
+          const isVid = this.isVideoUrl(url);
+          return {
+            url,
+            uploadedBy: this.extractUsernameFromUrl(url) || this.currentUserEmail || 'Unknown',
+            uploadedAt: new Date().toISOString(),
+            eventName: this.currentEvent,
+            fileName: this.getBaseNameFromUrl(url),
+            isVideo: isVid,
+            posterUrl: isVid ? this.buildVideoPoster(url) : undefined
+          } as GalleryImage;
+        });
 
         this.filteredImages = [...this.images];
         this.isLoading = false;
@@ -176,20 +187,53 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     return null;
   }
 
+  private getBaseNameFromUrl(url: string): string | undefined {
+    try {
+      const u = new URL(url);
+      const path = u.pathname;
+      const lastSegment = path.split('/').filter(Boolean).pop() || '';
+      const rawName = decodeURIComponent(lastSegment);
+      if (!rawName) return undefined;
+      return rawName; // keep extension
+    } catch {
+      const cleaned = url.split('?')[0];
+      const parts = cleaned.split('/');
+      const candidate = parts[parts.length - 1];
+      return decodeURIComponent(candidate || '');
+    }
+  }
+
+  private buildVideoPoster(url: string): string | undefined {
+    // Best-effort: if your storage writes sidecar thumbnails with same basename as .jpg
+    try {
+      const u = new URL(url);
+      const path = u.pathname;
+      const idx = path.lastIndexOf('.');
+      if (idx > -1) {
+        const posterPath = path.substring(0, idx) + '.jpg';
+        return u.origin + posterPath + (u.search || '');
+      }
+    } catch {
+      const cleaned = url.split('?')[0];
+      return cleaned.replace(/\.(mp4|webm|ogg|mov|avi|wmv|mkv)$/i, '.jpg');
+    }
+    return undefined;
+  }
+
   isVideoUrl(url: string): boolean {
     if (!url) return false;
-    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.wmv'];
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.wmv', '.mkv'];
     const lowerUrl = url.toLowerCase();
-    return videoExtensions.some(ext => lowerUrl.endsWith(ext));
+    return videoExtensions.some((ext) => lowerUrl.endsWith(ext));
   }
 
   onTabChange(event: any): void {
-    const tabIndex = event.index;
-    const view: 'all' | 'mine' = tabIndex === 1 ? 'mine' : 'all';
+    const tabIndex = event?.index ?? 0;
+    const view: GalleryView = tabIndex === 1 ? 'mine' : 'all';
     this.filterImages(view);
   }
 
-  filterImages(view: 'all' | 'mine'): void {
+  filterImages(view: GalleryView): void {
     this.activeView = view;
     if (this.currentEvent) {
       this.fetchImages();
@@ -200,7 +244,7 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   }
 
   triggerFileInput(): void {
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement | null;
     if (!fileInput) {
       this.errorMessage = 'Upload functionality not available';
       return;
@@ -208,18 +252,18 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
     fileInput.value = '';
     fileInput.click();
   }
+
   onImageClick(image: GalleryImage): void {
     this.dialog.open(ImageDialogComponent, {
       data: {
         imageUrl: image.url,
-        altText: `Image uploaded by ${image.uploadedBy || 'unknown user'}`
+        altText: `${image.isVideo ? 'Video' : 'Image'} uploaded by ${image.uploadedBy || 'unknown user'}`
       },
       maxWidth: '90vw',
       maxHeight: '90vh',
       panelClass: 'image-dialog-container'
     });
   }
-
 
   ngOnDestroy(): void {
     this.destroy$.next();

@@ -75,14 +75,24 @@
         <div class="picture-grid">
           <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)" data-testid="gallery-picture-item">
             <div class="picture-image-container">
-              <img [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
-              <div *ngIf="isVideoUrl(image.url)" class="video-overlay">
-                <div class="play-button">
-                  <mat-icon>play_circle_filled</mat-icon>
+              <!-- For images: show image -->
+              <img *ngIf="!image.isVideo" [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
+
+              <!-- For videos: show poster if available, else a neutral background; overlay play button -->
+              <ng-container *ngIf="image.isVideo">
+                <img *ngIf="image.posterUrl" [src]="image.posterUrl" alt="Video poster" class="picture-image" />
+                <div *ngIf="!image.posterUrl" class="video-poster-fallback"></div>
+                <div class="video-overlay" aria-label="Play video" data-testid="gallery-video-overlay">
+                  <div class="play-button">
+                    <mat-icon>play_circle_filled</mat-icon>
+                  </div>
                 </div>
-              </div>
+              </ng-container>
             </div>
             <div class="picture-meta">
+              <span class="file-name-display" *ngIf="image.fileName" data-testid="gallery-picture-filename">
+                <mat-icon>insert_drive_file</mat-icon> {{ image.fileName }}
+              </span>
               <span class="uploader" *ngIf="image.uploadedBy">
                 <mat-icon>person</mat-icon> {{ image.uploadedBy }}
               </span>
@@ -112,14 +122,24 @@
         <div class="picture-grid">
           <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)" data-testid="gallery-picture-item">
             <div class="picture-image-container">
-              <img [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
-              <div *ngIf="isVideoUrl(image.url)" class="video-overlay">
-                <div class="play-button">
-                  <mat-icon>play_circle_filled</mat-icon>
+              <!-- For images: show image -->
+              <img *ngIf="!image.isVideo" [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
+
+              <!-- For videos: show poster if available, else a neutral background; overlay play button -->
+              <ng-container *ngIf="image.isVideo">
+                <img *ngIf="image.posterUrl" [src]="image.posterUrl" alt="Video poster" class="picture-image" />
+                <div *ngIf="!image.posterUrl" class="video-poster-fallback"></div>
+                <div class="video-overlay" aria-label="Play video" data-testid="gallery-video-overlay">
+                  <div class="play-button">
+                    <mat-icon>play_circle_filled</mat-icon>
+                  </div>
                 </div>
-              </div>
+              </ng-container>
             </div>
             <div class="picture-meta">
+              <span class="file-name-display" *ngIf="image.fileName" data-testid="gallery-picture-filename">
+                <mat-icon>insert_drive_file</mat-icon> {{ image.fileName }}
+              </span>
               <span class="date">
                 <mat-icon>schedule</mat-icon> {{ image.uploadedAt | date:'medium' }}
               </span>
