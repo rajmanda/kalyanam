@@ -60,6 +60,8 @@ import { CommonModule } from '@angular/common';
 export class ImageDialogComponent implements AfterViewInit {
   showVideo: boolean;
   @ViewChild('videoEl') videoRef?: ElementRef<HTMLVideoElement>;
+  private hasEnded = false;
+  private autoCloseDelayMs = 500; // delay before auto-close after video ends
 
   constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
