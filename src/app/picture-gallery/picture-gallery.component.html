@@ -123,6 +123,9 @@
               </div>
             </div>
             <div class="picture-meta">
+              <span class="file-name-display" *ngIf="image.fileName" data-testid="gallery-picture-filename">
+                <mat-icon>insert_drive_file</mat-icon> {{ image.fileName }}
+              </span>
               <span class="date">
                 <mat-icon>schedule</mat-icon> {{ image.uploadedAt | date:'medium' }}
               </span>
