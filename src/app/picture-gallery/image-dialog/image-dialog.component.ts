@@ -56,8 +56,9 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class ImageDialogComponent {
+export class ImageDialogComponent implements AfterViewInit {
   showVideo: boolean;
+  @ViewChild('videoEl') videoRef?: ElementRef<HTMLVideoElement>;
 
   constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
@@ -65,6 +66,29 @@ export class ImageDialogComponent {
   ) {
     // Decide media type using robust extension check (querystring-safe)
     this.showVideo = this.isLikelyVideo(data.imageUrl);
+  }
+
+  ngAfterViewInit(): void {
+    // Try playing automatically in Chrome: requires muted + playsinline set in template
+    if (this.showVideo && this.videoRef?.nativeElement) {
+      const v = this.videoRef.nativeElement;
+      const tryPlay = async () => {
+        try {
+          await v.play();
+        } catch (e) {
+          // Autoplay might be blocked due to policies; ensure muted then retry
+          v.muted = true;
+          try {
+            await v.play();
+          } catch (err) {
+            // If still blocked, leave controls visible so user can start it
+            console.warn('[ImageDialog] Autoplay failed:', err);
+          }
+        }
+      };
+      // slight delay to ensure element is attached
+      setTimeout(tryPlay, 0);
+    }
   }
 
   private isLikelyVideo(url: string): boolean {
