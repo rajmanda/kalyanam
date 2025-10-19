@@ -18,9 +18,13 @@ import { CommonModule } from '@angular/common';
 
       <video
         *ngIf="showVideo"
+        #videoEl
         [src]="data.imageUrl"
         class="enlarged-media"
         controls
+        autoplay
+        muted
+        playsinline
         [attr.aria-label]="'Video ' + (data.altText || 'media')"
         data-testid="image-dialog-video">
         Your browser does not support the video tag.
