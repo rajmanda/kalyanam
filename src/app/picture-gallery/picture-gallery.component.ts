@@ -148,13 +148,18 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
 
     this.fileUploadService.listImages(this.currentEvent, userEmail).subscribe({
       next: (response: ListImagesResponse) => {
-        this.images = response.images.map(url => ({
-          url,
-          uploadedBy: this.extractUsernameFromUrl(url) || this.currentUserEmail || 'Unknown',
-          uploadedAt: new Date().toISOString(),
-          eventName: this.currentEvent,
-          fileName: this.getBaseNameFromUrl(url)
-        }));
+        this.images = response.images.map(url => {
+          const isVid = this.isVideoUrl(url);
+          return {
+            url,
+            uploadedBy: this.extractUsernameFromUrl(url) || this.currentUserEmail || 'Unknown',
+            uploadedAt: new Date().toISOString(),
+            eventName: this.currentEvent,
+            fileName: this.getBaseNameFromUrl(url),
+            isVideo: isVid,
+            posterUrl: isVid ? this.buildVideoPoster(url) : undefined
+          } as GalleryImage;
+        });
 
         this.filteredImages = [...this.images];
         this.isLoading = false;
