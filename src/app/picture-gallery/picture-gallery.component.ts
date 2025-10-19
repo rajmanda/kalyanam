@@ -198,6 +198,25 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
       // Fallback if not a valid URL: treat as path or filename
       const cleaned = url.split('?')[0];
       const parts = cleaned.split('/');
+  private buildVideoPoster(url: string): string | undefined {
+    // Best-effort poster: try to replace extension with .jpg for thumbnails if your storage writes sidecar images
+    // Otherwise, we will rely on CSS play overlay; poster fallback remains undefined
+    try {
+      const u = new URL(url);
+      const path = u.pathname;
+      const idx = path.lastIndexOf('.');
+      if (idx > -1) {
+        const posterPath = path.substring(0, idx) + '.jpg';
+        return u.origin + posterPath + (u.search || '');
+      }
+    } catch {
+      // Fallback simple replace
+      const cleaned = url.split('?')[0];
+      return cleaned.replace(/\.(mp4|webm|ogg|mov|avi|wmv|mkv)$/i, '.jpg');
+    }
+    return undefined;
+  }
+
       const candidate = parts[parts.length - 1];
       return decodeURIComponent(candidate || '');
     }
