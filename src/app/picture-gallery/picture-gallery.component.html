@@ -83,6 +83,9 @@
               </div>
             </div>
             <div class="picture-meta">
+              <span class="file-name-display" *ngIf="image.fileName" data-testid="gallery-picture-filename">
+                <mat-icon>insert_drive_file</mat-icon> {{ image.fileName }}
+              </span>
               <span class="uploader" *ngIf="image.uploadedBy">
                 <mat-icon>person</mat-icon> {{ image.uploadedBy }}
               </span>
