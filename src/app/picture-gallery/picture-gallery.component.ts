@@ -23,6 +23,7 @@ interface GalleryImage {
   uploadedBy?: string;
   uploadedAt?: string;
   eventName?: string;
+  fileName?: string;
 }
 
 @Component({
