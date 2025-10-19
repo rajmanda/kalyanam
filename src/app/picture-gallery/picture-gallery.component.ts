@@ -24,6 +24,8 @@ import { FileSizePipe } from '../shared/pipes/file-size.pipe';
   uploadedAt?: string;
   eventName?: string;
   fileName?: string;
+  isVideo?: boolean;
+  posterUrl?: string;
 }
 
 @Component({
