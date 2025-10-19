@@ -95,8 +95,15 @@ export class ImageDialogComponent implements AfterViewInit {
   }
 
   onVideoEnded(): void {
-    // Auto-close dialog when video completes
-    this.dialogRef.close('ended');
+    // Auto-close dialog when video completes, with a small delay for UX
+    if (this.hasEnded) return; // guard against duplicate events
+    this.hasEnded = true;
+    setTimeout(() => {
+      // If dialog is still open, close it
+      if (this.dialogRef) {
+        this.dialogRef.close('ended');
+      }
+    }, this.autoCloseDelayMs);
   }
 
   private isLikelyVideo(url: string): boolean {
