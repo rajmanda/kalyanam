@@ -76,7 +76,7 @@
           <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)" data-testid="gallery-picture-item">
             <div class="picture-image-container">
               <img [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
-              <div *ngIf="isVideoUrl(image.url)" class="video-overlay">
+              <div *ngIf="isVideoUrl(image.url)" class="video-overlay" aria-label="Play video" data-testid="gallery-video-overlay">
                 <div class="play-button">
                   <mat-icon>play_circle_filled</mat-icon>
                 </div>
@@ -116,7 +116,7 @@
           <div *ngFor="let image of filteredImages" class="picture-item" (click)="onImageClick(image)" data-testid="gallery-picture-item">
             <div class="picture-image-container">
               <img [src]="image.url" loading="lazy" [alt]="'Media uploaded by ' + (image.uploadedBy || 'unknown user')" class="picture-image" />
-              <div *ngIf="isVideoUrl(image.url)" class="video-overlay">
+              <div *ngIf="isVideoUrl(image.url)" class="video-overlay" aria-label="Play video" data-testid="gallery-video-overlay">
                 <div class="play-button">
                   <mat-icon>play_circle_filled</mat-icon>
                 </div>
