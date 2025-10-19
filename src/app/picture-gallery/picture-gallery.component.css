@@ -144,6 +144,19 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+/* Fallback block shown when video poster is not available */
+.video-poster-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2d2d2d, #444);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
   transition: transform 0.3s ease;
 }
 
