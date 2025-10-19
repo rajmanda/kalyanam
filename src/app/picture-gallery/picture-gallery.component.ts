@@ -174,6 +174,28 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
       }
     } catch (e) {
       console.error('Error parsing image URL:', e);
+  private getBaseNameFromUrl(url: string): string | undefined {
+    try {
+      // Try to parse query-less path first
+      const u = new URL(url);
+      const path = u.pathname;
+      const lastSegment = path.split('/').filter(Boolean).pop() || '';
+      // Some signed URLs include the original filename in the path; strip known prefixes
+      const rawName = decodeURIComponent(lastSegment);
+      // If there are blob-style segments, keep the actual file segment
+      // Remove query params already handled by URL
+      // Return base name (keep extension)
+      if (!rawName) return undefined;
+      return rawName;
+    } catch {
+      // Fallback if not a valid URL: treat as path or filename
+      const cleaned = url.split('?')[0];
+      const parts = cleaned.split('/');
+      const candidate = parts[parts.length - 1];
+      return decodeURIComponent(candidate || '');
+    }
+  }
+
     }
     return null;
   }
