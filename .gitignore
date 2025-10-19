@@ -45,15 +45,12 @@ Thumbs.db
 /src/app/glogin/glogin.component.html
 src/app/glogin/glogin.component.html
 kalyanam-deployment.yaml
--e 
+
+-e
 # Environment files
 *.env
 *.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
+-e
 # Environment files
 *.env
 *.env.*
