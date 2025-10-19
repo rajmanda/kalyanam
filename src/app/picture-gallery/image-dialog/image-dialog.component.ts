@@ -78,6 +78,11 @@ export class ImageDialogComponent implements AfterViewInit {
           await v.play();
         } catch (e) {
           // Autoplay might be blocked due to policies; ensure muted then retry
+  onVideoEnded(): void {
+    // Auto-close dialog when video completes
+    this.dialogRef.close('ended');
+  }
+
           v.muted = true;
           try {
             await v.play();
