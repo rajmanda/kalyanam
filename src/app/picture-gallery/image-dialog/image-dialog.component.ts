@@ -53,20 +53,26 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class ImageDialogComponent {
-  isImage: boolean;
+  showVideo: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { imageUrl: string, altText?: string }
   ) {
-    // Check if the URL points to an image or video
-    this.isImage = this.checkIfImage(data.imageUrl);
+    // Decide media type using robust extension check (querystring-safe)
+    this.showVideo = this.isLikelyVideo(data.imageUrl);
   }
 
-  private checkIfImage(url: string): boolean {
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-    const lowerUrl = url.toLowerCase();
-    return imageExtensions.some(ext => lowerUrl.endsWith(ext));
+  private isLikelyVideo(url: string): boolean {
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.wmv', '.mkv'];
+    try {
+      const u = new URL(url);
+      const path = u.pathname.toLowerCase();
+      return videoExtensions.some(ext => path.endsWith(ext));
+    } catch {
+      const cleaned = (url || '').split('?')[0].toLowerCase();
+      return videoExtensions.some(ext => cleaned.endsWith(ext));
+    }
   }
 
   onClose(): void {
