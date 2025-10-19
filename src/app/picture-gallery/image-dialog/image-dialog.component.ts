@@ -63,7 +63,7 @@ export class ImageDialogComponent implements AfterViewInit {
 
   constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { imageUrl: string, altText?: string }
+    @Inject(MAT_DIALOG_DATA) public data: { imageUrl: string; altText?: string }
   ) {
     // Decide media type using robust extension check (querystring-safe)
     this.showVideo = this.isLikelyVideo(data.imageUrl);
@@ -78,11 +78,6 @@ export class ImageDialogComponent implements AfterViewInit {
           await v.play();
         } catch (e) {
           // Autoplay might be blocked due to policies; ensure muted then retry
-  onVideoEnded(): void {
-    // Auto-close dialog when video completes
-    this.dialogRef.close('ended');
-  }
-
           v.muted = true;
           try {
             await v.play();
@@ -97,15 +92,20 @@ export class ImageDialogComponent implements AfterViewInit {
     }
   }
 
+  onVideoEnded(): void {
+    // Auto-close dialog when video completes
+    this.dialogRef.close('ended');
+  }
+
   private isLikelyVideo(url: string): boolean {
     const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.wmv', '.mkv'];
     try {
       const u = new URL(url);
       const path = u.pathname.toLowerCase();
-      return videoExtensions.some(ext => path.endsWith(ext));
+      return videoExtensions.some((ext) => path.endsWith(ext));
     } catch {
       const cleaned = (url || '').split('?')[0].toLowerCase();
-      return videoExtensions.some(ext => cleaned.endsWith(ext));
+      return videoExtensions.some((ext) => cleaned.endsWith(ext));
     }
   }
 
