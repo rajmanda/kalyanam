@@ -25,6 +25,7 @@ import { CommonModule } from '@angular/common';
         autoplay
         muted
         playsinline
+        (ended)="onVideoEnded()"
         [attr.aria-label]="'Video ' + (data.altText || 'media')"
         data-testid="image-dialog-video">
         Your browser does not support the video tag.
