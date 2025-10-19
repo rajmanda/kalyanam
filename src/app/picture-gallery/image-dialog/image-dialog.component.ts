@@ -8,24 +8,26 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, CommonModule],
   template: `
-    <div class="media-dialog">
+    <div class="media-dialog" data-testid="image-dialog-root">
       <img
-        *ngIf="isImage"
+        *ngIf="!showVideo"
         [src]="data.imageUrl"
         class="enlarged-media"
-        [alt]="'Enlarged ' + (data.altText || 'image')">
+        [alt]="'Enlarged ' + (data.altText || 'image')"
+        data-testid="image-dialog-img">
 
       <video
-        *ngIf="!isImage"
+        *ngIf="showVideo"
         [src]="data.imageUrl"
         class="enlarged-media"
         controls
-        [attr.aria-label]="'Video ' + (data.altText || 'media')">
+        [attr.aria-label]="'Video ' + (data.altText || 'media')"
+        data-testid="image-dialog-video">
         Your browser does not support the video tag.
       </video>
 
       <div class="dialog-actions">
-        <button mat-button (click)="onClose()" color="primary">Close</button>
+        <button mat-button (click)="onClose()" color="primary" data-testid="image-dialog-close-btn">Close</button>
       </div>
     </div>
   `,
