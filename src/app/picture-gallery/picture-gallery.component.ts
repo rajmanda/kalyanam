@@ -256,10 +256,11 @@ export class PictureGalleryComponent implements OnInit, OnDestroy {
   }
 
   onImageClick(image: GalleryImage): void {
+    // For videos, prevent navigation behavior and ensure dialog shows appropriate element
     this.dialog.open(ImageDialogComponent, {
       data: {
         imageUrl: image.url,
-        altText: `Image uploaded by ${image.uploadedBy || 'unknown user'}`
+        altText: `${image.isVideo ? 'Video' : 'Image'} uploaded by ${image.uploadedBy || 'unknown user'}`
       },
       maxWidth: '90vw',
       maxHeight: '90vh',
