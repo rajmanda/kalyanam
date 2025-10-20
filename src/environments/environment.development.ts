@@ -9,7 +9,8 @@ export const environment = {
   rsvpApiUrl: window.location.origin.replace(/:\d+/, ':8080') + '/rsvp', // Full URL for RSVP API
   galaEventsApiUrl: window.location.origin.replace(/:\d+/, ':8080') + '/gala-event', // Full URL for Gala Events API
   adminsApiUrl: window.location.origin.replace(/:\d+/, ':8080') + '/admins',
-  fileUploadApiUrl: window.location.origin.replace(/:\d+/, ':8080') + '/upload'
+  fileUploadApiUrl: window.location.origin.replace(/:\d+/, ':8080') + '/upload',
+  fileBucket: 'kalyanam_bucket_2025'
 
   // apiBaseUrl: 'https://rajmanda-dev.com',
   // rsvpApiUrl: 'https://rajmanda-dev.com' + '/rsvp',
