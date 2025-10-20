@@ -53,7 +53,7 @@ export class FileUploadService {
     return `${b}/${p}`;
   }
 
-  private fileUploadApiUrl = environment.apiBaseUrl + '/upload';
+  private fileUploadApiUrl = this.joinUrl(environment.apiBaseUrl, '/upload');
 
   constructor(private http: HttpClient) {}
 
