@@ -206,10 +206,25 @@ export class FileUploadService {
    * @param blobPath - The blob path in GCS (e.g., "events/123/image.jpg")
    * @returns Observable with signed URL for viewing
    */
+  private toGsUri(pathOrUri: string): string {
+    if (!pathOrUri) return pathOrUri;
+    const trimmed = pathOrUri.trim();
+    if (trimmed.startsWith('gs://')) return trimmed;
+    // assume plain path; prefix with configured bucket
+    const bucket = (environment as any).fileBucket;
+    if (bucket) {
+      // Remove any leading slashes on path
+      const p = trimmed.replace(/^\/+/, '');
+      return `gs://${bucket}/${p}`;
+    }
+    return trimmed;
+  }
+
   getSignedViewUrl(blobPath: string): Observable<{ signedUrl: string }> {
+    const gsUri = this.toGsUri(blobPath);
     return this.http.post<{ signedUrl: string }>(
       this.joinUrl(this.fileUploadApiUrl, '/generate-download-url'),
-      { blobPath }
+      { blobPath: gsUri }
     ).pipe(
       tap((response) => {
         console.log('[FileUploadService] getSignedViewUrl - Generated signed URL for:', blobPath);
