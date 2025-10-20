@@ -67,7 +67,7 @@ export class FileUploadService {
     const safeName = sanitizeFilename(file.name);
 
     return this.http.post<SignedUrlResponse>(
-      `${this.fileUploadApiUrl}/generate-upload-url`,
+      this.joinUrl(this.fileUploadApiUrl, '/generate-upload-url'),
       {
         fileName: safeName,
         contentType,
