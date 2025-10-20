@@ -111,7 +111,7 @@ export class FileUploadService {
     const fileInfos = files.map((f) => ({ fileName: f.name, contentType: f.type || 'application/octet-stream' }));
 
     return this.http.post<MultiUploadUrlResponse>(
-      `${this.fileUploadApiUrl}/generate-multi-upload-urls`,
+      this.joinUrl(this.fileUploadApiUrl, '/generate-multi-upload-urls'),
       {
         files: fileInfos.map(f => ({ ...f, fileName: sanitizeFilename(f.fileName) })),
         event,
