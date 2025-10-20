@@ -54,13 +54,15 @@ export class FileUploadService {
    */
   uploadFile(file: File, event: string): Observable<UploadResult> {
     const contentType = file.type || 'application/octet-stream';
+    const safeName = sanitizeFilename(file.name);
 
     return this.http.post<SignedUrlResponse>(
       `${this.fileUploadApiUrl}/generate-upload-url`,
       {
-        fileName: file.name,
+        fileName: safeName,
         contentType,
-        event
+        event,
+        eventName: event // support backends expecting 'eventName'
       }
     ).pipe(
       switchMap((response) => {
