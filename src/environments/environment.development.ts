@@ -17,11 +17,12 @@ export const environment = {
   // adminsApiUrl: 'https://rajmanda-dev.com' + '/admins',
   // fileUploadApiUrl: 'https://rajmanda-dev.com' + '/upload',
 
-  apiBaseUrl: 'https://rsvp-backend-mupibepzvq-uc.a.run.app',
-  rsvpApiUrl: 'https://rsvp-backend-mupibepzvq-uc.a.run.app/rsvp',
-  galaEventsApiUrl: 'https://rsvp-backend-mupibepzvq-uc.a.run.app/gala-event',
-  adminsApiUrl: 'https://rsvp-backend-mupibepzvq-uc.a.run.app/admins',
-  fileUploadApiUrl: 'https://rsvp-backend-mupibepzvq-uc.a.run.app/upload'
+  // Backend running on Cloud Run
+  apiBaseUrl:       'https://rsvp-backend-175415323680.us-central1.run.app',
+  rsvpApiUrl:       'https://rsvp-backend-175415323680.us-central1.run.app/rsvp',
+  galaEventsApiUrl: 'https://rsvp-backend-175415323680.us-central1.run.app/gala-event',
+  adminsApiUrl:     'https://rsvp-backend-175415323680.us-central1.run.app/admins',
+  fileUploadApiUrl: 'https://rsvp-backend-175415323680.us-central1.run.app/upload'
 };
 
 
