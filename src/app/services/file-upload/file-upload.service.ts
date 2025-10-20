@@ -166,7 +166,10 @@ export class FileUploadService {
    */
   listImages(eventName?: string, user?: string): Observable<ListImagesResponse> {
     let params = new HttpParams();
-    if (eventName) params = params.set('eventName', eventName);
+    if (eventName) {
+      params = params.set('eventName', eventName);
+      params = params.set('event', eventName); // support servers expecting 'event'
+    }
     if (user) params = params.set('user', user);
 
     console.log('[FileUploadService] listImages - Request parameters:', {
