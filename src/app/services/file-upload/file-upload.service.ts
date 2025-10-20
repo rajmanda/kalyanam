@@ -188,7 +188,7 @@ export class FileUploadService {
     });
 
     return this.http.get<ListImagesResponse>(
-      `${this.fileUploadApiUrl}/list-images`,
+      this.joinUrl(this.fileUploadApiUrl, '/list-images'),
       { params }
     ).pipe(
       tap((response) => {
