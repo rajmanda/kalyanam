@@ -10,4 +10,5 @@ export const environment = {
   galaEventsApiUrl: window.location.origin + '/gala-event', // Full URL for Gala Events API
   adminsApiUrl: window.location.origin + '/admins',
   fileUploadApiUrl: window.location.origin + '/upload',
+  fileBucket: 'kalyanam_bucket_2025',
 };
