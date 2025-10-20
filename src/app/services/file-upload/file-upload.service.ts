@@ -43,6 +43,16 @@ function sanitizeFilename(name: string): string {
   providedIn: 'root'
 })
 export class FileUploadService {
+  private normalizeBase(url: string): string {
+    return (url || '').replace(/\/+$/, '');
+  }
+
+  private joinUrl(base: string, path: string): string {
+    const b = this.normalizeBase(base);
+    const p = (path || '').replace(/^\/+/, '');
+    return `${b}/${p}`;
+  }
+
   private fileUploadApiUrl = environment.apiBaseUrl + '/upload';
 
   constructor(private http: HttpClient) {}
