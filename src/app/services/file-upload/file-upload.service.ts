@@ -208,7 +208,7 @@ export class FileUploadService {
    */
   getSignedViewUrl(blobPath: string): Observable<{ signedUrl: string }> {
     return this.http.post<{ signedUrl: string }>(
-      `${this.fileUploadApiUrl}/generate-download-url`,
+      this.joinUrl(this.fileUploadApiUrl, '/generate-download-url'),
       { blobPath }
     ).pipe(
       tap((response) => {
