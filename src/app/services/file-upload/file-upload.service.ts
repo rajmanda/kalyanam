@@ -103,8 +103,9 @@ export class FileUploadService {
     return this.http.post<MultiUploadUrlResponse>(
       `${this.fileUploadApiUrl}/generate-multi-upload-urls`,
       {
-        files: fileInfos,
-        event
+        files: fileInfos.map(f => ({ ...f, fileName: sanitizeFilename(f.fileName) })),
+        event,
+        eventName: event // support backends expecting 'eventName'
       }
     ).pipe(
       switchMap((response) => {
