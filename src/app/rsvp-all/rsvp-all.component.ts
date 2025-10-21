@@ -41,7 +41,6 @@ interface SelectableRsvpEvent extends RsvpDetails {
 })
 export class RsvpAllComponent implements OnDestroy {
   displayedColumns: string[] = ['name', 'date', 'adults', 'children'];
-  footerColumns: string[] = ['footer'];
   events: SelectableRsvpEvent[] = [];
   isAdmin = false;
   isLoadingResults = false;

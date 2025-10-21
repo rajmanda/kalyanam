@@ -1,66 +1,226 @@
+/* Container Styles */
+.container {
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  padding-bottom: 100px; /* Space for fixed submit button */
+  box-sizing: border-box;
+}
+
+/* Table Wrapper for Horizontal Scroll */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  margin-bottom: 20px;
+  position: relative;
+}
+
 /* Compact Table Styles */
 .compact-table {
   width: 100%;
-  margin-bottom: 20px;
+  min-width: 600px; /* Minimum width to ensure proper column display */
+  margin-bottom: 0;
 }
 
 /* Compact Columns */
 .compact-header,
 .compact-cell {
-  padding: 0 8px !important;
-  min-width: 70px !important;
-  max-width: 80px !important;
+  padding: 8px !important;
+  min-width: 80px !important;
 }
 
 /* Compact Form Fields */
 .compact-field {
   width: 100%;
-  margin: 0 !important;
-  padding: 0 !important;
+  min-width: 70px;
 }
-.compact-field .mat-form-field-wrapper,
-.compact-field .mat-form-field-infix {
-  margin: 0 !important;
-  padding: 0 !important;
+
+.compact-field .mat-mdc-form-field-wrapper {
+  padding: 0;
+  margin: 0;
 }
-.compact-field .mat-form-field-infix {
-  padding: 0.5em 0 !important;
-  border-top: 0 !important;
-  width: auto !important;
+
+.compact-field .mat-mdc-text-field-wrapper {
+  padding: 0 8px;
 }
 
 /* Compact Select */
 .compact-select {
-  font-size: 13px;
-  min-width: 60px !important;
+  font-size: 14px;
+  min-width: 70px !important;
   width: 100% !important;
 }
 
-/* Adjust Dropdown Panel */
-.mat-select-panel {
-  min-width: 60px !important;
+/* Submit Button Container - Fixed at Bottom */
+.submit-button-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 600px) {
+.submit-button {
+  min-width: 200px;
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+/* No Data Message */
+.no-data {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Sticky Header Adjustment */
+.mat-mdc-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: white;
+}
+
+/* Mobile Specific Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 8px;
+    padding-bottom: 100px;
+  }
+
+  .table-wrapper {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .compact-table {
+    min-width: 700px; /* Wider on mobile to accommodate all columns */
+  }
+
   .compact-header,
   .compact-cell {
-    min-width: 60px !important;
-    max-width: 70px !important;
+    padding: 6px !important;
+    font-size: 13px;
+    min-width: 70px !important;
   }
-  .compact-select {
-    font-size: 12px;
+
+  .compact-field {
+    min-width: 60px;
+  }
+
+  .submit-button-container {
+    padding: 12px;
+  }
+
+  .submit-button {
+    width: 100%;
+    max-width: 400px;
+    font-size: 15px;
+  }
+
+  /* Make name and date columns slightly wider on mobile */
+  .mat-column-name {
+    min-width: 120px !important;
+  }
+
+  .mat-column-date {
+    min-width: 100px !important;
+  }
+
+  /* Ensure form fields are touchable */
+  .mat-mdc-form-field {
+    min-height: 48px; /* Minimum touch target size */
   }
 }
 
-/* Container & Dialog Styles */
-.container,
+/* Extra small devices */
+@media (max-width: 480px) {
+  .container {
+    padding: 4px;
+  }
+
+  .compact-table {
+    min-width: 650px;
+    font-size: 12px;
+  }
+
+  .compact-header,
+  .compact-cell {
+    padding: 4px !important;
+    font-size: 12px;
+    min-width: 60px !important;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+}
+
+/* Landscape mode on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .container {
+    padding-bottom: 80px;
+  }
+
+  .submit-button-container {
+    padding: 8px;
+  }
+
+  .mat-mdc-header-row {
+    position: relative; /* Remove sticky on landscape to save space */
+  }
+}
+
+/* Ensure scrollbar is visible on mobile */
+.table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Fix for Material table cells */
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Dialog specific adjustments if used in dialog */
 .dialog-container {
   position: relative;
   min-height: 60vh;
-  padding-bottom: 80px; /* Space for the fixed button */
-}
-.container {
-  min-height: 100vh;
+  max-height: 80vh;
+  overflow: hidden;
+  padding-bottom: 80px;
 }
 
+.dialog-container .table-wrapper {
+  max-height: calc(80vh - 200px);
+  overflow-y: auto;
+}
+
+.dialog-container .submit-button-container {
+  position: absolute;
+  bottom: 0;
+}
